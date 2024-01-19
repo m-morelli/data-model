@@ -1,0 +1,4 @@
+Please fill this folder with either:
+- the full syntactical specification of the data format (in one or multiple files) in case it has not been published elsewhere
+- a file in the style of a readme referencing the official source of the already published specification (like e.g. BT.cpp 3.8) and an explanation why this spec is used in this version.
+- a file in the style of a readme referencing the official source of the already published specification (like e.g. BT.cpp 3.8) and an explanation why changes to this spec were necessary, together with a file describing the added features/changes to this published spec.

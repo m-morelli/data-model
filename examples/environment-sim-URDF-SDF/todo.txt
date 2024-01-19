@@ -1,0 +1,6 @@
+Please fill these use case sub-folders with a (partial) example in the data format indicated in the name of the parent folder.
+This can also only be a small readable excerpt of the full specification of the use case. 
+Either document the example directly in the file in comments or add a second file with explanations about the example.
+
+If you do not have a specification of your use case in that data format yet, the sub-folder will be removed in the end.
+But please make sure that there is at least one example of your use case in at least one data format.
