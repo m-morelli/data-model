@@ -1,0 +1,73 @@
+{
+    "name": "room",
+    "boundaries": [
+        {
+            "x-coord": 0,
+            "y-coord": 0
+        },
+        {
+            "x-coord": 3,
+            "y-coord": 0
+        },
+        {
+            "x-coord": 3,
+            "y-coord": 5
+        },
+        {
+            "x-coord": 0,
+            "y-coord": 5
+        },
+        {
+            "x-coord": 0,
+            "y-coord": 4.5
+        },
+        {
+            "x-coord": -0.5,
+            "y-coord": 4.5
+        },
+        {
+            "x-coord": -0.5,
+            "y-coord": 3.5
+        },
+        {
+            "x-coord": 0,
+            "y-coord": 3.5
+        }
+    ],
+    "obstacles": [
+        {
+            "name": "ball",
+            "shape": {
+                "radius": 0.3
+            },
+            "movable": true,
+            "x-coord": 2,
+            "y-coord": 1
+        },
+        {
+            "name": "cube",
+            "shape": {
+                "length": 0.5,
+                "width": 0.5,
+                "height": 0.5
+            },
+            "movable": false,
+            "x-coord": 2,
+            "y-coord": 3
+        }
+    ],
+    "robots": [
+        {
+            "name": "r2d2",
+            "initial-x-coord": 0.5,
+            "initial-y-coord": 0.5,
+            "shape": {
+                "radius": 0.3,
+                "height": 0.2
+            },
+            "features": {
+                "bumper": "bool"
+            }
+        }
+    ]
+}

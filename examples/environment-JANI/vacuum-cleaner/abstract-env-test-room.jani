@@ -1,0 +1,14 @@
+{
+    "variables": [
+        {
+            "name": "s",
+            "type": {
+                "base": "int",
+                "kind": "bounded",
+                "lower-bound": 0,
+                "upper-bound": 7
+            },
+            "initial-value": 0
+        }
+    ]
+}
