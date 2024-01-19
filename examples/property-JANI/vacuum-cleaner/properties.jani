@@ -1,0 +1,59 @@
+// These examples are taken from Deliverable D4.2 on the specification language of CONVINCE
+
+
+//  Starting from a predefined area R around the dock, docking is finished successfully after x seconds.
+{
+    op: finally,
+    int_a: 0,
+    int_b: x,
+    arg: {
+        op: impl,
+        arg_1: {
+            op: in,
+            arg: r,
+            lower: R_low,
+            upper = R_upper
+        },
+        arg_2: docked
+    }
+}
+
+
+// As long as the dock has not been reached successfully, try to find a way to get there. 
+{
+    op: globally,
+    arg: {
+        op: until,
+        arg_1: find-dock,
+        arg_2: docked
+    }
+}
+
+
+// As long as it is possible to move straight along the edge, shimmy along the edge.
+{
+    op: globally,
+    arg: {
+        op: until,
+        arg_1: shimmy,
+        arg_2: bumped
+    }
+}
+
+// If you can not find a way to proceed after y seconds, continue at another side of the room.
+{
+    op: globally,
+    arg: {
+        op: impl,
+        arg_1: {
+            op: eventually,
+            int_a: 0,
+            int_b: y,
+            arg: {
+                op: not,
+                arg: proceed
+            }
+        },
+        arg_2: go_to_other_side
+    }
+}

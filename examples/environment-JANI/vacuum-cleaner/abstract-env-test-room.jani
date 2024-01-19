@@ -1,3 +1,5 @@
+// The variables and their ranges used in the concrete environment model are specified in the abstract environment model here.
+
 {
     "variables": [
         {
