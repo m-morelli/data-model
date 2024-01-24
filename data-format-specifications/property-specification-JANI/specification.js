@@ -43,10 +43,9 @@ var PropertyExpression = schema([
 	{
 	  "op": [ "Emin", "Emax" ],
 	  "exp": Expression,
-	  "?accumulate": RewardAccumulation, // whether and when to accumulate exp's value
-										 // (accumulate to obtain an "F", "C<=" or "C" property)
-	  "?reach": schema.self, // the reachability state formula (for PRISM "I" and "F"-style properties), type bool
-	  "?step-instant": Expression, // or step instant (number of edges taken, for "I" and "C<=" properties), type int
+	  "?accumulate": RewardAccumulation,
+	  "?reach": schema.self, 
+	  "?step-instant": Expression,
 	  // timed models are currently not supported
 	  "?reward-instants": Array.of({
 		"exp": Expression, 
@@ -67,7 +66,7 @@ var PropertyExpression = schema([
 		})
 	},	
 	{
-	  "op": [ "U", "W" ],
+	  "op": [ "U", "W" ],	// currently the Release operator is not supported in CONVINCE but maybe added later
 	  "left": schema.self, 
 	  "right": schema.self,
 	  "?step-bounds": PropertyInterval,
