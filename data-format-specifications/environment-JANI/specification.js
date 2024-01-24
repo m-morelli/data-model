@@ -6,8 +6,7 @@
 // Features Not Used in CONVINCE Tooling:
 
 
-var Identifier = /[^#
-].*/;
+var Identifier = /[^#].*/;
 
 var Type = schema(
     {
