@@ -1,79 +1,93 @@
 // The environment model describes a room with three straight edges and one edge with a small corner in the middle.
 // In addition, there are two obstacles placed in the room, a ball, which is movable, and a fixed cube.
-// The robot is placed at coordinates (0.5, 0.5) initially, and has a round shape with a radius of $0.3m$ and a height of 0.2m.
+// The robot is placed at coordinates (0.5, 0.5) initially, and has a round shape with a radius of 0.3m and a height of 0.2m.
 // Lengths are given in meters.
+// This is only the environment part of the model, i.e., it is an excerpt of a fully functional model describing the entire setup of the full robot behavior in the environment.
+// The environment model is the same as drawn in Deliverable D4.1 in Section 5 in Figure 10
 
 
 {
-    "name": "room",
-    "boundaries": [
-        {
-            "x-coord": 0,
-            "y-coord": 0
-        },
-        {
-            "x-coord": 3,
-            "y-coord": 0
-        },
-        {
-            "x-coord": 3,
-            "y-coord": 5
-        },
-        {
-            "x-coord": 0,
-            "y-coord": 5
-        },
-        {
-            "x-coord": 0,
-            "y-coord": 4.5
-        },
-        {
-            "x-coord": -0.5,
-            "y-coord": 4.5
-        },
-        {
-            "x-coord": -0.5,
-            "y-coord": 3.5
-        },
-        {
-            "x-coord": 0,
-            "y-coord": 3.5
-        }
-    ],
-    "obstacles": [
-        {
-            "name": "ball",
-            "shape": {
-                "radius": 0.3
+    "name": "r2d2-in-test-room",
+
+    // [...] Rest of model including behavior, skills, etc.
+
+    "rob-env-model":
+    { 
+        "name": "test-room",
+        "boundaries": [
+            {
+                "x-coord": 0,
+                "y-coord": 0
             },
-            "movable": true,
-            "x-coord": 2,
-            "y-coord": 1
-        },
-        {
-            "name": "cube",
-            "shape": {
-                "length": 0.5,
-                "width": 0.5,
-                "height": 0.5
+            {
+                "x-coord": 3,
+                "y-coord": 0
             },
-            "movable": false,
-            "x-coord": 2,
-            "y-coord": 3
-        }
-    ],
-    "robots": [
-        {
-            "name": "r2d2",
-            "initial-x-coord": 0.5,
-            "initial-y-coord": 0.5,
-            "shape": {
-                "radius": 0.3,
-                "height": 0.2
+            {
+                "x-coord": 3,
+                "y-coord": 5
             },
-            "features": {
-                "bumper": "bool"
+            {
+                "x-coord": 0,
+                "y-coord": 5
+            },
+            {
+                "x-coord": 0,
+                "y-coord": 4.5
+            },
+            {
+                "x-coord": -0.5,
+                "y-coord": 4.5
+            },
+            {
+                "x-coord": -0.5,
+                "y-coord": 3.5
+            },
+            {
+                "x-coord": 0,
+                "y-coord": 3.5
             }
-        }
-    ]
+        ],
+        "obstacles": [
+            {
+                "name": "ball",
+                "movable": true,
+                "position": {
+                    "x-coord": 2,
+                    "y-coord": 1
+                },
+                "shape": {
+                    "radius": 0.3
+                },
+                "x-speed": 0.25,    // 25 cm/s
+                "rotation": 1.9     // rad/s
+            },
+            {
+                "name": "cube",
+                "movable": false,
+                "position": {  
+                    "x-coord": 2,
+                    "y-coord": 3
+                },
+                "shape": {
+                    "length": 0.5,
+                    "width": 0.5,
+                    "height": 0.5
+                }
+            }
+        ],
+        "robots": [
+            {
+                "name": "r2d2",
+                "position": {
+                    "x-coord": 0.5,
+                    "y-coord": 0.5
+                },
+                "shape": {
+                    "radius": 0.3,
+                    "height": 0.2
+                }
+            }
+        ]
+    }
 }

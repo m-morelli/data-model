@@ -1,8 +1,8 @@
-// We build up on the specification of JANI https://docs.google.com/document/d/1BDQIzPBtscxJFFlDUEPIo8ivKHgXT8_X6hz5quq7jK0/edit
-// which is specified in js-schema.
+// We build up on the specification of JANI https://docs.google.com/document/d/1BDQIzPBtscxJFFlDUEPIo8ivKHgXT8_X6hz5quq7jK0/edit which is specified in js-schema.
 // In this file we show the CONVINCE variant of the original JANI specification, including adaptions, cuts, and additions, made to the original JANI specification.
-// This includes feature extensions to describe geometric settings in 2.5D environments and the behavior of the autonomous robot acting in that environment.
-// Feature extensions: TODO: list them here!!!!!!!!!!!!!!!!!!!
+// Since JANI models are all-encompassing, meaning that they specify one large model including the environment, skills, functions, behavior, and properties to check, the specification here includes the syntax for all those parts, not only specifically for the environment part. Only the property specification syntax is given in `data-format-specifications/property-specification-JANI`.
+// This specification for CONVINCE includes JANI feature extensions to describe geometric settings in 2.5D environments and the behavior of the autonomous robot acting in that environment.
+// Feature extensions for robotic systems: geometric objects, environment specifications incl. boundaries, object positions, etc. 
 // JANI features not used in CONVINCE are mentioned in comments around the lines where they are defined in the original specification. 
 // In general, timed models are not used in CONVINCE, the array, datatype, option, nondeterministic selection, state-exit reward, and function feature extension is not included currently.
 
@@ -86,8 +86,7 @@ var Expression = schema([
         "op": [ "min", "max" ],
         "left": schema.self,
         "right": schema.self
-      },
-    
+      }
       // CONVINCE is not using derivatives or distribution sampling
 ]);
 
@@ -108,13 +107,13 @@ var ModelType = schema([
     "mdp"
   ]);
 
-// Currently CONVINCE does not used specific ModelFeatures
+// Currently CONVINCE does not use specific ModelFeatures
 
 var VariableDeclaration = schema({
     "name": Identifier,
     "type": Type,
-    // CONVINCE only uses non-transient variables
-    "?initial-value": [Expression],
+    // CONVINCE uses only non-transient variables
+    "?initial-value": Expression,
   });
   
 var ConstantDeclaration = schema({
@@ -126,11 +125,12 @@ var ConstantDeclaration = schema({
 var Model = schema({
     "name": String,
     "type": ModelType,
+    "?constants": Array.of(ConstantDeclaration),
+    "?variables": Array.of(VariableDeclaration),
+    "?rob-env-model": RobEnvModel,  // CONVINCE feature extension to define a robotic environment model
     "?actions": Array.of({
       "name": Identifier
     }),
-    "?constants": Array.of(ConstantDeclaration),
-    "?variables": Array.of(VariableDeclaration),
     "?restrict-initial": {
       "exp": Expression
     },
@@ -148,14 +148,14 @@ var Model = schema({
     "locations": Array.of({ 
         "name": Identifier,
         // CONVINCE currently does not include timed models 
-        // CONVINCE only uses non-transient variables
+        // CONVINCE uses only non-transient variables
     }),
     "initial-locations": Array.of(Identifier),
     "edges": Array.of({
         "location": Identifier,
         "?action": Identifier,
         "?guard": {
-            "exp": Expression
+            "exp": Array.of(Expression, Intersection)   // CONVINCE feature extension to check if objects bumped into each other = intersect in guards to react to it in assignments of action destinations
         },
         "destinations": Array.of({
             "location": Identifier,
@@ -173,48 +173,12 @@ var Model = schema({
 
 
 // Feature extensions for robotic use cases
-// UNDER DEVELOPMENT!!!!
 
-
-var Intersection = schema({
-    "op": "intersect",
-    "left": Robot.name, //geometric intersection of a robot with
-    "right": [Obstacle.name,
-        "obstacles",
-        "boundaries",
-        "all"
-    ]
-    // a specific or all obstacles or all boundaries or all o. + b.
-});
-
-var Obstacle = schema({ //discretization of obstacles in rectangles
+var RobEnvModel = schema({      // Robotic Environment Model
     "name": Identifier,
-    "movable": [
-        true,
-        false
-    ],
-    "x-coord": Expression, // (0,0) in lower left corner
-    "y-coord": Expression,
-    "shape": Shape,
-    "?x-speed": Expression, // in case of a moving obstacle: speed in m/s in x and y dimension
-    "?y-speed": Expression
-});
-
-var Shape = schema({
-   Square,
-   Circle,
-   Point
-});
-
-var Square = schema({
-    "length": Expression,
-    "width": Expression,
-    "height": Expression
-});
-
-var Circle = schema({
-    "radius": Expression,
-    "height": Expression
+    "boundaries": Array.of(Point),
+    "obstacles": Array.of(Obstacle),
+    "robots": Array.of(Robot)
 });
 
 var Point = schema({
@@ -222,37 +186,48 @@ var Point = schema({
     "y-coord": Expression
 });
 
+var Cube = schema({
+    "length": Expression,
+    "width": Expression,
+    "height": Expression
+});
+
+var Cylinder = schema({
+    "radius": Expression,
+    "height": Expression
+});
+
+var Shape = schema({
+    Cube,
+    Cylinder,
+    Point
+ });
+
+var Obstacle = schema({ //discretization of obstacles in rectangles
+    "name": Identifier,
+    "movable": [
+        true,
+        false
+    ],
+    "position": Point, // (0,0) in lower left corner
+    "shape": Shape,
+    "?x-speed": Expression, // in case of a moving obstacle: speed in cm/s
+    "?rotation": Expression // in case of a moving obstacle: yaw rotation in rad/s
+});
+
 var Robot = schema({
     "name": Identifier,
-    "initial-x-coord": Expression,
-    "initial-y-coord": Expression,
+    "position": Point,
     "shape": Shape
 });
 
-var EnvModel = schema({
-    "name": Identifier,
-    "boundaries": Array.of(Point),
-    "obstacles": Array.of(Obstacle),
-    "robots": Array.of(Robot)
-});
-
-var RobotAction = schema({
-    "name": Identifier,
-    "inputs": Array.of({Identifier
-    }), //variable names 
-                                 //affecting this action
-    "assignments": Array.of({
-        "variable": Identifier,
-        "value": Expression,
-        "?probability": ConstantValue //real, in case of a probabilistic action
-    }),
-    "?return": [S, R, F
-    ] //success, running, failure
-});
-
-//list of conditions and actions used in corresponding BT
-var SkillModel = schema({
-    "name": Identifier,
-    "conditions": Array.of(Condition),
-    "actions": Array.of(RobotAction)
+var Intersection = schema({ // CONVINCE feature extension to check if objects bumped into each other = intersect in guards to react to it in assignments of action destinations
+    "op": "intersect",
+    "left": Robot.name, //geometric intersection of a robot with ...
+    "right": Array.of(
+            Obstacle.name,
+            "obstacles",
+            "boundaries",
+            "all")
+    // ... specific or all obstacles or all boundaries or all obstacles + boundaries
 });

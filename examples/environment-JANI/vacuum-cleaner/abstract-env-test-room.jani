@@ -1,4 +1,4 @@
-// The variables and their ranges used in the concrete environment model are specified in the abstract environment model here.
+// The robots, obstacles, and variables with their abstract properties and ranges used in the concrete environment model are specified in the abstract environment model here.
 
 {
     "variables": [
@@ -12,5 +12,18 @@
             },
             "initial-value": 0
         }
+    ],
+    "obstacles": [
+        {
+            "name": "ball",
+            "movable": true
+        },
+        {
+            "name": "cube",
+            "movable": false
+        }
+    ],
+    "robots": [
+        "r2d2"
     ]
 }
