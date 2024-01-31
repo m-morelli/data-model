@@ -7,7 +7,7 @@
 // In general, timed models are not used in CONVINCE, the array, datatype, option, nondeterministic selection, state-exit reward, and function feature extension is not included currently.
 
 
-var Identifier = /[^#].*/;
+var Identifier = /[^#]*/; // ATTENTION: Difference to original JANI: no "." allowed in identifiers to allow to access JSON objects directly in the same JSON file (used for property specifications)
 
 var BasicType = schema([
     "bool",
@@ -125,6 +125,7 @@ var ConstantDeclaration = schema({
 var Model = schema({
     "name": String,
     "type": ModelType,
+    "features": ["convince-extensions"],
     "?constants": Array.of(ConstantDeclaration),
     "?variables": Array.of(VariableDeclaration),
     "?rob-env-model": RobEnvModel,  // CONVINCE feature extension to define a robotic environment model
@@ -203,6 +204,19 @@ var Shape = schema({
     Point
  });
 
+ var SensorType = schema([
+    "bumper",   // will be converted into boolean variable in plain JANI with initial value set to false indicating if the bumper is triggered 
+    "lidar",    // all types starting from here will be converted into a boolean and a real variable in plain JANI indicating if the sensor is switched on and how far the next detected obstacle is
+    "radar",
+    "camera",
+    "special"
+]);
+
+ var Sensor = schema({
+    "name": Identifier,
+    "type": SensorType 
+ });
+
 var Obstacle = schema({ //discretization of obstacles in rectangles
     "name": Identifier,
     "movable": [
@@ -215,10 +229,11 @@ var Obstacle = schema({ //discretization of obstacles in rectangles
     "?rotation": Expression // in case of a moving obstacle: yaw rotation in rad/s
 });
 
-var Robot = schema({
+var Robot = schema({   
     "name": Identifier,
     "position": Point,
-    "shape": Shape
+    "shape": Shape,
+    "?sensors": Array.of(Sensor)
 });
 
 var Intersection = schema({ // CONVINCE feature extension to check if objects bumped into each other = intersect in guards to react to it in assignments of action destinations
