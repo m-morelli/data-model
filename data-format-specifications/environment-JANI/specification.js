@@ -4,7 +4,7 @@
 // This specification for CONVINCE includes JANI feature extensions to describe geometric settings in 2.5D environments and the behavior of the autonomous robot acting in that environment.
 // Feature extensions for robotic systems: geometric objects, environment specifications incl. boundaries, object positions, etc. 
 // JANI features not used in CONVINCE are mentioned in comments around the lines where they are defined in the original specification. 
-// In general, timed models are not used in CONVINCE, the array, datatype, option, nondeterministic selection, state-exit reward, and function feature extension is not included currently.
+// In general, timed models are not used in CONVINCE, the array, datatype, option, nondeterministic selection, state-exit reward, and function feature extensions, except for hyperbolic functions, is not included currently.
 
 
 var Identifier = /[^#]*/; // ATTENTION: Difference to original JANI: no "." allowed in identifiers to allow to access JSON objects directly in the same JSON file (used for property specifications)
@@ -86,8 +86,15 @@ var Expression = schema([
         "op": [ "min", "max" ],
         "left": schema.self,
         "right": schema.self
-      }
+      },
       // CONVINCE is not using derivatives or distribution sampling
+      { 
+        "op": [
+          "sinh",  // Hyperbolic sine
+          "cosh",  // Hyperbolic cosine
+        ],
+        "exp": schema.self
+      }  
 ]);
 
 // Automata composition
@@ -165,7 +172,7 @@ var Model = schema({
             },
             "?assignments": Array.of({
                 "ref": Identifier,
-                "value": Expression
+                "value": [Expression, "intersection-x", "intersection-x"]   // x or y coordinate of the first intersection hit on trajectory
             }),
         }),
     }),
@@ -206,7 +213,7 @@ var Shape = schema({
 
  var SensorType = schema([
     "bumper",   // will be converted into boolean variable in plain JANI with initial value set to false indicating if the bumper is triggered 
-    "lidar",    // all types starting from here will be converted into a boolean and a real variable in plain JANI indicating if the sensor is switched on and how far the next detected obstacle is
+    "lidar",    // all types starting from here will be converted into a boolean and a real variable in plain JANI indicating if the sensor is switched on and how far the next detected obstacle is, accessible via sensor[n].on and sensor[n].value
     "radar",
     "camera",
     "special"
@@ -225,24 +232,27 @@ var Obstacle = schema({ //discretization of obstacles in rectangles
     ],
     "position": Point, // (0,0) in lower left corner
     "shape": Shape,
-    "?x-speed": Expression, // in case of a moving obstacle: speed in cm/s
-    "?rotation": Expression // in case of a moving obstacle: yaw rotation in rad/s
+    "?speed": Expression, // in case of a moving obstacle: speed in m/s
+    "?direction": Expression, // in case of a moving obstacle: rotation measured from x-axis 
+    "shape": Shape,
 });
 
 var Robot = schema({   
     "name": Identifier,
-    "position": Point,
+    "position": Point, 
+    "direction": Expression, // angle of rotation measured from x-axis 
     "shape": Shape,
     "?sensors": Array.of(Sensor)
 });
 
 var Intersection = schema({ // CONVINCE feature extension to check if objects bumped into each other = intersect in guards to react to it in assignments of action destinations
-    "op": "intersect",
+    "op": ["intersect", "not-intersect"],
     "left": Robot.name, //geometric intersection of a robot with ...
     "right": Array.of(
             Obstacle.name,
             "obstacles",
             "boundaries",
-            "all")
+            "all"),
+    "speed": Expression   // driving speed with which object is moving and intersections should be checked
     // ... specific or all obstacles or all boundaries or all obstacles + boundaries
 });

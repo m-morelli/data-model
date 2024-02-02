@@ -59,8 +59,8 @@
                 "shape": {
                     "radius": 0.3
                 },
-                "x-speed": 0.25,    // 25 cm/s
-                "rotation": 1.9     // rad/s
+                "speed": 0.25,    // 25 cm/s
+                "direction": 5     // 5 degrees from x-axis
             },
             {
                 "name": "cube",
@@ -83,9 +83,14 @@
                     "x-coord": 0.5,
                     "y-coord": 0.5
                 },
+                "direction": 10, // 10 degrees from x-axis
                 "shape": {
                     "radius": 0.3,
                     "height": 0.2
+                },
+                "sensors": {
+                    "name": "b1",
+                    "type": "bumper"
                 }
             }
         ]
