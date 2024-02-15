@@ -4,7 +4,7 @@
 // This specification for CONVINCE includes JANI feature extensions to describe geometric settings in 2.5D environments and the behavior of the autonomous robot acting in that environment.
 // Feature extensions for robotic systems: geometric objects, environment specifications incl. boundaries, object positions, etc. 
 // JANI features not used in CONVINCE are mentioned in comments around the lines where they are defined in the original specification. 
-// In general, timed models are not used in CONVINCE, the array, datatype, option, nondeterministic selection, state-exit reward, and function feature extensions, except for hyperbolic functions, is not included currently.
+// In general, timed models are not used in CONVINCE, the array, datatype, option, nondeterministic selection, state-exit reward, and function feature extensions, except for trigonometric functions, is not included currently.
 
 
 var Identifier = /[^#]*/; // ATTENTION: Difference to original JANI: no "." allowed in identifiers to allow to access JSON objects directly in the same JSON file (used for property specifications)
@@ -90,8 +90,8 @@ var Expression = schema([
       // CONVINCE is not using derivatives or distribution sampling
       { 
         "op": [
-          "sinh",  // Hyperbolic sine
-          "cosh",  // Hyperbolic cosine
+          "sin",  // Trigonometric sine, argument in rad
+          "cos",  // Trigonometric cosine
         ],
         "exp": schema.self
       }  
