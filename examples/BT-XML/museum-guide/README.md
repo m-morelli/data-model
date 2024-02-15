@@ -1,0 +1,2 @@
+This behavior tree is an example of a robot that waits for battery drainage. 
+When the battery percentage is below a certain threshold the alarm skill is called in order to alert the user, otherwise it drain the battery by executing some tasks.
