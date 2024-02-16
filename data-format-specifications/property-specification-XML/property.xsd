@@ -1,0 +1,181 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">
+			CONVINCE Property Specification Language XML format specification.
+		</xsd:documentation>
+	</xsd:annotation>
+
+	<xsd:element name="datamodel" type="datamodelType"/>
+
+	<xsd:element name="properties" type="propertiesType"/>
+	
+	<xsd:complexType name="datamodelType">
+		<xsd:sequence>
+			<xsd:element name="data" type="dataType" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="propertiesType">
+		<xsd:sequence>
+			<xsd:element name="property" type="propertyType" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="baseType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="bool"/>
+			<xsd:enumeration value="i32"/>
+			<xsd:enumeration value="float"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="commEndpoint">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="skill"/>
+			<xsd:enumeration value="component"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="eventType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="call"/>
+			<xsd:enumeration value="return"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="valueType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="callEvent"/>
+			<xsd:enumeration value="callValue"/>
+			<xsd:enumeration value="returnEvent"/>
+			<xsd:enumeration value="returnValue"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="dataType">
+		<xsd:sequence>
+			<xsd:element name="caller">
+				<xsd:complexType>
+					<xsd:attribute name="refid" type="xsd:IDREF">
+					<xsd:attribute name="type" type="commEndpoint">
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="called">
+				<xsd:complexType>
+					<xsd:attribute name="refid" type="xsd:IDREF">
+					<xsd:attribute name="type" type="commEndpoint">
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="connection">
+				<xsd:complexType>
+					<xsd:attribute name="function" type="xsd:IDREF">
+					<xsd:attribute name="event" type="eventType">
+					<xsd:attribute name="value" type="valueType">
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID"/>
+		<xsd:attribute name="type" type="baseType"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="propertyType">
+		<xsd:element name="formula" type="formulaType" />
+		<xsd:attribute name="propid" type="xsd:ID" />
+	</xsd:complexType>
+
+	<xsd:group id="formula">
+		<xsd:choice>
+			<xsd:element name="true"/>
+			<xsd:element name="false"/>
+			<xsd:element name="prop">
+				<xsd:complexType>
+					<xsd:attribute name="idref" type="xsd:IDREF"/>
+				</xsd:complexType>
+			</xsd:element>
+	    <xsd:element name="not" type="formulaType"/>
+			<xsd:element name="and" type="formulae"/>
+			<xsd:element name="or" type="formulae"/>
+			<xsd:element name="implies" type="formulaePair"/>
+	    <xsd:element name="always" type="boundedFormula"/>
+	    <xsd:element name="eventually" type="boundedFormula"/>
+			<xsd:element name="until" type="boundedFormulaePair"/>
+			<xsd:element name="eq" type="comparison"/>
+			<xsd:element name="leq" type="comparison"/>
+			<xsd:element name="geq" type="comparison"/>
+		</xsd:choice>
+	</xsd:group>
+
+	<xsd:complexType name="formulaType">
+		<xsd:complexContent>
+			<xsd:group ref="formula"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="formulae">
+		<xsd:sequence>
+			<xsd:group ref="formula" minOccurs="2"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="formulaePair">
+		<xsd:sequence>
+			<xsd:group ref="formula"/>
+			<xsd:group ref="formula"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="boundedFormula">
+		<xsd:sequence>
+			<xsd:group ref="formula"/>
+		</xsd:sequence>
+		<xsd:attributeGroup ref="timeBounds"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="boundedFormulaePair">
+		<xsd:sequence>
+			<xsd:group ref="formula"/>
+			<xsd:group ref="formula"/>
+		</xsd:sequence>
+		<xsd:attributeGroup ref="timeBounds"/>
+	</xsd:complexType>
+
+	<xsd:attributeGroup id="timeBounds">
+	  <xsd:attribute name="from" type="xsd:nonNegativeInteger" use="optional"/>
+	  <xsd:attribute name="within" type="xsd:nonNegativeInteger" use="optional"/>
+	</xsd:attributeGroup>
+	
+	<xsd:complexType name="comparison">
+		<xsd:sequence>
+			<xsd:group ref="exprGroup"/>
+			<xsd:group ref="exprGroup"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:group id="exprGroup">
+	  <xsd:choice>
+			<xsd:element name="const" type="xsd:integer"/>
+			<xsd:element name="var">
+				<xsd:simpleType>
+					<xsd:attribute name="idref" type="xsd:IDREF"/>
+				</xsd:simpleType>
+			</xsd:element>
+	    <xsd:element name="opposite" type="expr"/>
+	    <xsd:element name="sum" type="exprs"/>
+	    <xsd:element name="prod" type="exprs"/>
+	  </xsd:choice>
+	</xsd:complexType>
+
+	<xsd:complexType name="expr">
+		<xsd:complexContent>
+			<xsd:group ref="exprGroup"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="exprs">
+		<xsd:sequence>
+			<xsd:element name="expr" type="expr" minOccurs="2"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>
