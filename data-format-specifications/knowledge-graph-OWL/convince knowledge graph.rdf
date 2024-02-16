@@ -1,0 +1,324 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/rl268909/ontologies/2024/1/untitled-ontology-3/"
+     xml:base="http://www.semanticweb.org/rl268909/ontologies/2024/1/untitled-ontology-3/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.convince-knowledge-graph">
+        <owl:versionIRI rdf:resource="http://www.convince-knowledge-graph/1.0.0"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.convince-knowledge-graph#actsIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.convince-knowledge-graph#actsIn">
+        <rdfs:subPropertyOf rdf:resource="http://www.convince-knowledge-graph#isPartOf"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Agent"/>
+        <rdfs:range rdf:resource="http://www.convince-knowledge-graph#System"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#canPerform -->
+
+    <owl:ObjectProperty rdf:about="http://www.convince-knowledge-graph#canPerform">
+        <rdfs:subPropertyOf rdf:resource="http://www.convince-knowledge-graph#isCapableOf"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#System"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#happensIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.convince-knowledge-graph#happensIn">
+        <rdfs:subPropertyOf rdf:resource="http://www.convince-knowledge-graph#isPartOf"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#UseCase"/>
+        <rdfs:range rdf:resource="http://www.convince-knowledge-graph#Environment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#hasCapability -->
+
+    <owl:ObjectProperty rdf:about="http://www.convince-knowledge-graph#hasCapability">
+        <rdfs:subPropertyOf rdf:resource="http://www.convince-knowledge-graph#isCapableOf"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Agent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#isARegionOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.convince-knowledge-graph#isARegionOf">
+        <rdfs:subPropertyOf rdf:resource="http://www.convince-knowledge-graph#isLocated"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Location"/>
+        <rdfs:range rdf:resource="http://www.convince-knowledge-graph#Map"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#isAt -->
+
+    <owl:ObjectProperty rdf:about="http://www.convince-knowledge-graph#isAt">
+        <rdfs:subPropertyOf rdf:resource="http://www.convince-knowledge-graph#isLocated"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Object"/>
+        <rdfs:range rdf:resource="http://www.convince-knowledge-graph#Location"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#isAttachedTo -->
+
+    <owl:ObjectProperty rdf:about="http://www.convince-knowledge-graph#isAttachedTo">
+        <rdfs:subPropertyOf rdf:resource="http://www.convince-knowledge-graph#isPartOf"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Agent"/>
+        <rdfs:range rdf:resource="http://www.convince-knowledge-graph#Agent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#isCapableOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.convince-knowledge-graph#isCapableOf">
+        <rdfs:range rdf:resource="http://www.convince-knowledge-graph#Skill"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#isLocated -->
+
+    <owl:ObjectProperty rdf:about="http://www.convince-knowledge-graph#isLocated">
+        <rdfs:subPropertyOf rdf:resource="http://www.convince-knowledge-graph#isPartOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#isPartOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.convince-knowledge-graph#isPartOf"/>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#isPresent -->
+
+    <owl:ObjectProperty rdf:about="http://www.convince-knowledge-graph#isPresent">
+        <rdfs:subPropertyOf rdf:resource="http://www.convince-knowledge-graph#isPartOf"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Person"/>
+        <rdfs:range rdf:resource="http://www.convince-knowledge-graph#Environment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#isSectionOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.convince-knowledge-graph#isSectionOf">
+        <rdfs:subPropertyOf rdf:resource="http://www.convince-knowledge-graph#isLocated"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Map"/>
+        <rdfs:range rdf:resource="http://www.convince-knowledge-graph#Environment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#isSituatedIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.convince-knowledge-graph#isSituatedIn">
+        <rdfs:subPropertyOf rdf:resource="http://www.convince-knowledge-graph#isLocated"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Location"/>
+        <rdfs:range rdf:resource="http://www.convince-knowledge-graph#Area"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#isUsedIn -->
+
+    <owl:ObjectProperty rdf:about="http://www.convince-knowledge-graph#isUsedIn">
+        <rdfs:subPropertyOf rdf:resource="http://www.convince-knowledge-graph#isPartOf"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#System"/>
+        <rdfs:range rdf:resource="http://www.convince-knowledge-graph#UseCase"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.convince-knowledge-graph#hasDescription -->
+
+    <owl:DatatypeProperty rdf:about="http://www.convince-knowledge-graph#hasDescription">
+        <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#hasName -->
+
+    <owl:DatatypeProperty rdf:about="http://www.convince-knowledge-graph#hasName">
+        <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#hasPose -->
+
+    <owl:DatatypeProperty rdf:about="http://www.convince-knowledge-graph#hasPose">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.convince-knowledge-graph#Agent -->
+
+    <owl:Class rdf:about="http://www.convince-knowledge-graph#Agent">
+        <rdfs:comment>Agents have pose, stored in other tools</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#Area -->
+
+    <owl:Class rdf:about="http://www.convince-knowledge-graph#Area">
+        <rdfs:subClassOf rdf:resource="http://www.convince-knowledge-graph#GeometricalEntity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#Environment -->
+
+    <owl:Class rdf:about="http://www.convince-knowledge-graph#Environment"/>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#GeometricalEntity -->
+
+    <owl:Class rdf:about="http://www.convince-knowledge-graph#GeometricalEntity">
+        <rdfs:comment>GeometricEntities have pose and shape, stored in other tools</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#Location -->
+
+    <owl:Class rdf:about="http://www.convince-knowledge-graph#Location">
+        <rdfs:subClassOf rdf:resource="http://www.convince-knowledge-graph#GeometricalEntity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#Map -->
+
+    <owl:Class rdf:about="http://www.convince-knowledge-graph#Map">
+        <rdfs:subClassOf rdf:resource="http://www.convince-knowledge-graph#GeometricalEntity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#Object -->
+
+    <owl:Class rdf:about="http://www.convince-knowledge-graph#Object">
+        <rdfs:subClassOf rdf:resource="http://www.convince-knowledge-graph#GeometricalEntity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#Person -->
+
+    <owl:Class rdf:about="http://www.convince-knowledge-graph#Person">
+        <rdfs:subClassOf rdf:resource="http://www.convince-knowledge-graph#Agent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#Pose -->
+
+    <owl:Class rdf:about="http://www.convince-knowledge-graph#Pose"/>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#Robot -->
+
+    <owl:Class rdf:about="http://www.convince-knowledge-graph#Robot">
+        <rdfs:subClassOf rdf:resource="http://www.convince-knowledge-graph#Agent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#Sensor -->
+
+    <owl:Class rdf:about="http://www.convince-knowledge-graph#Sensor">
+        <rdfs:subClassOf rdf:resource="http://www.convince-knowledge-graph#Agent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#Skill -->
+
+    <owl:Class rdf:about="http://www.convince-knowledge-graph#Skill"/>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#System -->
+
+    <owl:Class rdf:about="http://www.convince-knowledge-graph#System">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.convince-knowledge-graph#isUsedIn"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.convince-knowledge-graph#System"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#UseCase -->
+
+    <owl:Class rdf:about="http://www.convince-knowledge-graph#UseCase">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.convince-knowledge-graph#happensIn"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.convince-knowledge-graph#Environment"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.26.2023-07-17T20:34:13Z) https://github.com/owlcs/owlapi -->
+
