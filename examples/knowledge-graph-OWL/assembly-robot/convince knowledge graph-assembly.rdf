@@ -1,0 +1,209 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/rl268909/ontologies/2024/1/untitled-ontology-10/"
+     xml:base="http://www.semanticweb.org/rl268909/ontologies/2024/1/untitled-ontology-10/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:www="http://www.convince-knowledge-graph#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.convince-knowledge-graph/assembly">
+        <owl:versionIRI rdf:resource="http://www.convince-knowledge-graph/assembly/1.0.0"/>
+        <owl:imports rdf:resource="http://www.convince-knowledge-graph/1.0.0"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#AmbientCamera -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#AmbientCamera">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Sensor"/>
+        <www:actsIn rdf:resource="http://www.convince-knowledge-graph/assembly#CEA_System"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#AssemblyUseCase -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#AssemblyUseCase">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#UseCase"/>
+        <www:happensIn rdf:resource="http://www.convince-knowledge-graph/assembly#Factory"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#CEA_System -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#CEA_System">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#System"/>
+        <www:canPerform rdf:resource="http://www.convince-knowledge-graph/assembly#locateHuman()"/>
+        <www:isUsedIn rdf:resource="http://www.convince-knowledge-graph/assembly#AssemblyUseCase"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#Factory -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#Factory">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Environment"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#Neobotix -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#Neobotix">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Robot"/>
+        <www:actsIn rdf:resource="http://www.convince-knowledge-graph/assembly#CEA_System"/>
+        <www:hasCapability rdf:resource="http://www.convince-knowledge-graph/assembly#detectHuman()"/>
+        <www:hasCapability rdf:resource="http://www.convince-knowledge-graph/assembly#navigateToPose(pose)"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#RobotiQ2F140 -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#RobotiQ2F140">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Robot"/>
+        <www:hasCapability rdf:resource="http://www.convince-knowledge-graph/assembly#setGripperStroke(stroke)"/>
+        <www:isAttachedTo rdf:resource="http://www.convince-knowledge-graph/assembly#UR10"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#UR10 -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#UR10">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Robot"/>
+        <www:hasCapability rdf:resource="http://www.convince-knowledge-graph/assembly#goToPose(pose)"/>
+        <www:hasCapability rdf:resource="http://www.convince-knowledge-graph/assembly#grapsObject(id)"/>
+        <www:hasCapability rdf:resource="http://www.convince-knowledge-graph/assembly#placeObject(id)"/>
+        <www:hasCapability rdf:resource="http://www.convince-knowledge-graph/assembly#storeObject(id)"/>
+        <www:isAttachedTo rdf:resource="http://www.convince-knowledge-graph/assembly#Neobotix"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#Zivid2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#Zivid2">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Sensor"/>
+        <www:hasCapability rdf:resource="http://www.convince-knowledge-graph/assembly#detectDefect(object_id)"/>
+        <www:hasCapability rdf:resource="http://www.convince-knowledge-graph/assembly#getObjectPose(object_id)"/>
+        <www:hasCapability rdf:resource="http://www.convince-knowledge-graph/assembly#registerAssembly()"/>
+        <www:hasCapability rdf:resource="http://www.convince-knowledge-graph/assembly#registerBlock(id_zone,_object_class)"/>
+        <www:isAttachedTo rdf:resource="http://www.convince-knowledge-graph/assembly#UR10"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#detectDefect(object_id) -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#detectDefect(object_id)">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Skill"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#detectHuman() -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#detectHuman()">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Skill"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#getObjectPose(object_id) -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#getObjectPose(object_id)">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Skill"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#goToPose(pose) -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#goToPose(pose)">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Skill"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#grapsObject(id) -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#grapsObject(id)">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Skill"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#locateHuman() -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#locateHuman()">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Skill"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#navigateToPose(pose) -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#navigateToPose(pose)">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Skill"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#placeObject(id) -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#placeObject(id)">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Skill"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#registerAssembly() -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#registerAssembly()">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Skill"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#registerBlock(id_zone,_object_class) -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#registerBlock(id_zone,_object_class)">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Skill"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#setGripperStroke(stroke) -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#setGripperStroke(stroke)">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Skill"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly#storeObject(id) -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly#storeObject(id)">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Skill"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.26.2023-07-17T20:34:13Z) https://github.com/owlcs/owlapi -->
+

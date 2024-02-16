@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/rl268909/ontologies/2024/1/untitled-ontology-11/"
+     xml:base="http://www.semanticweb.org/rl268909/ontologies/2024/1/untitled-ontology-11/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:www="http://www.convince-knowledge-graph#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.convince-knowledge-graph/assembly/run1">
+        <owl:versionIRI rdf:resource="http://www.convince-knowledge-graph/assembly/run1/1.0.0"/>
+        <owl:imports rdf:resource="http://www.convince-knowledge-graph/1.0.0"/>
+        <owl:imports rdf:resource="http://www.convince-knowledge-graph/assembly/1.0.0"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly/run1#A50Store -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly/run1#A50Store">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Location"/>
+        <www:isSituatedIn rdf:resource="http://www.convince-knowledge-graph/assembly/run1#StoreArea"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly/run1#A50_1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly/run1#A50_1">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Object"/>
+        <www:isAt rdf:resource="http://www.convince-knowledge-graph/assembly/run1#A50Store"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly/run1#A50_2 -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly/run1#A50_2">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Object"/>
+        <www:isAt rdf:resource="http://www.convince-knowledge-graph/assembly/run1#A50Store"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly/run1#Assembly1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly/run1#Assembly1">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Location"/>
+        <www:isSituatedIn rdf:resource="http://www.convince-knowledge-graph/assembly/run1#AssemblyArea"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly/run1#AssemblyArea -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly/run1#AssemblyArea">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Area"/>
+        <www:isARegionOf rdf:resource="http://www.convince-knowledge-graph/assembly/run1#FactoryGroundFloor"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly/run1#ExpertHuman -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly/run1#ExpertHuman">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Person"/>
+        <www:actsIn rdf:resource="http://www.convince-knowledge-graph/assembly#CEA_System"/>
+        <www:hasCapability rdf:resource="http://www.convince-knowledge-graph/assembly/run1#assemblePart(object_id)"/>
+        <www:hasCapability rdf:resource="http://www.convince-knowledge-graph/assembly/run1#verifyAssembly()"/>
+        <www:isPresent rdf:resource="http://www.convince-knowledge-graph/assembly#Factory"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly/run1#FactoryGroundFloor -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly/run1#FactoryGroundFloor">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Map"/>
+        <www:isSectionOf rdf:resource="http://www.convince-knowledge-graph/assembly#Factory"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly/run1#KilnCart1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly/run1#KilnCart1">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Object"/>
+        <www:isAt rdf:resource="http://www.convince-knowledge-graph/assembly/run1#Assembly1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly/run1#StoreArea -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly/run1#StoreArea">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Area"/>
+        <www:isARegionOf rdf:resource="http://www.convince-knowledge-graph/assembly/run1#FactoryGroundFloor"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly/run1#assemblePart(object_id) -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly/run1#assemblePart(object_id)"/>
+    
+
+
+    <!-- http://www.convince-knowledge-graph/assembly/run1#verifyAssembly() -->
+
+    <owl:NamedIndividual rdf:about="http://www.convince-knowledge-graph/assembly/run1#verifyAssembly()"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.26.2023-07-17T20:34:13Z) https://github.com/owlcs/owlapi -->
+
