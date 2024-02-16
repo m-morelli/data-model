@@ -1,0 +1,46 @@
+<scxml
+	initial="idle"
+	version="1.0"
+	name="BatteryDriverCmp"
+	xmlns="http://www.w3.org/2005/07/scxml">
+	<datamodel>
+		<data id="level" type="i32" expr="0"/>
+	</datamodel>
+
+	<state id="initial">
+		<onentry>
+			<assign location="level" expr="100" />
+			<raise event="initialize" />
+		</onentry>
+		<transition event="initialize" target="idle" />
+	</state>
+	
+	<state id="idle">
+		<!-- Event is raised by invoking interface function of same name -->
+		<transition event="drainCall" target="drain" />
+		<transition event="readLevelCall" target="readLevel" />
+	</state>
+
+	<state id="drain">
+		<onentry>
+			<if condition="level &gt;= 0" >
+				<assign location="level" expr="level - 1" />
+			</if>
+			<send event="drainReturn" />
+		</onentry>
+		<!-- Special "return" event transitions to idle state and returns to invoking function -->
+		<transition event="drainReturn" target="idle" />
+	</state>
+
+	<state id="readLevel">
+		<onentry>
+			<send event="readLevelReturn">
+				<param name="result" expr="level"/>
+			</send>
+		</onentry>
+		<!-- Special "return" event transitions to idle state and returns to invoking function -->
+		<transition event="readLevelReturn" target="idle" />
+	</state>
+</scxml>
+
+

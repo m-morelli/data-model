@@ -1,0 +1,97 @@
+<specification xmlns="..." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="...">
+
+  <model>
+
+    <skillList taskPlan="Policy">
+      <skillDeclaration id="Policy" interface="SkillInterface">
+        <skillDefinition type="action" moc="bt" path="../../BT-XML/museum-guide/Policy.xml" />
+        <skillProtocol>
+        </skillProtocol>
+      </skillDeclaration>
+      <skillDeclaration id="BatteryLevel" interface="SkillInterface">
+        <skillDefinition type="condition" moc="fsm" path="../../skill-functions-SCXML/museum-guide/BatteryLevel.scxml" />
+        <skillProtocol>
+          <ROS2data>
+            <interface type="service" />
+          </ROS2data>
+        </skillProtocol>
+      </skillDeclaration>
+      <skillDeclaration id="Alarm" interface="SkillInterface">
+        <skillDefinition type="action" moc="fsm" path="../../skill-functions-SCXML/museum-guide/AlarmBatteryLow.scxml" />
+        <skillProtocol>
+          <ROS2data>
+            <interface type="service" />
+          </ROS2data>
+        </skillProtocol>
+      </skillDeclaration>
+      <skillDeclaration id="BatteryDrainer" interface="SkillInterface">
+        <skillDefinition type="action" moc="fsm" path="../../skill-functions-SCXML/museum-guide/BatteryDrainer.scxml" />
+        <skillProtocol>
+          <ROS2data>
+            <interface type="service" />
+          </ROS2data>
+        </skillProtocol>
+      </skillDeclaration>
+    </skillList>
+
+    <componentList>
+      <componentDeclaration id="BatteryDriverCmp" interface="BatteryDriverCmpInterface">
+        <componentDefinition moc="fsm" path="../../environment-XML/museum-guide/BatteryDriverCmp.scxml" />
+        <componentProtocol>
+          <ROS2data>
+            <interface type="service" />
+          </ROS2data>
+        </componentProtocol>
+      </componentDeclaration>
+      <componentDeclaration id="AlarmCmp" interface="AlarmCmpInterface">
+        <componentDefinition moc="fsm" path="../../environment-XML/museum-guide/AlarmCmp.scxml" />
+        <componentProtocol>
+          <ROS2data>
+            <interface type="service" />
+          </ROS2data>
+        </componentProtocol>
+      </componentDeclaration>
+    </componentList>
+
+    <types path="./types.xml"/>
+
+    <interfaceList>
+      <interface id="SkillInterface">
+        <function id="tick">
+          <returnValue>
+            <dataType>enum</dataType>
+            <enum refid="TickResponse" />
+          </returnValue>
+        </function>
+        <function id="halt">
+          <returnValue>
+            <dataType>void</dataType>
+          </returnValue>
+        </function>
+      </interface>
+      <interface id="BatteryDriverCmpInterface">
+        <function id="drain">
+          <returnValue>
+            <dataType>void</dataType>
+          </returnValue>
+        </function>
+        <function id="readLevel">
+          <returnValue>
+            <dataType>i32</dataType>
+          </returnValue>
+        </function>
+      </interface>
+      <interface id="AlarmCmpInterface">
+        <function id="sendAlarm">
+          <returnValue>
+            <dataType>void</dataType>
+          </returnValue>
+        </function>
+      </interface>
+    </interfaceList>
+
+  </model>
+
+  <properties path="../../properties-XML/museum-guide/properties.xml"/>
+</specification>
