@@ -1,0 +1,1 @@
+We rely on a description of message content in the form of an Interface Definition Language (IDL) file. This is defined in [OMG IDL 4.2](https://www.omg.org/spec/IDL/4.2/About-IDL/)
