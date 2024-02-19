@@ -1,0 +1,177 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">
+			CONVINCE datatypes XML format specification.
+		</xsd:documentation>
+	</xsd:annotation>
+
+	<!-- From SCOPE xsd -->
+	
+	<xs:simpleType name="baseDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="byte"/>
+			<xs:enumeration value="i32"/>
+			<xs:enumeration value="i64"/>
+			<xs:enumeration value="double"/>
+			<xs:enumeration value="bool"/>
+			<xs:enumeration value="string"/> 
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="dataTypeStructEnum">
+		<xs:restriction base="xs:string"> 
+			<xs:enumeration value="enum"/>
+			<xs:enumeration value="struct"/> 
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="dataTypeVoid">
+		<xs:restriction base="xs:string"> 
+			<xs:enumeration value="void"/> 
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="dataType">
+    	<xs:union memberTypes="baseDataType dataTypeStructEnum"/>
+	</xs:simpleType>
+
+	<xs:simpleType name="returnDataType">
+    	<xs:union memberTypes="baseDataType dataTypeStructEnum dataTypeVoid"/>
+	</xs:simpleType>
+
+	<xs:simpleType name="skillType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="action"/>
+			<xs:enumeration value="condition"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="dataValueType">
+		<xs:sequence>
+			<xs:element name="dataType" type="dataType" />
+			<xs:choice minOccurs="0">
+				<xs:element name="enum" type="enumReferenceType" maxOccurs="1" />
+				<xs:element name="struct" type="structReferenceType" maxOccurs="1"  />
+			</xs:choice>
+		</xs:sequence>   
+	</xs:complexType>
+
+	<xs:complexType name="structDataType">
+		<xs:sequence>
+			<xs:element name="dataName" >
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+					<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="dataValue" type="dataValueType" />
+			<xs:element name="constValue"  minOccurs="0" maxOccurs="1" nillable="false">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+					<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="fieldid" type="xs:integer" use="required" />  
+	</xs:complexType>
+
+	<xs:complexType name="structType">
+		<xs:sequence>
+			<xs:element name="structData" type="structDataType" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:ID" use="required" />
+	</xs:complexType>
+	
+	<xs:complexType name="structListType">
+		<xs:sequence>
+			<xs:element name="struct" type="structType" maxOccurs="unbounded" >
+				<xs:unique name="UniqueStructFieldPlaceholder">
+			    	<xs:selector xpath="s:structData" /> 
+			    	<xs:field xpath="@id" /> 
+				</xs:unique>
+				<xs:unique name="UniqueStructFieldName">
+			    	<xs:selector xpath="s:structData" /> 
+			    	<xs:field xpath="s:dataName" /> 
+				</xs:unique>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="enumType">
+		<xs:sequence>
+			<xs:element name="enumEntry"  maxOccurs="unbounded" >
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+					<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:ID" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="enumerationType">
+		<xs:sequence>
+			<xs:element name="enum" maxOccurs="unbounded" type="enumType">
+				<xs:unique name="UniqueEnumValue">
+                	<xs:selector xpath="s:enumEntry"/>
+                	<xs:field xpath="."/>
+            	</xs:unique>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="enumReferenceType">
+		<xs:attribute name="refid" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="structReferenceType">
+		<xs:attribute name="refid" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="returnValueType">
+		<xs:sequence>
+			<xs:element name="dataType" type="returnDataType" />
+			<xs:choice minOccurs="0">
+				<xs:element name="enum" type="enumReferenceType" maxOccurs="1" />
+				<xs:element name="struct" type="structReferenceType" maxOccurs="1"  />
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="argumentType">
+		<xs:sequence>
+			<xs:element name="argType" type="dataValueType" />
+			<xs:element name="argName" nillable="false" >
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+					<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="argid" type="xs:integer" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="functionArgsType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" name="argument" type="argumentType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="functionType">
+		<xs:sequence>
+			<xs:element name="returnValue" type="returnValueType"/>
+			<xs:element name="functionArgs" type="functionArgsType" minOccurs="0" >
+				<xs:unique name="UniqueArgsPlaceholder">
+			    	<xs:selector xpath="s:argument" /> 
+			    	<xs:field xpath="@id" /> 
+				</xs:unique>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:ID" use="required" />
+	</xs:complexType>
+	
+</xsd:schema>

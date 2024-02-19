@@ -1,0 +1,128 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">
+			CONVINCE Specification XML format specification.
+		</xsd:documentation>
+	</xsd:annotation>
+
+	<xsd:element name="skillList">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="skillDeclaration" type="skillDeclarationType" minoccurs="0" maxoccurs="unbounded">
+			</xsd:sequence>
+			<xsd:attribute name="taskPlan" type="xsd:IDREF"/>
+		</xsd:compelexType>
+	</xsd:element>
+
+	<xsd:element name="componentList">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="componentDeclaration" type="componentDeclarationType" minoccurs="0" maxoccurs="unbounded">
+			</xsd:sequence>
+		</xsd:compelexType>
+	</xsd:element>
+
+	<xsd:element name="datatypeList">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="datatype" type="datatypeType" minoccurs="0" maxoccurs="unbounded">
+			</xsd:sequence>
+		</xsd:compelexType>
+	</xsd:element>
+
+	<xsd:element name="interfaceList">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="interface" type="interfaceType" minoccurs="0" maxoccurs="unbounded">
+			</xsd:sequence>
+		</xsd:compelexType>
+	</xsd:element>
+
+	<xsd:element name="propertyList">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="property" type="propertyType" minoccurs="0" maxoccurs="unbounded">
+			</xsd:sequence>
+		</xsd:compelexType>
+	</xsd:element>
+
+	<xsd:complexType name="skillDeclarationType">
+		<xsd:sequence>
+			<xsd:element name="skillDefinition">
+				<xsd:complexContent>
+					<xsd:attribute name="type" type="skillType"/>
+					<xsd:attribute name="moc" type="mocType"/>
+					<xsd:attribute name="path" type="anyURI"/>
+				</xsd:complexContent>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID"/>
+		<xsd:attribute name="interface" type="xsd:IDREF"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="componentDeclarationType">
+		<xsd:sequence>
+			<xsd:element name="componentDefinition">
+				<xsd:complexContent>
+					<xsd:attribute name="moc" type="mocType"/>
+					<xsd:attribute name="path" type="anyURI"/>
+				</xsd:complexContent>
+			</xsd:element>
+		<xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID"/>
+		<xsd:attribute name="interface" type="xsd:IDREF"/>
+	</xsd:complexType>
+
+	<xsd:simpleType name="skillType">
+		<xsd:restriction>
+			<xsd:enumeration value="condition"/>
+			<xsd:enumeration value="action"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="moqType">
+		<xsd:restriction>
+			<xsd:enumeration value="fsm"/>
+			<xsd:enumeration value="bt"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="interface">
+		<xsd:sequence>
+			<xsd:element name="function" minoccurs="0" maxoccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="componentProtocol">
+							<xsd:complexContent>
+								<xsd:choice>
+									<xsd:element name="ROS2data" type="ROS2dataType"/>
+								</xsd:choice>
+							</xsd:complexContent>
+						</xsd:element>
+						<!-- dataType as defined in SCOPE XML sec. 9.2 -->
+						<xsd:element name="returnValue" type="dataType" />
+						<xsd:element name="callParam" type="dataType" />
+					</xsd:sequence>
+					<xsd:attribute name="id" type="xsd:ID"/>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="ROS2dataType">
+		<xsd:element name="interface">
+		  <xsd:complexType>
+		    <xsd:attribute name="type" type="ROS2interfaces"/>
+		  </xsd:complexType>
+		</xsd:element>
+	</xsd:complexType>
+
+	<xsd:simpleType name="ROS2interfaces">
+		<xsd:restriction>
+			<xsd:enumeration value="service"/>
+			<xsd:enumeration value="topic"/>
+			<xsd:enumeration value="action"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>
