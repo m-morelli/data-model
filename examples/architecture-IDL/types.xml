@@ -1,9 +1,0 @@
-<typeList>
-  <enumeration>
-    <enum id="TickResponse">
-      <enumEntry>SKILL_RUNNING</enumEntry>
-      <enumEntry>SKILL_SUCCESS</enumEntry>
-      <enumEntry>SKILL_FAILURE</enumEntry>
-    </enum>
-  </enumeration>
-</typeList>

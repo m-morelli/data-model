@@ -4,19 +4,12 @@
     <BehaviorTree ID="BehaviorTree">
         <ReactiveSequence>
             <ReactiveFallback>
-                <Condition ID="ConditionLeaf" name="BatteryLevel" />
-                <Action ID="ActionLeaf" name="Alarm" />
+                <Condition ID="BatteryLevel" />
+                <Action ID="Alarm" />
             </ReactiveFallback>
-            <Action ID="ActionLeaf" name="BatteryDrainer" />
+            <Action ID="BatteryDrainer" />
         </ReactiveSequence>
     </BehaviorTree>
-    <!-- ////////// -->
-    <TreeNodesModel>
-        <Action ID="ActionLeaf">
-        </Action>
-        <Condition ID="ConditionLeaf">
-        </Condition>
-    </TreeNodesModel>
     <!-- ////////// -->
 </root>
 

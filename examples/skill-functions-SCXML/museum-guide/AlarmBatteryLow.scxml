@@ -31,16 +31,22 @@
   <state id="alarmRunning">
     <onentry>
       <send event="tickReturn">
-        <param name="result" expr="SKILL_RUNNING"/>
+        <param name="result" expr="RUNNING"/>
       </send>
     </onentry>
     <transition event="tickCall" target="alarm" />
-    <transition event="haltCall" target="halt" />
+    <transition event="haltCall" target="waitHalt" />
+  </state>
+
+  <state id="waitHalt">
+    <transition event="AlarmCmp.sendAlarmReturn" target="halt"/>
   </state>
 
   <state id="alarmSuccess">
     <onentry>
-      <raise event="tickReturn" data="SKILL_SUCCESS">
+      <send event="tickReturn">
+        <param name="result" expr="SUCCESS"/>
+      </send>
     </onentry>
     <transition event="tickReturn" target="idle" />
   </state>

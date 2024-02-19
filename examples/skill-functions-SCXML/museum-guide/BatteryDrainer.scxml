@@ -32,7 +32,7 @@
     <state id="drainSuccess">
         <onentry>
             <send event="tickReturn">
-                <param name="result" expr="SKILL_SUCCESS"/>
+                <param name="result" expr="SUCCESS"/>
             </send>
         </onentry>
         <transition event="tickReturn" target="idle" />
@@ -41,11 +41,15 @@
     <state id="drainRunning">
         <onentry>
             <send event="tickReturn">
-                <param name="result" expr="SKILL_RUNNING"/>
+                <param name="result" expr="RUNNING"/>
             </send>
         </onentry>
-        <transition event="haltCall" target="halt" />
+        <transition event="haltCall" target="waitHalt" />
         <transition event="tickCall" target="status" />
+    </state>
+
+    <state id="waitHalt">
+        <transition event="BatteryDrainerCmp.drainReturn" target="halt"/>
     </state>
 </scxml>
 

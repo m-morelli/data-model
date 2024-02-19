@@ -1,5 +1,5 @@
 <scxml
-	initial="idle"
+	initial="init"
 	version="1.0"
 	name="BatteryDriverCmp"
 	xmlns="http://www.w3.org/2005/07/scxml">
@@ -7,7 +7,7 @@
 		<data id="level" type="i32" expr="0"/>
 	</datamodel>
 
-	<state id="initial">
+	<state id="init">
 		<onentry>
 			<assign location="level" expr="100" />
 			<raise event="initialize" />
