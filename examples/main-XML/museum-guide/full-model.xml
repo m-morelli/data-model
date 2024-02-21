@@ -34,7 +34,7 @@
         <function id="tick">
           <protocol>
             <ROS2data>
-              <interface type="service" />
+              <interface type="sync-service" />
             </ROS2data>
           </protocol>
           <returnValue>
@@ -45,7 +45,7 @@
         <function id="halt">
           <protocol>
             <ROS2data>
-              <interface type="service" />
+              <interface type="sync-service" />
             </ROS2data>
           </protocol>
         </function>
@@ -54,14 +54,14 @@
         <function id="drain">
           <protocol>
             <ROS2data>
-              <interface type="service" />
+              <interface type="async-service" />
             </ROS2data>
           </protocol>
         </function>
         <function id="readLevel">
           <protocol>
             <ROS2data>
-              <interface type="service" />
+              <interface type="topic" />
             </ROS2data>
           </protocol>
           <returnValue>
@@ -73,7 +73,7 @@
         <function id="sendAlarm">
           <protocol>
             <ROS2data>
-              <interface type="service" />
+              <interface type="sync-service" />
             </ROS2data>
           </protocol>
         </function>

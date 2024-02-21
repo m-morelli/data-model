@@ -3,51 +3,53 @@
   version="1.0" 
   name="AlarmBatteryLow"
   xmlns="http://www.w3.org/2005/07/scxml">
+  <datamodel>
+    <data name="origin" type="URI" />
+  </datamodel>
 
   <state id="idle">
-    <transition event="tickCall" target="startAlarm" />
+    <onexit>
+      <assign location="origin" expr="_event.origin" />
+    </onexit>
+    <transition event="tickCall" target="startAlarm">
     <transition event="haltCall" target="halt" />
   </state>
 
   <state id="halt">
     <onentry>
-      <send event="haltReturn"/>
+      <send event="haltReturn" target_expr="origin" />
     </onentry>
-    <transition event="haltReturn" target="idle" />
+    <transition target="idle" />
   </state>
 
 	<state id="startAlarm">
     <onentry>
       <send event="AlarmCmp.sendAlarmCall" />
     </onentry>
-    <transition target="alarm"/>
+    <!-- External events received before 'sendAlarmReturn' are discarded -->
+    <!-- but in this case we know that no event will be received -->
+    <!-- because the tick of the BT is synchronous -->
+    <transition event="AlarmCmp.sendAlarmReturn" target="alarmSuccess" />
   </state>
 
-  <state id="alarm">
-    <transition event="AlarmCmp.sendAlarmReturn" target="alarmSuccess"/>
-    <transition target="alarmRunning"/>
-  </state>
-
-  <state id="alarmRunning">
-    <onentry>
-      <send event="tickReturn">
-        <param name="result" expr="RUNNING"/>
-      </send>
-    </onentry>
-    <transition event="tickCall" target="alarm" />
-    <transition event="haltCall" target="waitHalt" />
-  </state>
-
-  <state id="waitHalt">
-    <transition event="AlarmCmp.sendAlarmReturn" target="halt"/>
-  </state>
-
+  <!-- This version of 'startAlarm' uses a blocking call in a script
+    -- but then how is 'AlarmCmp' executed?
+  	<state id="startAlarm">
+      <onentry>
+        <script>
+          AlarmCmp.sendAlarm();
+        </script>
+      </onentry>
+      <transition target="alarmSuccess" />
+    </state>
+    -->
+  
   <state id="alarmSuccess">
     <onentry>
-      <send event="tickReturn">
-        <param name="result" expr="SKILL_SUCCESS" />   
+      <send event="tickReturn" target_expr="origin">
+        <param name="result" expr="SUCCESS" />
       </send>
     </onentry>
-    <transition event="tickReturn" target="idle" />
+    <transition target="idle" />
   </state>
 </scxml>

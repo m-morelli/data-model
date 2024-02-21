@@ -7,29 +7,16 @@
 
     <datamodel>
         <data name="level" type="i32" expr="0" />
+        <data name="origin" type="URI" />
     </datamodel>
 
     <state id="idle">
-        <transition event="haltCall" target="halt" />
-        <transition event="tickCall" target="level" />
-    </state>
-
-    <state id="halt">
-        <onentry>
-            <send event="haltReturn"/>
-        </onentry>
-        <transition event="haltReturn" target="idle" />
-    </state>
-
-    <state id="level">
-        <onentry>
-            <send event="BatteryLevelCmp.levelCall"/>
-        </onentry>
-        <transition target="status"/>
-    </state>
-
-    <state id="status">
-        <transition event="BatteryLevelCmp.levelReturn" target="levelCheck">
+        <onexit>
+            <assign location="origin" expr="_event.origin" />
+        </onexit>
+        <!-- This skill is a condition so there is no halt -->
+        <transition event="tickCall" target="levelCheck" />
+        <transition event="BatteryLevelCmp.levelReturn" target="idle">
             <assign location="level" expr="_batteryLevelCmp.levelReturn.data.result"/>
         </transition>
     </state>
@@ -37,31 +24,16 @@
     <state id="levelCheck">
         <onentry>
             <if cond="level &gt; 30">
-                <raise event="good" />
+                <send event="tickReturn" expr="_event.origin" >
+                    <param name="result" expr="SUCCESS"/>
+                </send>
             <else/>
-                <raise event="bad" />
+                <send event="tickReturn" expr="_event.origin" >
+                    <param name="result" expr="FAILURE"/>
+                </send>
             </if>
         </onentry>
-        <transition event="good" target="levelSuccess" />
-        <transition event="bad" target="levelFailure" />
-    </state>
-
-    <state id="levelSuccess">
-        <onentry>
-            <send event="tickReturn">
-                <param name="result" expr="SUCCESS"/>
-            </send>
-        </onentry>
-        <transition event="tickReturn" target="idle" />
-    </state>
-
-    <state id="levelFailure">
-        <onentry>
-            <send event="tickReturn">
-                <param name="result" expr="FAILURE"/>
-            </send>
-        </onentry>
-        <transition event="tickReturn" target="idle" />
+        <transition target="idle" />
     </state>
 </scxml>
 
