@@ -1,7 +1,25 @@
-// These examples are taken from Deliverable D4.2 on the specification language of CONVINCE
+// These examples, except for the first one, which fits to the coherent simple example for this repp, are taken from Deliverable D4.2 on the specification language of CONVINCE
 
 {
 "properties": [
+    // Eventually the goal position in the upper right corner is reached, which is indicated by setting the goal variable to true
+    {
+        "name": "eventually-reach-goal",
+        "expression": {
+            "op": "filter",
+            "fun": "max",
+            "values": {
+                "op": "Pmax",
+                "exp": {
+                    "op": "F",
+                    "exp": "goal"
+                }
+            },
+            "states": {
+                "op": "initial"
+            }
+        }
+    },
     //  Starting from a predefined area with a radius R_max around the dock, docking is finished successfully after x seconds.
     {
         "name": "dock-fast",
