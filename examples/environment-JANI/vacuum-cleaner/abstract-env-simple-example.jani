@@ -1,29 +1,49 @@
-// The robots, obstacles, and variables with their abstract properties and ranges used in the concrete environment model are specified in the abstract environment model here.
-
+// The robots, boundaries, obstacles, and variables with their abstract properties and ranges used in the concrete environment model are specified in the abstract environment model here.
+// This represents excerpts of the RobEnvModel from the full CONVINCE JANI model in the end
 {
     "variables": [
         {
-            "name": "s",
-            "type": {
-                "base": "int",
-                "kind": "bounded",
-                "lower-bound": 0,
-                "upper-bound": 7
-            },
-            "initial-value": 0
+            "name": "goal",
+            "type": "bool",
+            "initial-value": false
         }
     ],
-    "obstacles": [
+    "boundaries": [
         {
-            "name": "ball",
-            "movable": true
+            "x-coord": 0,
+            "y-coord": 2
         },
         {
-            "name": "cube",
-            "movable": false
+            "x-coord": 1,
+            "y-coord": 2
+        },
+        {
+            "x-coord": 2,
+            "y-coord": 1
+        },
+        {
+            "x-coord": 2,
+            "y-coord": 0
+        },
+        {
+            "x-coord": 1,
+            "y-coord": -1
+        },
+        {
+            "x-coord": 0,
+            "y-coord": -1
+        },
+        {
+            "x-coord": -1,
+            "y-coord": 0
+        },
+        {
+            "x-coord": -1,
+            "y-coord": 1
         }
     ],
+    "obstacles": [],
     "robots": [
-        "r2d2"
+        "simple_robot"
     ]
 }

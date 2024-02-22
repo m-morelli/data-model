@@ -1,5 +1,5 @@
-// The robots, obstacles, and variables with their abstract properties and ranges used in the concrete environment model are specified in the abstract environment model here.
-
+// The robots, boundaries, obstacles, and variables with their abstract properties and ranges used in the concrete environment model are specified in the abstract environment model here.
+// This represents excerpts of the RobEnvModel from the full CONVINCE JANI model in the end
 {
     "variables": [
         {
@@ -11,6 +11,40 @@
                 "upper-bound": 7
             },
             "initial-value": 0
+        }
+    ], 
+    "boundaries": [
+        {
+            "x-coord": 0,
+            "y-coord": 0
+        },
+        {
+            "x-coord": 3,
+            "y-coord": 0
+        },
+        {
+            "x-coord": 3,
+            "y-coord": 5
+        },
+        {
+            "x-coord": 0,
+            "y-coord": 5
+        },
+        {
+            "x-coord": 0,
+            "y-coord": 4.5
+        },
+        {
+            "x-coord": -0.5,
+            "y-coord": 4.5
+        },
+        {
+            "x-coord": -0.5,
+            "y-coord": 3.5
+        },
+        {
+            "x-coord": 0,
+            "y-coord": 3.5
         }
     ],
     "obstacles": [
