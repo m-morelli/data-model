@@ -1,0 +1,454 @@
+// The environment model describes a room with three straight edges and one edge with a small corner in the middle.
+// In addition, there are two obstacles placed in the room, a ball, which is movable, and a fixed cube.
+// The robot is placed at coordinates (0.5, 0.5) initially, and has a round shape with a radius of 0.3m and a height of 0.2m.
+// Lengths are given in meters.
+{
+
+    "name": "r2d2-in-test-room",
+    "features": ["convince-extensions"],
+    "type": "mdp",
+
+   
+    // Environment model
+
+    "rob-env-model":
+    { 
+        "name": "test-room",
+        "boundaries": [
+            {
+                "x-coord": 0,
+                "y-coord": 0
+            },
+            {
+                "x-coord": 3,
+                "y-coord": 0
+            },
+            {
+                "x-coord": 3,
+                "y-coord": 5
+            },
+            {
+                "x-coord": 0,
+                "y-coord": 5
+            },
+            {
+                "x-coord": 0,
+                "y-coord": 4.5
+            },
+            {
+                "x-coord": -0.5,
+                "y-coord": 4.5
+            },
+            {
+                "x-coord": -0.5,
+                "y-coord": 3.5
+            },
+            {
+                "x-coord": 0,
+                "y-coord": 3.5
+            }
+        ],
+        "obstacles": [
+            {
+                "name": "ball",
+                "movable": true,
+                "position": {
+                    "x-coord": 2,
+                    "y-coord": 1
+                },
+                "shape": {
+                    "radius": 0.3
+                }
+            },
+            {
+                "name": "cube",
+                "movable": false,
+                "position": {  
+                    "x-coord": 2,
+                    "y-coord": 3
+                },
+                "shape": {
+                    "length": 0.5,
+                    "width": 0.5,
+                    "height": 0.5
+                }
+            }
+        ],
+        "robots": [
+            {
+                "name": "r2d2",
+                "position": {
+                    "x-coord": 0.5,
+                    "y-coord": 0.5
+                },
+                "direction": 0,    // angle of rotation measured from x-axis 
+                "shape": {
+                    "radius": 0.3,
+                    "height": 0.2
+                },
+                "sensors": {        // currently it is assumed that the bumper is all around the robot
+                    "name": "b1",
+                    "type": "bumper"
+                }
+            }
+        ]
+    },
+
+
+    "actions": [
+        {
+            "name": "roll"  // for the ball, which is classified as moveable
+        },
+        {
+            "name": "ball_idle"  // for the ball, when it is not rolling
+        },
+        {
+            "name": "drive_fast"    // for the robot
+        },
+        {
+            "name": "robot_idle"
+        },
+        {
+            "name": "rotate"
+        },
+        {
+            "name": "switch_on"
+        },
+        {
+            "name": "switch_off"
+        }
+    ],
+
+    // Behaviors of ...
+
+    "automata": [
+
+         //... Robot
+        {
+            "name": "robot-behavior",
+            "locations": [
+                {
+                    "name": "off"   // turned-off
+                },
+                {
+                    "name": "on"    // in operation mode
+                }
+            ],
+            "initial-locations":[
+                "off"
+            ],
+            "edges": [
+                {
+                    "location": "off",
+                    "action": "robot-idle",
+                    "destinations": [
+                        {
+                            "location": "off"
+                        }
+                    ]
+                },
+                {
+					"location": "off",
+					"action": "switch_on",
+					"destinations": [ {
+						"location": "on"
+					} ]
+				},
+                {
+					"location": "on",
+					"action": "switch_off",
+					"destinations": [ {
+						"location": "off"
+					} ]
+				},
+                {
+					"location": "on",
+					"action": "drive_fast",
+                    "guard": {
+                        "exp": {
+                            "op": "not-intersect",
+                            "left": "r2d2",
+                            "right": "all",  // check that there are no intersections with all boundaries or obstacles
+                            "speed": 0.25
+                        }
+                    },
+					"destinations": [ {
+						"location": "on",
+                        "assignments": [ 
+                            {
+                                "ref": "b1",    // prophylactically reset the bumper whenever driving is possible without touching any obstacles. Necessary to reduce number of actions, otherwise a bumper reset action would be needed with a guard checking if the bumper has been triggered before
+                                "value": false
+                            },
+                            {
+                                "ref": "robots[0].position.x-coord",
+                                "value": {
+                                    "op": "+",
+                                    "left": "robots[0].position.x-coord",   // change in x-coordinate is cos(dir) * v + [0,0,1] * w
+                                    "right": {
+                                        "op": "*",
+                                        "left": {
+                                            "op": "cos",
+                                            "exp": "robots[0].direction"
+                                        },
+                                        "right": 0.25
+                                    }
+                                }
+                            },
+                            {
+                                "ref": "robots[0].position.y-coord",
+                                "value": {
+                                    "op": "+",
+                                    "left": "robots[0].position.y-coord",   // change in y-coordinate is sin(dir) * v + [0,0,1] * w
+                                    "right": {
+                                        "op": "*",
+                                        "left": {
+                                            "op": "sin",
+                                            "exp": "robots[0].direction"
+                                        },
+                                        "right": 0.25
+                                    }
+                                }
+                            }
+                        ]
+                    }]
+				},
+                {
+                    "location": "on",
+                    "action": "drive_fast",
+                    "guard": {
+                        "exp": {
+                            "op": "intersect",
+                            "left": "r2d2",
+                            "right": "all",  // in case of an intersection with boundaries or obstacles
+                            "speed": 0.25
+                        }
+                    },
+                    "destinations": [ {
+                        "location": "on",
+                        "assignments": [ 
+                            {
+                                "ref": "robots[0].sensors[0]",
+                                "value": true
+                            },
+                            {
+                                "ref": "robots[0].position.x-coord",
+                                "value": "intersection-x"
+                            },
+                            {
+                                "ref": "robots[0].position.y-coord",
+                                "value": "intersection-y"
+                            }
+                        ]
+                    }]
+                },
+                {
+                    "location": "on",
+                    "action": "rotate",
+                    "destinations": [ {
+                        "location": "on",
+                        "assignments": [ 
+                            {
+                                "ref": "robots[0].direction",
+                                "value": {
+                                    "op": "%",
+                                    "left":{
+                                            "op": "+",
+                                            "left": "robots[0].direction",
+                                            "right": 1
+                                    },   // rotating is always possible (round robot), one step rotates by 1 rad
+                                    "right": {
+                                            "op": "*",
+                                            "left": 2,
+                                            "right": "π"
+                                    }
+                                }
+                            }
+                        ]
+                    }]
+                }
+            ]
+        },
+
+        // ... Ball
+        {
+            "name": "ball-behavior",
+            "locations": [
+                {
+					"name": "ball-state"
+				}
+            ],
+            "initial-locations":[ "ball-state" ],
+            "edges": [  // moves around depending on probabilities & other obstacles and boundaries
+                {
+                    "location": "ball-state",
+                    "action": "idle",
+                    "destinations": [
+                        {
+                            "location": "ball-state"
+                        }
+                    ]
+                },
+                {
+                    "location": "ball-state",
+                    "action": "roll",
+                    "destinations": [
+                        {
+                            "location": "ball-state",
+                            "probability": {
+                                "exp": {            // it moves to (1,1) in 1/3 of the cases
+                                    "op": "/",
+                                    "left": 1,
+                                    "right": 3
+                                }
+                            },                      // to avoid an unnecessary blow-up of the model and to keep it readable by a human, the ball teleports to the destination without checking for collisions with other obstacles in a guard similar to the one used in the actions moving the robot
+                            "assignments": [
+                                {
+                                    "ref": "obstacles[0].position.x-coord",
+                                    "value": 1
+                                },
+                                {
+                                    "ref": "obstacles[0].position.y-coord",
+                                    "value": 1
+                                }
+                            ]
+                        },
+                        {
+                            "location": "ball-state",
+                            "probability": {
+                                "exp": {                // it moves to (2,4) in 2/3 of the cases
+                                    "op": "/",
+                                    "left": 2,
+                                    "right": 3
+                                }
+                            },                           // to avoid an unnecessary blow-up of the model and keeping it readable by a human, the ball teleports to the destination without checking for collisions with other obstacles in a guard similar to the one used in the actions moving the robot
+                            "assignments": [
+                                {
+                                    "ref": "obstacles[0].position.x-coord",
+                                    "value": 2
+                                },
+                                {
+                                    "ref": "obstacles[0].position.y-coord",
+                                    "value": 4
+                                }
+                            ]
+                        }
+                    ]
+
+                }
+            ]
+        }
+    ],
+
+    "system":  {
+        "elements": [
+            {
+                "automaton": "ball-behavior"
+            },
+            {
+                "automaton": "robot-behavior"
+            }
+        ],
+        "syncs": [
+            {
+				"synchronise": [
+					"ball_idle",
+					"robot_idle"
+				],
+				"result": "idle_idle"
+			},
+			{
+				"synchronise": [
+					"ball_idle",
+					"switch_off"
+				],
+				"result": "idle_off"
+			},
+            {
+				"synchronise": [
+					"ball_idle",
+					"switch_on"
+				],
+				"result": "tick"
+			},
+            {
+				"synchronise": [
+					"ball_idle",
+					"drive_fast"
+				],
+				"result": "idle_fast"
+			},
+            {
+				"synchronise": [
+					"ball_idle",
+					"rotate"
+				],
+				"result": "idle_rotate"
+			},
+            {
+				"synchronise": [
+					"roll",
+					"robot_idle"
+				],
+				"result": "roll_idle"
+			},
+            {
+				"synchronise": [
+					"roll",
+					"switch_off"
+				],
+				"result": "roll_off"
+			},
+            {
+				"synchronise": [
+					"roll",
+					"switch_on"
+				],
+				"result": "roll_on"
+			},
+            {
+				"synchronise": [
+					"roll",
+					"drive_fast"
+				],
+				"result": "roll_fast"
+			},
+            {
+				"synchronise": [
+					"roll",
+					"rotate"
+				],
+				"result": "roll_rotate"
+			}
+        ]
+    },
+
+    "properties": [
+        //  What is the maximal probability that the robot will eventually reach position (3,5). The correct result is 1, because it moves randomly and in this model can always free itself by rotating to move around obstacles it bumped in
+        {
+            "name": "go-to-position",
+            "expression": {
+                "op": "filter",
+                "fun": "max",
+                "values":{
+                    "op": "Pmax",
+                    "exp": {
+                        "op": "F",
+                        "exp": {
+                            "op": "∧",
+                            "left":{
+                                "op": "=",
+                                "left": "robots[0].position.x-coord",
+                                "right": 3
+                            },
+                            "right": {
+                                "op": "=",
+                                "left": "robots[0].position.y-coord",
+                                "right": 5
+                            } 
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}

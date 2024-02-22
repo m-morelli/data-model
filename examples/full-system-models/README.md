@@ -1,0 +1,1 @@
+This folder contains exemplary models of full system specifications (behavior, skills and environment) in one of the specification formats, since they are used as input for tools operating on the full system in one common format, e.g., for model checkers.
