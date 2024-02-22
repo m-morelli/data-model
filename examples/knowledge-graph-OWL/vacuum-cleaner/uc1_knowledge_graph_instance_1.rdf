@@ -1,0 +1,182 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="urn:absolute:convince_uc1/ontologies/uc1_instance_1/"
+     xml:base="urn:absolute:convince_uc1/ontologies/uc1_instance_1/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:www="http://www.convince-knowledge-graph#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:uc1_knowledge_graph_extensions="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#">
+    <owl:Ontology rdf:about="urn:absolute:convince_uc1/ontologies/uc1_instance_1">
+        <owl:imports rdf:resource="http://www.convince-knowledge-graph/1.0.0"/>
+        <owl:imports rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_instance_1#bar_stool_0 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:convince_uc1/ontologies/uc1_instance_1#bar_stool_0">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Object"/>
+        <www:isAt rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#living_room_0"/>
+        <uc1_knowledge_graph_extensions:isAbove rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#hard_wood_floor_0"/>
+        <uc1_knowledge_graph_extensions:isNext rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#shoe_A_0"/>
+        <www:hasPose rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:pose">7.5, 3.5, 0.0, 0.0, 0.0, 0.52</www:hasPose>
+        <uc1_knowledge_graph_extensions:hasBoundingBox rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:bounding_box">0.5, 0.5, 1.0</uc1_knowledge_graph_extensions:hasBoundingBox>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_instance_1#carpet_0 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:convince_uc1/ontologies/uc1_instance_1#carpet_0">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Object"/>
+        <www:isAt rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#living_room_0"/>
+        <uc1_knowledge_graph_extensions:isAbove rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#hard_wood_floor_0"/>
+        <uc1_knowledge_graph_extensions:isBelow rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#coffee_table_0"/>
+        <uc1_knowledge_graph_extensions:isBelow rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#coffee_table_1"/>
+        <uc1_knowledge_graph_extensions:isNext rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#sofa_0"/>
+        <www:hasPose rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:pose">4.0, 3.5, 0.0, 0.0, 0.0, 0.0</www:hasPose>
+        <uc1_knowledge_graph_extensions:hasBoundingBox rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:pose">4.0, 3.0, 0.002</uc1_knowledge_graph_extensions:hasBoundingBox>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_instance_1#coffee_table_0 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:convince_uc1/ontologies/uc1_instance_1#coffee_table_0">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Object"/>
+        <www:isAt rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#living_room_0"/>
+        <uc1_knowledge_graph_extensions:isAbove rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#carpet_0"/>
+        <www:hasPose rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:pose">3,0, 4.0, 0.0, 0.0, 0.0, 0.0</www:hasPose>
+        <uc1_knowledge_graph_extensions:hasBoundingBox rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:bounding_box">1.0, 1.0, 1.0</uc1_knowledge_graph_extensions:hasBoundingBox>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_instance_1#coffee_table_1 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:convince_uc1/ontologies/uc1_instance_1#coffee_table_1">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Object"/>
+        <www:isAt rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#living_room_0"/>
+        <uc1_knowledge_graph_extensions:isAbove rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#carpet_0"/>
+        <uc1_knowledge_graph_extensions:isAbove rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#hard_wood_floor_0"/>
+        <www:hasPose rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:pose">5.6, 4.25, 0.0, 0.0, 0.0, 0.785</www:hasPose>
+        <uc1_knowledge_graph_extensions:hasBoundingBox rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:bounding_box">1.0, 1.0, 1.0</uc1_knowledge_graph_extensions:hasBoundingBox>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_instance_1#first_floor -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:convince_uc1/ontologies/uc1_instance_1#first_floor">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Map"/>
+        <www:isSectionOf rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#user_home"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_instance_1#hard_wood_floor_0 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:convince_uc1/ontologies/uc1_instance_1#hard_wood_floor_0">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Object"/>
+        <www:isAt rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#living_room_0"/>
+        <uc1_knowledge_graph_extensions:isBelow rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#bar_stool_0"/>
+        <uc1_knowledge_graph_extensions:isBelow rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#carpet_0"/>
+        <uc1_knowledge_graph_extensions:isBelow rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#coffee_table_1"/>
+        <uc1_knowledge_graph_extensions:isBelow rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#shoe_A_0"/>
+        <uc1_knowledge_graph_extensions:isBelow rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#shoe_A_1"/>
+        <uc1_knowledge_graph_extensions:isBelow rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#sofa_0"/>
+        <www:hasPose rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:pose">4.0, 2.5, 0.0, 0.0, 0.0, 0.0</www:hasPose>
+        <uc1_knowledge_graph_extensions:hasBoundingBox rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:bounding_box">8.0, 5.0, 0.0</uc1_knowledge_graph_extensions:hasBoundingBox>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_instance_1#living_room_0 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:convince_uc1/ontologies/uc1_instance_1#living_room_0">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Location"/>
+        <www:isARegionOf rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#first_floor"/>
+        <www:hasPose rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:bounding_box">4.0, 2.5, 0.0, 0.0, 0.0, 0.0</www:hasPose>
+        <uc1_knowledge_graph_extensions:hasBoundingBox rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:bounding_box">8.0, 5.0, 3.0</uc1_knowledge_graph_extensions:hasBoundingBox>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_instance_1#shoe_A_0 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:convince_uc1/ontologies/uc1_instance_1#shoe_A_0">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Object"/>
+        <www:isAt rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#living_room_0"/>
+        <uc1_knowledge_graph_extensions:isAbove rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#hard_wood_floor_0"/>
+        <uc1_knowledge_graph_extensions:isNext rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#bar_stool_0"/>
+        <uc1_knowledge_graph_extensions:isNext rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#shoe_A_1"/>
+        <www:hasPose rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:pose">7.5, 2,7, 0.0, 0.0, 0.0, 0.52</www:hasPose>
+        <uc1_knowledge_graph_extensions:hasBoundingBox rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:bounding_box">0.25, 0.06, 0.08</uc1_knowledge_graph_extensions:hasBoundingBox>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_instance_1#shoe_A_1 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:convince_uc1/ontologies/uc1_instance_1#shoe_A_1">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Object"/>
+        <www:isAt rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#living_room_0"/>
+        <uc1_knowledge_graph_extensions:isAbove rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#hard_wood_floor_0"/>
+        <uc1_knowledge_graph_extensions:isNext rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#shoe_A_0"/>
+        <www:hasPose rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:pose">7.6, 2.45, 0.0, 0.0, 0.0, 0.52</www:hasPose>
+        <uc1_knowledge_graph_extensions:hasBoundingBox rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:bounding_box">0.25, 0.06, 0.08</uc1_knowledge_graph_extensions:hasBoundingBox>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_instance_1#sofa_0 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:convince_uc1/ontologies/uc1_instance_1#sofa_0">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Object"/>
+        <www:isAt rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#living_room_0"/>
+        <uc1_knowledge_graph_extensions:isAbove rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#hard_wood_floor_0"/>
+        <uc1_knowledge_graph_extensions:isBelow rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#vase_0"/>
+        <uc1_knowledge_graph_extensions:isNext rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#carpet_0"/>
+        <www:hasPose rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:pose">4.0, 1.0, 0.0, 0.0, 0.0, 0.0</www:hasPose>
+        <uc1_knowledge_graph_extensions:hasBoundingBox rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:bounding_box">6.0, 2.0, 1.0</uc1_knowledge_graph_extensions:hasBoundingBox>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_instance_1#user_home -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:convince_uc1/ontologies/uc1_instance_1#user_home">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Environment"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_instance_1#vase_0 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:convince_uc1/ontologies/uc1_instance_1#vase_0">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Object"/>
+        <www:isAt rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#living_room_0"/>
+        <uc1_knowledge_graph_extensions:isAbove rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#sofa_0"/>
+        <www:hasPose rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:pose">3.0, 1.5, 0.6, 0.0, 0.0, 0.0</www:hasPose>
+        <uc1_knowledge_graph_extensions:hasBoundingBox rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:bounding_box">0.15, 0.15, 0.25</uc1_knowledge_graph_extensions:hasBoundingBox>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi -->
+

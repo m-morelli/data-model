@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions/"
+     xml:base="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions">
+        <owl:imports rdf:resource="http://www.convince-knowledge-graph/1.0.0"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:bounding_box -->
+
+    <rdfs:Datatype rdf:about="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:bounding_box"/>
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:pose -->
+
+    <rdfs:Datatype rdf:about="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:pose"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#isAbove -->
+
+    <owl:ObjectProperty rdf:about="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#isAbove">
+        <rdfs:subPropertyOf rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#isRelatedTo"/>
+        <owl:inverseOf rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#isBelow"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Object"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Robot"/>
+        <rdfs:range rdf:resource="http://www.convince-knowledge-graph#Object"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#isBelow -->
+
+    <owl:ObjectProperty rdf:about="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#isBelow">
+        <rdfs:subPropertyOf rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#isRelatedTo"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Object"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Robot"/>
+        <rdfs:range rdf:resource="http://www.convince-knowledge-graph#Object"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#isConnectedTo -->
+
+    <owl:ObjectProperty rdf:about="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#isConnectedTo">
+        <rdfs:subPropertyOf rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#isRelatedTo"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Object"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Robot"/>
+        <rdfs:range rdf:resource="http://www.convince-knowledge-graph#Object"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#isNext -->
+
+    <owl:ObjectProperty rdf:about="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#isNext">
+        <rdfs:subPropertyOf rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#isRelatedTo"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Object"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Robot"/>
+        <rdfs:range rdf:resource="http://www.convince-knowledge-graph#Object"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#isRelatedTo -->
+
+    <owl:ObjectProperty rdf:about="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#isRelatedTo"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.convince-knowledge-graph#hasPose -->
+
+    <owl:DatatypeProperty rdf:about="http://www.convince-knowledge-graph#hasPose">
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#GeometricalEntity"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Person"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Robot"/>
+        <rdfs:range rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:pose"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#hasBoundingBox -->
+
+    <owl:DatatypeProperty rdf:about="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#hasBoundingBox">
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#GeometricalEntity"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Person"/>
+        <rdfs:domain rdf:resource="http://www.convince-knowledge-graph#Robot"/>
+        <rdfs:range rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:bounding_box"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.convince-knowledge-graph#GeometricalEntity -->
+
+    <owl:Class rdf:about="http://www.convince-knowledge-graph#GeometricalEntity"/>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#Object -->
+
+    <owl:Class rdf:about="http://www.convince-knowledge-graph#Object"/>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#Person -->
+
+    <owl:Class rdf:about="http://www.convince-knowledge-graph#Person"/>
+    
+
+
+    <!-- http://www.convince-knowledge-graph#Robot -->
+
+    <owl:Class rdf:about="http://www.convince-knowledge-graph#Robot"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi -->
+
