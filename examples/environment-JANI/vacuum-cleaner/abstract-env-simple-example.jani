@@ -42,8 +42,8 @@
             "y-coord": 1
         }
     ],
-    "obstacles": [],
+    "obstacles": [],    // there are no obstacles in this simple model
     "robots": [
-        "simple_robot"
+        "simple-robot"
     ]
 }

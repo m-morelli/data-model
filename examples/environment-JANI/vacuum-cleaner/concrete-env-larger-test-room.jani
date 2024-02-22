@@ -60,7 +60,7 @@
                     "radius": 0.3
                 },
                 "speed": 0.25,    // 25 cm/s
-                "direction": 5     // 5 degrees from x-axis
+                "direction": 2     // 2 rad from x-axis
             },
             {
                 "name": "cube",
@@ -83,7 +83,7 @@
                     "x-coord": 0.5,
                     "y-coord": 0.5
                 },
-                "direction": 10, // 10 degrees from x-axis
+                "direction": 3, // 3 rad from x-axis
                 "shape": {
                     "radius": 0.3,
                     "height": 0.2
