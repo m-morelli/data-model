@@ -11,7 +11,7 @@
     <onexit>
       <assign location="origin" expr="_event.origin" />
     </onexit>
-    <transition event="tickCall" target="startAlarm">
+    <transition event="tickCall" target="startAlarm" />
     <transition event="haltCall" target="halt" />
   </state>
 
@@ -24,7 +24,7 @@
 
 	<state id="startAlarm">
     <onentry>
-      <send event="AlarmCmp.sendAlarmCall" />
+      <send event="AlarmCmp.sendAlarmCall" target="AlarmCmp" />
     </onentry>
     <!-- External events received before 'sendAlarmReturn' are discarded -->
     <!-- but in this case we know that no event will be received -->
@@ -32,18 +32,6 @@
     <transition event="AlarmCmp.sendAlarmReturn" target="alarmSuccess" />
   </state>
 
-  <!-- This version of 'startAlarm' uses a blocking call in a script
-    -- but then how is 'AlarmCmp' executed?
-  	<state id="startAlarm">
-      <onentry>
-        <script>
-          AlarmCmp.sendAlarm();
-        </script>
-      </onentry>
-      <transition target="alarmSuccess" />
-    </state>
-    -->
-  
   <state id="alarmSuccess">
     <onentry>
       <send event="tickReturn" target_expr="origin">

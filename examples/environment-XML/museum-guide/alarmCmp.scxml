@@ -28,5 +28,3 @@
     <transition target="idle"/>
   </state>
 </scxml>
-
-
