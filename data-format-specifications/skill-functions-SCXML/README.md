@@ -8,7 +8,7 @@ Skills are specified as State Charts in SCXML format (see [W3C specification](ht
 - No <parallel> states
 - No <final> states
 - No <history> pseudo-states
-- No <script> executable elements (TODO: discuss with partners)
+- No <script> executable elements
 - No <cancel> executable elements
 - No <donedata> data
 - No <content> data

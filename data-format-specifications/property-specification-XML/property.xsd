@@ -22,14 +22,6 @@
 		</xsd:sequence>
 	</xsd:complexType>
 
-	<xsd:simpleType name="baseType">
-		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="bool"/>
-			<xsd:enumeration value="i32"/>
-			<xsd:enumeration value="float"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-
 	<xsd:simpleType name="commEndpoint">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="skill"/>
@@ -76,7 +68,7 @@
 			</xsd:element>
 		</xsd:sequence>
 		<xsd:attribute name="id" type="xsd:ID"/>
-		<xsd:attribute name="type" type="baseType"/>
+		<xsd:attribute name="type" type="baseDataType"/>
 	</xsd:complexType>
 
 	<xsd:complexType name="propertyType">
@@ -154,7 +146,7 @@
 
 	<xsd:group id="exprGroup">
 	  <xsd:choice>
-			<xsd:element name="const" type="xsd:integer"/>
+			<xsd:element name="const" type="baseDataType"/>
 			<xsd:element name="var">
 				<xsd:simpleType>
 					<xsd:attribute name="idref" type="xsd:IDREF"/>

@@ -5,45 +5,52 @@
 		</xsd:documentation>
 	</xsd:annotation>
 
-	<xsd:element name="skillList">
+	<xsd:element name="specification">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element name="skillDeclaration" type="skillDeclarationType" minoccurs="0" maxoccurs="unbounded">
-			</xsd:sequence>
-			<xsd:attribute name="taskPlan" type="xsd:IDREF"/>
-		</xsd:compelexType>
-	</xsd:element>
 
-	<xsd:element name="componentList">
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element name="componentDeclaration" type="componentDeclarationType" minoccurs="0" maxoccurs="unbounded">
-			</xsd:sequence>
-		</xsd:compelexType>
-	</xsd:element>
+				<xsd:element name="model">
+					<xsd:complexType>
+						<xsd:sequence>
 
-	<xsd:element name="datatypeList">
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element name="datatype" type="datatypeType" minoccurs="0" maxoccurs="unbounded">
-			</xsd:sequence>
-		</xsd:compelexType>
-	</xsd:element>
+							<xsd:element name="skillList">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="skillDeclaration" type="skillDeclarationType" minoccurs="0" maxoccurs="unbounded">
+									</xsd:sequence>
+									<xsd:attribute name="taskPlan" type="xsd:IDREF"/>
+								</xsd:compelexType>
+							</xsd:element>
 
-	<xsd:element name="interfaceList">
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element name="interface" type="interfaceType" minoccurs="0" maxoccurs="unbounded">
-			</xsd:sequence>
-		</xsd:compelexType>
-	</xsd:element>
+							<xsd:element name="componentList">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="componentDeclaration" type="componentDeclarationType" minoccurs="0" maxoccurs="unbounded">
+									</xsd:sequence>
+								</xsd:compelexType>
+							</xsd:element>
 
-	<xsd:element name="propertyList">
-		<xsd:complexType>
+							<xsd:element name="types">
+								<xsd:attribute name="path" type="xsd:URI">
+							</xsd:element>
+
+							<xsd:element name="interfaceList">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="interface" type="interfaceType" minoccurs="0" maxoccurs="unbounded">
+									</xsd:sequence>
+								</xsd:compelexType>
+							</xsd:element>
+	
+						<xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+
+				<xsd:element name="properties">
+					<xsd:attribute name="path" type="xsd:URI">
+				</xsd:element>
 			<xsd:sequence>
-				<xsd:element name="property" type="propertyType" minoccurs="0" maxoccurs="unbounded">
-			</xsd:sequence>
-		</xsd:compelexType>
+		</xsd:complexType>
 	</xsd:element>
 
 	<xsd:complexType name="skillDeclarationType">
@@ -120,7 +127,8 @@
 
 	<xsd:simpleType name="ROS2interfaces">
 		<xsd:restriction>
-			<xsd:enumeration value="service"/>
+			<xsd:enumeration value="sync-service"/>
+			<xsd:enumeration value="sync-service"/>
 			<xsd:enumeration value="topic"/>
 			<xsd:enumeration value="action"/>
 		</xsd:restriction>
