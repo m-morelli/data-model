@@ -1,0 +1,14 @@
+<root BTCPP_format="3.8">
+    <BehaviorTree>
+        <ReactiveFallback>
+            <TopicBtCondition name="at_goal" />
+            <Sequence>
+                <ServiceBtCondition name="can_go_fwd" />
+                <Inverter>
+                    <ActionIntBtAction name="perform_action" data="2" />
+                </Inverter>
+            </Sequence>
+            <ActionIntBtAction name="perform_action" data="1" />
+        </ReactiveFallback>
+    </BehaviorTree>
+</root>
