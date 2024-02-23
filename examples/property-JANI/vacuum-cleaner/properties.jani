@@ -1,4 +1,4 @@
-// These examples, except for the first one, which fits to the coherent simple example for this repp, are taken from Deliverable D4.2 on the specification language of CONVINCE
+// These examples, except for the first one, which fits to the coherent simple example for this repo, are taken from Deliverable D4.2 on the specification language of CONVINCE
 
 {
 "properties": [
@@ -48,6 +48,9 @@
                         "upper": "x" 
                     }
                 }
+            },
+            "states": {
+                "op": "initial"
             }
         }
     },
