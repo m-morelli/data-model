@@ -1,21 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" name="at_goal.scxml" initial="waiting_for_msg">
+    <datamodel>
+        <data id="pose_x" type="float">
+            <subscriber topic="pose" type="geometry_msgs/msg/PoseStamped" />
+            <mapping path="pose.position.x" />
+        </data>
+        <data id="pose_y" type="float">
+            <subscriber topic="pose" type="geometry_msgs/msg/PoseStamped" />
+            <mapping path="pose.position.y" />
+        </data>
+        <data id="at_goal" type="bool">
+            <publisher topic="at_goal" type="std_msgs/msg/Bool" />
+            <mapping path="data" />
+        </data>
+    </datamodel>
+
     <state id="waiting_for_msg">
-        <transition type="external" event="received_eq" target="at_goal">
-            
-        </transition>
-        <transition type="external" event="received_neq" target="not_at_goal">
-            
-        </transition>
+        <transition event="subscriber_pose" target="at_goal" cond="pose_x == 1.0 && pose_y == 1.0" />
+        <transition event="subscriber_pose" target="not_at_goal" cond="pose_x != 1.0 || pose_y != 1.0" />
     </state>
+
     <state id="at_goal">
-        <transition type="external" event="send_true" target="waiting_for_msg">
-            
-        </transition>
+        <transition target="waiting_for_msg" />
+        <onentry>
+            <send event="at_goal">
+                <var name="at_goal" expr="true" />
+            </send>
+        </onentry>
     </state>
+
     <state id="not_at_goal">
-        <transition type="external" event="send_false" target="waiting_for_msg">
-            
-        </transition>
+        <transition target="waiting_for_msg" />
+        <onentry>
+            <send event="publisher_at_goal">
+                <var name="at_goal" expr="false" />
+            </send>
+        </onentry>
     </state>
 </scxml>

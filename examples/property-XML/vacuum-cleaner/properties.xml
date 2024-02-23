@@ -4,7 +4,7 @@
       <subscriber topic="pose" type="geometry_msgs/msg/PoseStamped" />
       <mapping path="pose.position.x" />
     </data>
-     <data id="pose_y" type="float">
+    <data id="pose_y" type="float">
       <subscriber topic="pose" type="geometry_msgs/msg/PoseStamped" />
       <mapping path="pose.position.y" />
     </data>
