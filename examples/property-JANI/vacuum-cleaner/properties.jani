@@ -1,51 +1,153 @@
 // These examples, except for the first one, which fits to the coherent simple example for this repo, are taken from Deliverable D4.2 on the specification language of CONVINCE
 
 {
-"properties": [
-    // Eventually the goal position in the upper right corner is reached, which is indicated by setting the goal variable to true
-    {
-        "name": "eventually-reach-goal",
-        "expression": {
-            "op": "filter",
-            "fun": "max",
-            "values": {
-                "op": "Pmax",
-                "exp": {
-                    "op": "F",
-                    "exp": "goal"
-                }
-            },
-            "states": {
-                "op": "initial"
-            }
-        }
-    },
-    //  Starting from a predefined area with a radius R_max around the dock, docking is finished successfully after x seconds.
-    {
-        "name": "dock-fast",
-        "expression": {
-            "op": "filter",
-            "fun": "max",
-            "values":{
-                "op": "Pmax",
-                "exp": {
-                    "op": "F",
+    "properties": [
+        // Eventually the goal position in the upper right corner is reached, which is indicated by setting the goal variable to true
+        {
+            "name": "goal-reached",
+            "expression": {
+                "op": "filter",
+                "fun": "max",
+                "values":{
+                    "op": "Pmax",
                     "exp": {
-                        "op": "⇒", 
+                        "op": "F",
+                        "exp": {
+                            "op": "∧",
+                            "left":{
+                                "op": "=",
+                                "left": "robots[0].position.x-coord",
+                                "right": 1
+                            },
+                            "right": {
+                                "op": "=",
+                                "left": "robots[0].position.y-coord",
+                                "right": 1
+                            } 
+                        }
+                    }
+                },
+                "states": {
+                    "op": "initial"
+                }
+            }
+        },
+        //  Starting from a predefined area with a radius R_max around the dock, docking is finished successfully after x seconds.
+        {
+            "name": "dock-fast",
+            "expression": {
+                "op": "filter",
+                "fun": "max",
+                "values":{
+                    "op": "Pmax",
+                    "exp": {
+                        "op": "F",
+                        "exp": {
+                            "op": "⇒", 
+                            "left": {
+                                "op": "<=",
+                                "left": "r",
+                                "right": "R_max"
+                            },
+                            "right": {
+                                "op": "=",
+                                "left": "docked",
+                                "right": true
+                            } 
+                        },  
+                        "step-bounds": {
+                            "lower": 0,
+                            "upper": "x" 
+                        }
+                    }
+                },
+                "states": {
+                    "op": "initial"
+                }
+            }
+        },
+
+        // As long as the dock has not been reached successfully, try to find a way to get there. 
+        {
+            "name": "arrive-dock",
+            "expression": {
+                "op": "filter",
+                "fun": "max",
+                "values": {
+                    "op": "G",
+                    "exp": {
+                        "op": "U",
                         "left": {
-                            "op": "<=",
-                            "left": "r",
-                            "right": "R_max"
+                            "op": "=",
+                            "left": "find-dock",
+                            "right": true
                         },
                         "right": {
                             "op": "=",
                             "left": "docked",
                             "right": true
-                        } 
-                    },  
-                    "step-bounds": {
-                        "lower": 0,
-                        "upper": "x" 
+                        }
+                    }
+                }
+            },
+            "states": {
+                "op": "initial"
+            }
+        },
+
+
+        // As long as it is possible to move straight along the edge, shimmy along the edge.
+        {
+            "name": "shimmy-edges",
+            "expression": {
+                "op": "filter",
+                "fun": "max",
+                "values": {
+                    "op": "G",
+                    "exp": {
+                        "op": "U",
+                        "left": {
+                            "op": "=",
+                            "left": "shimmy",
+                            "right": true
+                        },
+                        "right": {
+                            "op": "=",
+                            "left": "bumped",
+                            "right": true
+                        }
+                    }
+                }
+            },
+            "states": {
+                "op": "initial"
+            }
+        },
+
+        // If you can not find a way to proceed after y seconds, continue at another side of the room.
+        {
+            "name": "move-other-side",
+            "expression": {
+                "op": "filter",
+                "fun": "max",
+                "values": {
+                    "op": "G",
+                    "exp": {
+                        "op": "U",
+                        "step-bounds":{
+                            "lower": 0,
+                            "upper": "y"
+                        },
+                        "left": {
+                            "op": "=",
+                            "left": "find-dock",
+                            "right": true
+                        },
+                        "right": {
+                            "op": "=",
+                            "left": "go_to_other_side",
+                            "right": true
+                        }
                     }
                 }
             },
@@ -53,95 +155,5 @@
                 "op": "initial"
             }
         }
-    },
-
-    // As long as the dock has not been reached successfully, try to find a way to get there. 
-    {
-        "name": "find-dock",
-        "expression": {
-            "op": "filter",
-            "fun": "max",
-            "values": {
-                "op": "G",
-                "exp": {
-                    "op": "U",
-                    "left": {
-                        "op": "=",
-                        "left": "find-dock",
-                        "right": true
-                    },
-                    "right": {
-                        "op": "=",
-                        "left": "docked",
-                        "right": true
-                    }
-                }
-            }
-        },
-        "states": {
-            "op": "initial"
-        }
-    },
-
-
-    // As long as it is possible to move straight along the edge, shimmy along the edge.
-    {
-        "name": "shimmy-edges",
-        "expression": {
-            "op": "filter",
-            "fun": "max",
-            "values": {
-                "op": "G",
-                "exp": {
-                    "op": "U",
-                    "left": {
-                        "op": "=",
-                        "left": "shimmy",
-                        "right": true
-                    },
-                    "right": {
-                        "op": "=",
-                        "left": "bumped",
-                        "right": true
-                    }
-                }
-            }
-        },
-        "states": {
-            "op": "initial"
-        }
-    },
-
-    // If you can not find a way to proceed after y seconds, continue at another side of the room.
-    {
-        "name": "move-other-side",
-        "expression": {
-            "op": "filter",
-            "fun": "max",
-            "values": {
-                "op": "G",
-                "exp": {
-                    "op": "U",
-                    "step-bounds":{
-                        "lower": 0,
-                        "upper": "y"
-                    },
-                    "left": {
-                        "op": "=",
-                        "left": "find-dock",
-                        "right": true
-                    },
-                    "right": {
-                        "op": "=",
-                        "left": "go_to_other_side",
-                        "right": true
-                    }
-                }
-            }
-        },
-        "states": {
-            "op": "initial"
-        }
-    }
-]
+    ]
 }

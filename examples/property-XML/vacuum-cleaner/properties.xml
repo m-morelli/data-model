@@ -19,17 +19,53 @@
     </data>
   </datamodel>
 
-  <property propid="1">
+  <property propid="goal-reached">
+    <always>
+      <eventually>
+        <prop refid="at_goal">
+      </eventually>
+    </always>
+  </property>
+
+  <property propid="dock-fast">
     <always>
       <implies>
         <leq>
-          <var name="level"/>
-          <const>30</const>
+          <var name="R_max"/>
+          <var name="r"/>
         </leq>
-        <eventually within="5">
-          <prop refid="alarm">
+        <eventually within="x">
+          <prop refid="docked">
         </eventually>
       </implies>
     </always>
   </property>
+
+  <property propid="arrive-dock">
+    <always>
+      <until>
+        <prop refid="find-dock">
+        <prop refid="docked">
+      </until>
+    </always>
+  </property>
+
+  <property propid="shimmy-edges">
+    <always>
+      <until>
+        <prop refid="shimmy">
+        <prop refid="bumped">
+      </until>
+    </always>
+  </property>
+
+  <property propid="move-other-side">
+    <always>
+      <until within="y">
+        <prop refid="find-dock">
+        <prop refid="go_to_other_side">
+      </until>
+    </always>
+  </property>
+
 </properties>

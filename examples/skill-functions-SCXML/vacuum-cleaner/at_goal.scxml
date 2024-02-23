@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" name="at_goal.scxml" initial="waiting for msg">
-    <state id="waiting for msg">
+<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" name="at_goal.scxml" initial="waiting_for_msg">
+    <state id="waiting_for_msg">
         <transition type="external" event="received_eq" target="at_goal">
             
         </transition>
@@ -9,12 +9,12 @@
         </transition>
     </state>
     <state id="at_goal">
-        <transition type="external" event="send_true" target="waiting for msg">
+        <transition type="external" event="send_true" target="waiting_for_msg">
             
         </transition>
     </state>
     <state id="not_at_goal">
-        <transition type="external" event="send_false" target="waiting for msg">
+        <transition type="external" event="send_false" target="waiting_for_msg">
             
         </transition>
     </state>
