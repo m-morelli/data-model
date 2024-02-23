@@ -1,0 +1,23 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from run_bt/srv/Condition.srv
+// generated code does not contain a copyright notice
+
+
+module run_bt {
+  module srv {
+    @verbatim (language="comment", text=
+      "Request")
+    struct Condition_Request {
+      uint8 structure_needs_at_least_one_member;
+    };
+    module Condition_Response_Constants {
+      const uint8 BT_SUCCESS = 0;
+      const uint8 BT_FAILURE = 1;
+    };
+    @verbatim (language="comment", text=
+      "Result")
+    struct Condition_Response {
+      uint8 result;
+    };
+  };
+};

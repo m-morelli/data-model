@@ -1,0 +1,24 @@
+// generated from rosidl_adapter/resource/action.idl.em
+// with input from run_bt/action/ActionInt.action
+// generated code does not contain a copyright notice
+
+
+module run_bt {
+  module action {
+    @verbatim (language="comment", text=
+      "Request")
+    struct ActionInt_Goal {
+      uint8 data;
+    };
+    @verbatim (language="comment", text=
+      "Result")
+    struct ActionInt_Result {
+      uint8 structure_needs_at_least_one_member;
+    };
+    @verbatim (language="comment", text=
+      "Feedback")
+    struct ActionInt_Feedback {
+      uint8 structure_needs_at_least_one_member;
+    };
+  };
+};

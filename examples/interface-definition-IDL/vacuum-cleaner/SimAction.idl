@@ -1,0 +1,29 @@
+// generated from rosidl_adapter/resource/action.idl.em
+// with input from square_discrete_robot_msgs/action/SimAction.action
+// generated code does not contain a copyright notice
+
+
+module square_discrete_robot_msgs {
+  module action {
+    module SimAction_Goal_Constants {
+      const uint8 ROTATE_LEFT = 0;
+      const uint8 ROTATE_RIGHT = 1;
+      const uint8 MOVE_FORWARD = 2;
+    };
+    @verbatim (language="comment", text=
+      "Request")
+    struct SimAction_Goal {
+      uint8 action;
+    };
+    @verbatim (language="comment", text=
+      "Result")
+    struct SimAction_Result {
+      boolean success;
+    };
+    @verbatim (language="comment", text=
+      "Feedback")
+    struct SimAction_Feedback {
+      uint8 structure_needs_at_least_one_member;
+    };
+  };
+};
