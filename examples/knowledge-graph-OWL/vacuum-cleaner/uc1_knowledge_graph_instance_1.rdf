@@ -165,6 +165,18 @@
     
 
 
+    <!-- urn:absolute:convince_uc1/ontologies/uc1_instance_1#vacuum_cleaner_1 -->
+
+    <owl:NamedIndividual rdf:about="urn:absolute:convince_uc1/ontologies/uc1_instance_1#vacuum_cleaner_1">
+        <rdf:type rdf:resource="http://www.convince-knowledge-graph#Robot"/>
+        <www:isAt rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#living_room_0"/>
+        <uc1_knowledge_graph_extensions:isBelow rdf:resource="urn:absolute:convince_uc1/ontologies/uc1_instance_1#sofa_0"/>
+        <www:hasPose rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:pose">5.0, 1.0, 0.0, 0.0, 0.0, 1.7</www:hasPose>
+        <uc1_knowledge_graph_extensions:hasBoundingBox rdf:datatype="urn:absolute:convince_uc1/ontologies/uc1_knowledge_graph_extensions#uc1_geometry:bounding_box">0.3, 0.3, 0.12</uc1_knowledge_graph_extensions:hasBoundingBox>
+    </owl:NamedIndividual>
+    
+
+
     <!-- urn:absolute:convince_uc1/ontologies/uc1_instance_1#vase_0 -->
 
     <owl:NamedIndividual rdf:about="urn:absolute:convince_uc1/ontologies/uc1_instance_1#vase_0">
