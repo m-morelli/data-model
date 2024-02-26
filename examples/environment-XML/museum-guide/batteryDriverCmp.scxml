@@ -4,7 +4,7 @@
 	name="BatteryDriverCmp"
 	xmlns="http://www.w3.org/2005/07/scxml">
 	<datamodel>
-		<data id="origin" type="URI">
+		<data id="origin" type="URI"/>
 		<data id="level" type="i32" expr="0" />
 		<data id="notify" type="bool" expr="false" />
 	</datamodel>
@@ -32,7 +32,7 @@
 				<assign location="level" expr="level - 1" />
 				<assign location="notify" expr="true" />
 			</if>
-			<send event="drainReturn" target_expr="origin" />
+			<send event="drainReturn" targetexpr="origin" />
 		</onentry>
 		<transition target="idle" />
 	</state>
@@ -48,5 +48,3 @@
 		<transition target="idle" />
 	</state>
 </scxml>
-
-

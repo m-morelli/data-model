@@ -8,16 +8,16 @@
   </datamodel>
 
   <state id="idle">
+    <transition event="tickCall" target="startAlarm" />
+    <transition event="haltCall" target="halt" />
     <onexit>
       <assign location="origin" expr="_event.origin" />
     </onexit>
-    <transition event="tickCall" target="startAlarm" />
-    <transition event="haltCall" target="halt" />
   </state>
 
   <state id="halt">
     <onentry>
-      <send event="haltReturn" target_expr="origin" />
+      <send event="haltReturn" targetexpr="origin" />
     </onentry>
     <transition target="idle" />
   </state>
@@ -34,7 +34,7 @@
 
   <state id="alarmSuccess">
     <onentry>
-      <send event="tickReturn" target_expr="origin">
+      <send event="tickReturn" targetexpr="origin">
         <param name="result" expr="SUCCESS" />
       </send>
     </onentry>

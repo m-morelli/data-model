@@ -5,7 +5,7 @@
   xmlns="http://www.w3.org/2005/07/scxml">
   <datamodel>
     <!-- <data name="var" type="var_type"/> -->
-		<data id="origin" type="URI">
+		<data id="origin" type="URI"/>
   </datamodel>
 
   <state id="idle">
@@ -19,7 +19,7 @@
 
   <state id="alarm">
     <onentry>
-      <send event="sendAlarmReturn" target_expr="origin">
+      <send event="sendAlarmReturn" targetexpr="origin">
         <!-- Return parameters go here, as key-value -->
         <!-- <param expr="1" name="return_param"/> -->
       </send>
