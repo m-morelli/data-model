@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="BehaviorTree">
+    <BehaviorTree ID="BehaviorTree">
+        <Sequence>
+            <SubTreePlus ID="PickObject" __autoremap="true" robot="ur_ur10e" target="A50_1"/>
+            <SubTreePlus ID="PlaceObject" __autoremap="true" robot="ur_ur10e" target="right_side"/>
+        </Sequence>
+    </BehaviorTree>
+    <BehaviorTree ID="PickObject">
+        <Sequence name="MainSequence">
+            <Action ID="OpenGripper" name="" robot="{robot}"/>
+            <Action ID="ComputePath" name="" path="{path}" robot="{robot}" target="{target}"/>
+            <Action ID="FollowPath" name="" path="{path}" robot="{robot}" />
+            <Action ID="CloseGripper" name="" robot="{robot}" />
+            <Action ID="AttachObject" name="" robot="{robot}" />
+        </Sequence>
+    </BehaviorTree>
+    <BehaviorTree ID="PlaceObject">
+        <Sequence name="MainSequence">
+            <Action ID="ComputePath" name="" path="{path}" robot="{robot}" target="{target}"/>
+            <Action ID="FollowPath" name="" path="{path}" robot="{robot}" />
+            <Action ID="OpenGripper" name="" robot="{robot}" />
+            <Action ID="DetachObject" name="" robot="{robot}" />
+        </Sequence>
+    </BehaviorTree>
+</root>

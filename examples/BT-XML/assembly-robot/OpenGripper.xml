@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ASCII"?>
+<root main_tree_to_execute="OpenGripper">
+  <BehaviorTree ID="OpenGripper">
+    <Sequence name="OpenGripperMainSequence">
+      <Action name="SetGripperDistance Open"  ID="SetGripperDistance" robot="{robot_id}" distance="0.0"/>
+    </Sequence>
+  </BehaviorTree>
+</root>
