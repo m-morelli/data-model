@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" name="at_goal.scxml" initial="waiting_for_msg">
+    <datamodel>
+        <data id="pose_x" type="float">
+            <publisher topic="pose" type="geometry_msgs/msg/PoseStamped" />
+            <mapping path="pose.position.x" />
+        </data>
+        <data id="pose_y" type="float">
+            <publisher topic="pose" type="geometry_msgs/msg/PoseStamped" />
+            <mapping path="pose.position.y" />
+        </data>
+        <data id="pose_yaw" type="float">
+            <publisher topic="pose" type="geometry_msgs/msg/PoseStamped" />
+            <mapping path="pose.orientation.z" />
+        </data>
+        <data id="perform_action_request" type="int">
+            <action_server_req action="perform_action" type="run_bt/action/ActionInt" />
+            <mapping path="data" />
+            <!-- 
+                0 = ROTATE_LEFT
+                1 = ROTATE_RIGHT
+                2 = MOVE_FORWARD
+            -->
+        </data>
+        <data id="perform_action_result" type="bool">
+            <action_server_res action="perform_action" type="run_bt/action/ActionInt" />
+            <mapping path="success" />
+        </data>
+    </datamodel>
+
+    <!-- 0, 0 bottom left -->
+    <state id="cell_0_0_0"> <!-- orientation E -->
+        <on_entry>
+            <send event="pose">
+                <var name="pose_x" expr="0.0" />
+                <var name="pose_y" expr="0.0" />
+                <var name="pose_yaw" expr="0.0" />
+            </send>
+        </on_entry>
+        <transition event="perform_action" target="cell_0_0_pi/2" cond="perform_action_request == 0">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_0_0_-pi/2" cond="perform_action_request == 1">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_1_0_0" cond="perform_action_request == 2">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+    </state>
+    <state id="cell_0_0_pi/2"> <!-- orientation N -->
+        <on_entry>
+            <send event="pose">
+                <var name="pose_x" expr="0.0" />
+                <var name="pose_y" expr="0.0" />
+                <var name="pose_yaw" expr="1.57079632679" />
+            </send>
+        </on_entry>
+        <transition event="perform_action" target="cell_0_0_pi" cond="perform_action_request == 0">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_0_0_0" cond="perform_action_request == 1">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_0_1_pi/2" cond="perform_action_request == 2">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+    </state>
+    <state id="cell_0_0_pi"> <!-- orientation W -->
+        <on_entry>
+            <send event="pose">
+                <var name="pose_x" expr="0.0" />
+                <var name="pose_y" expr="0.0" />
+                <var name="pose_yaw" expr="3.14159265359" />
+            </send>
+        </on_entry>
+        <transition event="perform_action" target="cell_0_0_-pi/2" cond="perform_action_request == 0">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_0_0_pi/2" cond="perform_action_request == 1">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_0_0_pi" cond="perform_action_request == 2">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="false" /> <!-- can not move into wall -->
+            </send>
+        </transition>
+    </state>
+    <state id="cell_0_0_-pi/2"> <!-- orientation S -->
+        <on_entry>
+            <send event="pose">
+                <var name="pose_x" expr="0.0" />
+                <var name="pose_y" expr="0.0" />
+                <var name="pose_yaw" expr="-1.57079632679" />
+            </send>
+        </on_entry>
+        <transition event="perform_action" target="cell_0_0_0" cond="perform_action_request == 0">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_0_0_pi" cond="perform_action_request == 1">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_0_0_-pi/2" cond="perform_action_request == 2">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="false" /> <!-- can not move into wall -->
+            </send>
+        </transition>
+    </state>
+
+    <!-- 1, 0 bottom right -->
+    <state id="cell_1_0_0"> <!-- orientation E -->
+        <on_entry>
+            <send event="pose">
+                <var name="pose_x" expr="1.0" />
+                <var name="pose_y" expr="0.0" />
+                <var name="pose_yaw" expr="0.0" />
+            </send>
+        </on_entry>
+        <transition event="perform_action" target="cell_1_0_pi/2" cond="perform_action_request == 0">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_1_0_-pi/2" cond="perform_action_request == 1">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_1_0_0" cond="perform_action_request == 2">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="false" /> <!-- can not move into wall -->
+            </send>
+        </transition>
+    </state>
+    <state id="cell_1_0_pi/2"> <!-- orientation N -->
+        <on_entry>
+            <send event="pose">
+                <var name="pose_x" expr="1.0" />
+                <var name="pose_y" expr="0.0" />
+                <var name="pose_yaw" expr="1.57079632679" />
+            </send>
+        </on_entry>
+        <transition event="perform_action" target="cell_1_0_pi" cond="perform_action_request == 0">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_1_0_0" cond="perform_action_request == 1">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_1_1_pi/2" cond="perform_action_request == 2">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+    </state>
+    <state id="cell_1_0_pi"> <!-- orientation W -->
+        <on_entry>
+            <send event="pose">
+                <var name="pose_x" expr="1.0" />
+                <var name="pose_y" expr="0.0" />
+                <var name="pose_yaw" expr="3.14159265359" />
+            </send>
+        </on_entry>
+        <transition event="perform_action" target="cell_1_0_-pi/2" cond="perform_action_request == 0">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_1_0_pi/2" cond="perform_action_request == 1">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_0_0_pi" cond="perform_action_request == 2">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+    </state>
+    <state id="cell_1_0_-pi/2"> <!-- orientation S -->
+        <on_entry>
+            <send event="pose">
+                <var name="pose_x" expr="1.0" />
+                <var name="pose_y" expr="0.0" />
+                <var name="pose_yaw" expr="-1.57079632679" />
+            </send>
+        </on_entry>
+        <transition event="perform_action" target="cell_1_0_0" cond="perform_action_request == 0">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_1_0_pi" cond="perform_action_request == 1">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_1_0_-pi/2" cond="perform_action_request == 2">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="false" /> <!-- can not move into wall -->
+            </send>
+        </transition>
+    </state>
+
+    <!-- 0, 1 top left -->
+    <state id="cell_0_1_0"> <!-- orientation E -->
+        <on_entry>
+            <send event="pose">
+                <var name="pose_x" expr="0.0" />
+                <var name="pose_y" expr="1.0" />
+                <var name="pose_yaw" expr="0.0" />
+            </send>
+        </on_entry>
+        <transition event="perform_action" target="cell_0_1_pi/2" cond="perform_action_request == 0">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_0_1_-pi/2" cond="perform_action_request == 1">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_1_1_0" cond="perform_action_request == 2">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+    </state>
+    <state id="cell_0_1_pi/2"> <!-- orientation N -->
+        <on_entry>
+            <send event="pose">
+                <var name="pose_x" expr="0.0" />
+                <var name="pose_y" expr="1.0" />
+                <var name="pose_yaw" expr="1.57079632679" />
+            </send>
+        </on_entry>
+        <transition event="perform_action" target="cell_0_1_pi" cond="perform_action_request == 0">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_0_1_0" cond="perform_action_request == 1">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_0_1_pi/2" cond="perform_action_request == 2">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="false" /> <!-- can not move into wall -->
+            </send>
+        </transition>
+    </state>
+    <state id="cell_0_1_pi"> <!-- orientation W -->
+        <on_entry>
+            <send event="pose">
+                <var name="pose_x" expr="0.0" />
+                <var name="pose_y" expr="1.0" />
+                <var name="pose_yaw" expr="3.14159265359" />
+            </send>
+        </on_entry>
+        <transition event="perform_action" target="cell_0_1_-pi/2" cond="perform_action_request == 0">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_0_1_pi/2" cond="perform_action_request == 1">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_0_1_pi" cond="perform_action_request == 2">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="false" /> <!-- can not move into wall -->
+            </send>
+        </transition>
+    </state>
+    <state id="cell_0_1_-pi/2"> <!-- orientation S -->
+        <on_entry>
+            <send event="pose">
+                <var name="pose_x" expr="0.0" />
+                <var name="pose_y" expr="1.0" />
+                <var name="pose_yaw" expr="-1.57079632679" />
+            </send>
+        </on_entry>
+        <transition event="perform_action" target="cell_0_1_0" cond="perform_action_request == 0">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_0_1_pi" cond="perform_action_request == 1">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_0_0_-pi/2" cond="perform_action_request == 2">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+    </state>
+
+    <!-- 1, 1 top right -->
+    <state id="cell_1_1_0"> <!-- orientation E -->
+        <on_entry>
+            <send event="pose">
+                <var name="pose_x" expr="1.0" />
+                <var name="pose_y" expr="1.0" />
+                <var name="pose_yaw" expr="0.0" />
+            </send>
+        </on_entry>
+        <transition event="perform_action" target="cell_1_1_pi/2" cond="perform_action_request == 0">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_1_1_-pi/2" cond="perform_action_request == 1">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_1_1_0" cond="perform_action_request == 2">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="false" /> <!-- can not move into wall -->
+            </send>
+        </transition>
+    </state>
+    <state id="cell_1_1_pi/2"> <!-- orientation N -->
+        <on_entry>
+            <send event="pose">
+                <var name="pose_x" expr="1.0" />
+                <var name="pose_y" expr="1.0" />
+                <var name="pose_yaw" expr="1.57079632679" />
+            </send>
+        </on_entry>
+        <transition event="perform_action" target="cell_1_1_pi" cond="perform_action_request == 0">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_1_1_0" cond="perform_action_request == 1">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_1_1_pi/2" cond="perform_action_request == 2">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="false" /> <!-- can not move into wall -->
+            </send>
+        </transition>
+    </state>
+    <state id="cell_1_1_pi"> <!-- orientation W -->
+        <on_entry>
+            <send event="pose">
+                <var name="pose_x" expr="1.0" />
+                <var name="pose_y" expr="1.0" />
+                <var name="pose_yaw" expr="3.14159265359" />
+            </send>
+        </on_entry>
+        <transition event="perform_action" target="cell_1_1_-pi/2" cond="perform_action_request == 0">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_1_1_pi/2" cond="perform_action_request == 1">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_0_1_pi" cond="perform_action_request == 2">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+    </state>
+    <state id="cell_1_1_-pi/2"> <!-- orientation S -->
+        <on_entry>
+            <send event="pose">
+                <var name="pose_x" expr="1.0" />
+                <var name="pose_y" expr="1.0" />
+                <var name="pose_yaw" expr="-1.57079632679" />
+            </send>
+        </on_entry>
+        <transition event="perform_action" target="cell_1_1_0" cond="perform_action_request == 0">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_1_1_pi" cond="perform_action_request == 1">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+        <transition event="perform_action" target="cell_1_0_-pi/2" cond="perform_action_request == 2">
+            <send event="action_perform_action_result">
+                <var name="perform_action_result" expr="true" />
+            </send>
+        </transition>
+    </state>
+    
+</scxml>
