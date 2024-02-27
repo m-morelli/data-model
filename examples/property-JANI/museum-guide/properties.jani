@@ -1,0 +1,40 @@
+{
+	"properties": [
+        // It is always the case that if the level of the battery is
+		// below 30 units an alarm will sound within 5 seconds
+        {
+		"name": "alarm-follows-battery-low",
+        	"expression": {
+                "op": "filter",
+                "fun": "max",
+                "values":{
+					"op": "G",
+                    	"exp": {
+                        	"op": "impl",
+					       	"left": {
+			  		       	    "exp": {
+                            		"op": "<=",
+                            		"left": "level"
+                            		"right": 30
+			  				    }
+                        	}
+							"right": {
+			  				 	"exp": {
+                            		"op": "F" ,
+                            			"exp": {
+			      					       "op": "="
+			      					       "left": "alarm"
+                              				"right": true
+								       	},
+							 			"step-bounds": {
+		        				 		    "lower": 0,
+									    	"upper": 5
+									    }
+                    			}
+							}
+               			}
+            		}
+        		}
+		}
+    ]
+}

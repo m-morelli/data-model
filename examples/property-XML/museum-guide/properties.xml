@@ -19,7 +19,7 @@
     </data>
   </datamodel>
 
-  <property propid="1">
+  <property propid="alarm-follows-battery-low">
     <always>
       <implies>
         <leq>
