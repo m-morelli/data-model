@@ -63,7 +63,7 @@
 
     <owl:NamedIndividual rdf:about="urn:absolute:convince_uc3/ontologies/uc3_instance_1#battery_0">
         <rdf:type rdf:resource="urn:absolute:convince_uc3/ontologies/uc3_instance_1#Battery"/>
-        <www:isPartOf rdf:resource="urn:absolute:convince_uc3/ontologies/uc3_instance_1ste/ontologies/2024/1/untitled-ontology-4#R1"/>
+        <www:isPartOf rdf:resource="urn:absolute:convince_uc3/ontologies/uc3_instance_1#R1"/>
         <www:hasName>battery 0</www:hasName>
         <uc3_instance_1:hasLevel rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">100</uc3_instance_1:hasLevel>
     </owl:NamedIndividual>
@@ -74,7 +74,7 @@
 
     <owl:NamedIndividual rdf:about="urn:absolute:convince_uc3/ontologies/uc3_instance_1#first_floor">
         <rdf:type rdf:resource="http://www.convince-knowledge-graph#Area"/>
-        <www:isSectionOf rdf:resource="urn:absolute:convince_uc3/ontologies/uc3_instance_1ste/ontologies/2024/1/untitled-ontology-4#palazzo_madama"/>
+        <www:isSectionOf rdf:resource="urn:absolute:convince_uc3/ontologies/uc3_instance_1#palazzo_madama"/>
         <www:hasName>first floor</www:hasName>
     </owl:NamedIndividual>
     
@@ -90,9 +90,9 @@
     
 
 
-    <!-- urn:absolute:convince_uc3/ontologies/uc3_instance_1ste/ontologies/2024/1/untitled-ontology-4#R1 -->
+    <!-- urn:absolute:convince_uc3/ontologies/uc3_instance_1#R1 -->
 
-    <owl:NamedIndividual rdf:about="urn:absolute:convince_uc3/ontologies/uc3_instance_1ste/ontologies/2024/1/untitled-ontology-4#R1">
+    <owl:NamedIndividual rdf:about="urn:absolute:convince_uc3/ontologies/uc3_instance_1#R1">
         <rdf:type rdf:resource="http://www.convince-knowledge-graph#Robot"/>
         <www:isAt rdf:resource="urn:absolute:convince_uc3/ontologies/uc3_instance_1#start_poi"/>
         <www:hasName>R1</www:hasName>
@@ -100,9 +100,9 @@
     
 
 
-    <!-- urn:absolute:convince_uc3/ontologies/uc3_instance_1ste/ontologies/2024/1/untitled-ontology-4#palazzo_madama -->
+    <!-- urn:absolute:convince_uc3/ontologies/uc3_instance_1#palazzo_madama -->
 
-    <owl:NamedIndividual rdf:about="urn:absolute:convince_uc3/ontologies/uc3_instance_1ste/ontologies/2024/1/untitled-ontology-4#palazzo_madama">
+    <owl:NamedIndividual rdf:about="urn:absolute:convince_uc3/ontologies/uc3_instance_1#palazzo_madama">
         <rdf:type rdf:resource="http://www.convince-knowledge-graph#Map"/>
     </owl:NamedIndividual>
 </rdf:RDF>
