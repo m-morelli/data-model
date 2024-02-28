@@ -1,0 +1,41 @@
+<scxml
+	initial="idle"
+	version="1.0"
+	name="DigitalTwinCmp"
+	xmlns="http://www.w3.org/2005/07/scxml">
+	<datamodel>
+		<data id="origin" type="URI"/>
+		<data name="target" type="string" />
+		<data name="path" type="trajectory_msgs/msg/JointTrajectory" />
+    <data id="is_ok" expr="false" />
+	</datamodel>
+	
+	<state id="idle">
+		<transition event="compute_pathCall" target="compute_path_request">
+			<assign location="target" expr="_event.data.request.target" />
+			<assign location="origin" expr="_event.origin" />
+		</transition>
+	</state>
+
+	<state id="compute_path_request">
+		<onentry>
+			<invoke id="ComputePathAlgorithm">
+			  <param name="target" location="target"/>
+		  </invoke>
+		</onentry>
+		<transition event="done.invoke.ComputePathAlgorithm" target="compute_path_response">
+      <assign location="path" expr="_event.data.result.path"/> 
+      <assign location="is_ok" expr="_event.data.result.is_ok"/> 
+    </transition>
+	</state>
+
+	<state id="compute_path_response">
+		<onentry>
+			<send event="compute_pathReturn" target="compute_path">
+				<param name="result.path"  location="path"/>
+				<param name="result.is_ok" location="is_ok"/>
+			</send>
+		</onentry>
+		<transition target="idle" />
+	</state>
+</scxml>

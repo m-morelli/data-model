@@ -1,0 +1,38 @@
+<scxml
+	initial="idle"
+	version="1.0"
+	name="UR10eCmp"
+	xmlns="http://www.w3.org/2005/07/scxml">
+	<datamodel>
+		<data id="origin" type="URI"/>
+		<data name="path" type="trajectory_msgs/msg/JointTrajectory" />
+    <data id="is_ok" expr="false" />
+	</datamodel>
+	
+	<state id="idle">
+		<transition event="follow_pathCall" target="follow_path_request">
+			<assign location="path" expr="_event.data.request.path" />
+			<assign location="origin" expr="_event.origin" />
+		</transition>
+	</state>
+
+	<state id="follow_path_request">
+		<onentry>
+			<invoke id="FollowPathAlgorithm">
+			  <param name="path" location="path"/>
+		  </invoke>
+		</onentry>
+		<transition event="done.invoke.FollowPathAlgorithm" target="follow_path_response">
+      <assign location="is_ok" expr="_event.data.result"/> 
+    </transition>
+	</state>
+
+	<state id="follow_path_response">
+		<onentry>
+			<send event="follow_pathReturn" target="follow_path">
+				<param name="result.is_ok" location="is_ok"/>
+			</send>
+		</onentry>
+		<transition target="idle" />
+	</state>
+</scxml>
