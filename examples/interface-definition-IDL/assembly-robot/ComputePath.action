@@ -1,0 +1,11 @@
+# action pattern
+# attributes of goal
+string robot
+string target
+---
+# attributes of result
+trajectory_msgs/JointTrajectory path
+bool is_ok
+---
+# attributes of feedback
+

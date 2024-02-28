@@ -1,0 +1,89 @@
+<scxml
+    initial="initialize"
+    version="1.0"
+    name="follow_path"
+    xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <data name="origin" type="URI" />
+        <data name="path" type="trajectory_msgs/msg/JointTrajectory" />
+        <data id="is_ok" expr="true" />
+    </datamodel>
+
+    <state id="initialize">
+        <onentry>
+            <send event="Blackboard.readCall" target="Blackboard" >
+                <param name="key" expr="path"/>
+            </send>
+        </onentry>
+        <transition event="Blackboard.readReturn" target="idle">
+            <assign location="path" expr="_event.data.result"/> 
+        </transition>
+    </state>
+
+    <state id="idle">
+        <transition event="haltCall" target="halt" />
+        <transition event="tickCall" target="follow_path" />
+        <onexit>
+            <assign location="origin" expr="_event.origin" />
+        </onexit>
+    </state>
+
+    <state id="halt">
+        <onentry>
+            <send event="haltReturn" targetexpr="origin" />
+        </onentry>
+        <transition target="idle" />
+    </state>
+
+    <state id="follow_path">
+        <onentry>
+            <send event="UR10eCmp.follow_pathCall" target="UR10eCmp" />
+                <param name="path" location="path"/>
+        </onentry>
+        <transition target="follow_pathRunning"/>
+    </state>
+
+    <state id="follow_pathRunning">
+        <onentry>
+            <send event="tickReturn" targetexpr="origin" >
+                <param name="result" expr="RUNNING"/>
+            </send>
+        </onentry>
+        <transition event="haltCall" target="waitHalt" />
+        <transition event="tickCall" target="follow_pathRunning" />
+        <transition event="UR10eCmp.follow_pathReturn" target="waitTick"/>
+    </state>
+
+    <state id="waitHalt">
+        <!-- The BT will not send other events when in this state -->
+        <transition event="UR10eCmp.follow_pathReturn" target="halt"/>
+    </state>
+
+    <state id="waitTick">
+        <!-- The UR10eCmp will not send other Return events when in this state -->
+        <onentry>
+            <assign location="is_ok" expr="UR10eCmp.follow_pathReturn.data.result.is_ok"/>
+        </onentry>
+        <transition event="haltCall" target="halt" />
+        <transition event="tickCall" cond="is_ok==true"  target="follow_pathSuccess"/>
+        <transition event="tickCall" cond="is_ok==false" target="follow_pathFailure"/>
+    </state>
+
+    <state id="follow_pathSuccess">
+        <onentry>
+            <send event="tickReturn" targetexpr="origin" >
+                <param name="result" expr="SUCCESS"/>
+            </send>
+        </onentry>
+        <transition target="idle" />
+    </state>
+
+    <state id="follow_pathFailure">
+        <onentry>
+            <send event="tickReturn" targetexpr="origin" >
+                <param name="result" expr="FAILURE"/>
+            </send>
+        </onentry>
+        <transition target="idle" />
+    </state>
+</scxml>

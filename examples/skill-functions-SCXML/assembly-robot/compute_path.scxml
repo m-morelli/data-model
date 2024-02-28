@@ -1,0 +1,95 @@
+<scxml
+    initial="initialize"
+    version="1.0"
+    name="compute_path"
+    xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <data name="origin" type="URI" />
+        <data name="target" type="string" />
+        <data name="path" type="trajectory_msgs/msg/JointTrajectory" />
+        <data id="is_ok" expr="true" />
+    </datamodel>
+
+    <state id="initialize">
+        <onentry>
+            <send event="Blackboard.readCall" target="Blackboard" >
+                <param name="key" expr="target"/>
+            </send>
+        </onentry>
+        <transition event="Blackboard.readReturn" target="idle">
+            <assign location="target" expr="_event.data.result"/> 
+        </transition>
+    </state>
+
+    <state id="idle">
+        <transition event="haltCall" target="halt" />
+        <transition event="tickCall" target="compute_path" />
+        <onexit>
+            <assign location="origin" expr="_event.origin" />
+        </onexit>
+    </state>
+
+    <state id="halt">
+        <onentry>
+            <send event="haltReturn" targetexpr="origin" />
+        </onentry>
+        <transition target="idle" />
+    </state>
+
+    <state id="compute_path">
+        <onentry>
+            <send event="DigitalTwinCmp.compute_pathCall" target="DigitalTwinCmp" />
+                <param name="target" location="target"/>
+        </onentry>
+        <transition target="compute_pathRunning"/>
+    </state>
+
+    <state id="compute_pathRunning">
+        <onentry>
+            <send event="tickReturn" targetexpr="origin" >
+                <param name="result" expr="RUNNING"/>
+            </send>
+        </onentry>
+        <transition event="haltCall" target="waitHalt" />
+        <transition event="tickCall" target="compute_pathRunning" />
+        <transition event="DigitalTwinCmp.compute_pathReturn" target="waitTick"/>
+    </state>
+
+    <state id="waitHalt">
+        <!-- The BT will not send other events when in this state -->
+        <transition event="DigitalTwinCmp.compute_pathReturn" target="halt"/>
+    </state>
+
+    <state id="waitTick">
+        <!-- The UR10eCmp will not send other Return events when in this state -->
+        <onentry>
+            <assign location="is_ok" expr="DigitalTwinCmp.compute_pathReturn.data.result.is_ok"/>
+            <assign location="path" expr="DigitalTwinCmp.compute_pathReturn.data.result.path"/>
+            <send event="Blackboard.writeCall" target="Blackboard" >
+                <param name="key"   expr="path"/>
+                <param name="value" location="path"/>
+            </send>
+        </onentry>
+        <transition event="haltCall" target="halt" />
+        <transition event="tickCall" cond="is_ok==true"  target="compute_pathSuccess"/>
+        <transition event="tickCall" cond="is_ok==false" target="compute_pathFailure"/>
+    </state>
+
+    <state id="compute_pathSuccess">
+        <onentry>
+            <send event="tickReturn" targetexpr="origin" >
+                <param name="result" expr="SUCCESS"/>
+            </send>
+        </onentry>
+        <transition target="idle" />
+    </state>
+
+    <state id="compute_pathFailure">
+        <onentry>
+            <send event="tickReturn" targetexpr="origin" >
+                <param name="result" expr="FAILURE"/>
+            </send>
+        </onentry>
+        <transition target="idle" />
+    </state>
+</scxml>
