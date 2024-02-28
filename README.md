@@ -1,4 +1,4 @@
-# Release of the Specification of the CONVINCE Data Model
+# Specification of the CONVINCE Data Model
 
 The work is part of the CONVINCE project funded by the European Union's Horizon Europe Research & Innovation Program under Grant 101070227 (CONVINCE).
 
