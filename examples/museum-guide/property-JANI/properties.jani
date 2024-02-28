@@ -14,16 +14,16 @@
 					       	"left": {
 			  		       	    "exp": {
                             		"op": "<=",
-                            		"left": "level"
+                            		"left": "level",
                             		"right": 30
 			  				    }
-                        	}
+                        	},
 							"right": {
 			  				 	"exp": {
                             		"op": "F" ,
                             			"exp": {
-			      					       "op": "="
-			      					       "left": "alarm"
+			      					       "op": "=",
+			      					       "left": "alarm",
                               				"right": true
 								       	},
 							 			"step-bounds": {
