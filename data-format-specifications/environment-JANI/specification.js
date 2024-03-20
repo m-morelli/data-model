@@ -238,7 +238,7 @@ var Obstacle = schema({ //discretization of obstacles in rectangles
 var RobotPerception = schema({
   "boundaries": Array.of(Point) ,   // Maybe it is better to consider lines here and also above TODO
   "obstacles": Array.of(Obstacle),   
-  "pose": Pose
+  "pose": Pose    //The pose the robot thinks it has. Can differ from actual pose in case of sensor issues.
 });
 
 var Robot = schema({   
@@ -256,5 +256,5 @@ var Intersection = schema({ // CONVINCE feature extension to check if objects bu
     "right": Array.of(
             Obstacle.name,
             "obstacles",
-            "boundaries"
+            "boundaries")
 });

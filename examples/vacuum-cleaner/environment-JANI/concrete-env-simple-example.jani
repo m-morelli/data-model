@@ -51,19 +51,30 @@
         "robots": [
             {
                 "name": "simple-robot",
-                "position": {
+                "pose": {
                     "x-coord": 0,
-                    "y-coord": 0
+                    "y-coord": 0,
+                    "theta":{           // pi/2 rad = 90 degrees from x-axis, i.e., moving direction is up
+                        "op": "/",
+                        "left": "π",
+                        "right": 2.0
+                    }
                 },
-                "direction": {  // pi/2 rad = 90 degrees from x-axis, i.e., moving direction is up
-                    "op": "/",
-                    "left": "π",
-                    "right": 2.0
-                }, 
                 "shape": {
                     "radius": 0.3,
                     "height": 0.2
-                }
+                },
+                "perception": {
+                    "boundaries": {},   //Assuming the robot can only look one cell ahead and it is currently looking up, the next cell is free.
+                    "obstacles": {},
+                    "pose": {
+                        "op": "/",
+                        "left": "π",
+                        "right": 2.0
+                    }
+                },
+                "linear-velocity": 1,
+                "angular-velocity": 0
             }
         ]
     }

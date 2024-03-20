@@ -52,22 +52,24 @@
             {
                 "name": "ball",
                 "movable": true,
-                "position": {
+                "pose": {
                     "x-coord": 2,
-                    "y-coord": 1
+                    "y-coord": 1,
+                    "theta": 0
                 },
                 "shape": {
                     "radius": 0.3
                 },
-                "speed": 0.25,    // 25 cm/s
+                "linear-velocity": 0.25,    // 25 cm/s
                 "direction": 2     // 2 rad from x-axis
             },
             {
                 "name": "cube",
                 "movable": false,
-                "position": {  
+                "pose": {  
                     "x-coord": 2,
-                    "y-coord": 3
+                    "y-coord": 3,
+                    "theta": 0
                 },
                 "shape": {
                     "length": 0.5,
@@ -79,19 +81,26 @@
         "robots": [
             {
                 "name": "r2d2",
-                "position": {
+                "pose": {
                     "x-coord": 0.5,
-                    "y-coord": 0.5
+                    "y-coord": 0.5,
+                    "theta": 3
                 },
-                "direction": 3, // 3 rad from x-axis
                 "shape": {
                     "radius": 0.3,
                     "height": 0.2
                 },
-                "sensors": {
-                    "name": "b1",
-                    "type": "bumper"
-                }
+                "perception": {
+                    "boundaries": {},   //Assuming a bumper is modeled here, which is currently not triggered, no boundaries or obstacles are perceived
+                    "obstacles": {},
+                    "pose": {
+                        "x-coord": 0.5,
+                        "y-coord": 0.5,
+                        "theta": 3
+                    }
+                },
+                "linear-velocity": 0.5,
+                "angular-velocity": 0
             }
         ]
     }
