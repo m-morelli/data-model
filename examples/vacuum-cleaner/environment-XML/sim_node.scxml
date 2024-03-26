@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scxml
+    xmlns="http://www.w3.org/2005/07/scxml"
+    version="1.0"
+    name="SimNode"
+    model_src="python3:mc_demo/square_discrete_robot_sim/square_discrete_robot_sim/sim_node.py"
+    initial="cell_0_0_pi/2">
+
+    <macro:ros_action_server
+        action_name="perform_action"
+        action_type="run_bt/action/ActionInt" />
+
+    <!-- Publisher macro for the pose-->
+    <macro:ros_topic_publisher
+        topic_name="robot_pose"
+        topic_type="geometry_msgs/msg/Pose2D" />
+    
+    <datamodel>
+    </datamodel>
+
+    <!-- 0, 0 bottom left -->
+    <state id="cell_0_0_0"> <!-- orientation E -->
+        <on_entry>
+            <send event="robot_pose.publish">
+                <var name="pose.x" expr="0.0" />
+                <var name="pose.y" expr="0.0" />
+                <var name="pose.yaw" expr="0.0" />
+            </send>
+        </on_entry>
+        <transition event="perform_action.requestAction" target="cell_0_0_pi/2" cond="_event.data.data == 0">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_0_0_-pi/2" cond="_event.data.data == 1">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_1_0_0" cond="_event.data.data == 2">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+    </state>
+
+    <state id="cell_0_0_pi/2"> <!-- orientation N -->
+        <on_entry>
+            <send event="robot_pose.publish">
+                <var name="pose.x" expr="0.0" />
+                <var name="pose.y" expr="0.0" />
+                <var name="pose.yaw" expr="1.57079632679" />
+            </send>
+        </on_entry>
+        <transition event="perform_action.requestAction" target="cell_0_0_pi" cond="_event.action_request.data == 0">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_0_0_0" cond="_event.action_request.data == 1">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_0_1_pi/2" cond="_event.action_request.data == 2">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+    </state>
+
+    <state id="cell_0_0_pi"> <!-- orientation W -->
+        <on_entry>
+            <send event="robot_pose.publish">
+                <var name="pose.x" expr="0.0" />
+                <var name="pose.y" expr="0.0" />
+                <var name="pose.yaw" expr="3.14159265359" />
+            </send>
+        </on_entry>
+        <transition event="perform_action.requestAction" target="cell_0_0_-pi/2" cond="_event.action_request.data == 0">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_0_0_pi/2" cond="_event.action_request.data == 1">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_0_0_pi" cond="_event.action_request.data == 2">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="ABORTED" /> <!-- can not move into wall -->
+            </send>
+        </transition>
+    </state>
+
+    <state id="cell_0_0_-pi/2"> <!-- orientation S -->
+        <on_entry>
+            <send event="robot_pose.publish">
+                <var name="pose.x" expr="0.0" />
+                <var name="pose.y" expr="0.0" />
+                <var name="pose.yaw" expr="-1.57079632679" />
+            </send>
+        </on_entry>
+        <transition event="perform_action.requestAction" target="cell_0_0_0" cond="_event.action_request.data == 0">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_0_0_pi" cond="_event.action_request.data == 1">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_0_0_-pi/2" cond="_event.action_request.data == 2">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="ABORTED" /> <!-- can not move into wall -->
+            </send>
+        </transition>
+    </state>
+
+    <!-- 1, 0 bottom right -->
+    <state id="cell_1_0_0"> <!-- orientation E -->
+        <on_entry>
+            <send event="robot_pose.publish">
+                <var name="pose.x" expr="1.0" />
+                <var name="pose.y" expr="0.0" />
+                <var name="pose.yaw" expr="0.0" />
+            </send>
+        </on_entry>
+        <transition event="perform_action.requestAction" target="cell_1_0_pi/2" cond="_event.action_request.data == 0">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_1_0_-pi/2" cond="_event.action_request.data == 1">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_1_0_0" cond="_event.action_request.data == 2">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="ABORTED" /> <!-- can not move into wall -->
+            </send>
+        </transition>
+    </state>
+    <state id="cell_1_0_pi/2"> <!-- orientation N -->
+        <on_entry>
+            <send event="robot_pose.publish">
+                <var name="pose.x" expr="1.0" />
+                <var name="pose.y" expr="0.0" />
+                <var name="pose.yaw" expr="1.57079632679" />
+            </send>
+        </on_entry>
+        <transition event="perform_action.requestAction" target="cell_1_0_pi" cond="_event.action_request.data == 0">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_1_0_0" cond="_event.action_request.data == 1">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_1_1_pi/2" cond="_event.action_request.data == 2">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+    </state>
+    <state id="cell_1_0_pi"> <!-- orientation W -->
+        <on_entry>
+            <send event="robot_pose.publish">
+                <var name="pose.x" expr="1.0" />
+                <var name="pose.y" expr="0.0" />
+                <var name="pose.yaw" expr="3.14159265359" />
+            </send>
+        </on_entry>
+        <transition event="perform_action.requestAction" target="cell_1_0_-pi/2" cond="_event.action_request.data == 0">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_1_0_pi/2" cond="_event.action_request.data == 1">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_0_0_pi" cond="_event.action_request.data == 2">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+    </state>
+    <state id="cell_1_0_-pi/2"> <!-- orientation S -->
+        <on_entry>
+            <send event="robot_pose.publish">
+                <var name="pose.x" expr="1.0" />
+                <var name="pose.y" expr="0.0" />
+                <var name="pose.yaw" expr="-1.57079632679" />
+            </send>
+        </on_entry>
+        <transition event="perform_action.requestAction" target="cell_1_0_0" cond="_event.action_request.data == 0">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_1_0_pi" cond="_event.action_request.data == 1">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_1_0_-pi/2" cond="_event.action_request.data == 2">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="ABORTED" /> <!-- can not move into wall -->
+            </send>
+        </transition>
+    </state>
+
+    <!-- 0, 1 top left -->
+    <state id="cell_0_1_0"> <!-- orientation E -->
+        <on_entry>
+            <send event="robot_pose.publish">
+                <var name="pose.x" expr="0.0" />
+                <var name="pose.y" expr="1.0" />
+                <var name="pose.yaw" expr="0.0" />
+            </send>
+        </on_entry>
+        <transition event="perform_action.requestAction" target="cell_0_1_pi/2" cond="_event.action_request.data == 0">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_0_1_-pi/2" cond="_event.action_request.data == 1">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_1_1_0" cond="_event.action_request.data == 2">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+    </state>
+    <state id="cell_0_1_pi/2"> <!-- orientation N -->
+        <on_entry>
+            <send event="robot_pose.publish">
+                <var name="pose.x" expr="0.0" />
+                <var name="pose.y" expr="1.0" />
+                <var name="pose.yaw" expr="1.57079632679" />
+            </send>
+        </on_entry>
+        <transition event="perform_action.requestAction" target="cell_0_1_pi" cond="_event.action_request.data == 0">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_0_1_0" cond="_event.action_request.data == 1">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_0_1_pi/2" cond="_event.action_request.data == 2">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="ABORTED" /> <!-- can not move into wall -->
+            </send>
+        </transition>
+    </state>
+    <state id="cell_0_1_pi"> <!-- orientation W -->
+        <on_entry>
+            <send event="robot_pose.publish">
+                <var name="pose.x" expr="0.0" />
+                <var name="pose.y" expr="1.0" />
+                <var name="pose.yaw" expr="3.14159265359" />
+            </send>
+        </on_entry>
+        <transition event="perform_action.requestAction" target="cell_0_1_-pi/2" cond="_event.action_request.data == 0">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_0_1_pi/2" cond="_event.action_request.data == 1">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_0_1_pi" cond="_event.action_request.data == 2">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="ABORTED" /> <!-- can not move into wall -->
+            </send>
+        </transition>
+    </state>
+    <state id="cell_0_1_-pi/2"> <!-- orientation S -->
+        <on_entry>
+            <send event="robot_pose.publish">
+                <var name="pose.x" expr="0.0" />
+                <var name="pose.y" expr="1.0" />
+                <var name="pose.yaw" expr="-1.57079632679" />
+            </send>
+        </on_entry>
+        <transition event="perform_action.requestAction" target="cell_0_1_0" cond="_event.action_request.data == 0">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_0_1_pi" cond="_event.action_request.data == 1">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_0_0_-pi/2" cond="_event.action_request.data == 2">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+    </state>
+
+    <!-- 1, 1 top right -->
+    <state id="cell_1_1_0"> <!-- orientation E -->
+        <on_entry>
+            <send event="robot_pose.publish">
+                <var name="pose.x" expr="1.0" />
+                <var name="pose.y" expr="1.0" />
+                <var name="pose.yaw" expr="0.0" />
+            </send>
+        </on_entry>
+        <transition event="perform_action.requestAction" target="cell_1_1_pi/2" cond="_event.action_request.data == 0">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_1_1_-pi/2" cond="_event.action_request.data == 1">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_1_1_0" cond="_event.action_request.data == 2">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="ABORTED" /> <!-- can not move into wall -->
+            </send>
+        </transition>
+    </state>
+    <state id="cell_1_1_pi/2"> <!-- orientation N -->
+        <on_entry>
+            <send event="robot_pose.publish">
+                <var name="pose.x" expr="1.0" />
+                <var name="pose.y" expr="1.0" />
+                <var name="pose.yaw" expr="1.57079632679" />
+            </send>
+        </on_entry>
+        <transition event="perform_action.requestAction" target="cell_1_1_pi" cond="_event.action_request.data == 0">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_1_1_0" cond="_event.action_request.data == 1">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_1_1_pi/2" cond="_event.action_request.data == 2">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="ABORTED" /> <!-- can not move into wall -->
+            </send>
+        </transition>
+    </state>
+    <state id="cell_1_1_pi"> <!-- orientation W -->
+        <on_entry>
+            <send event="robot_pose.publish">
+                <var name="pose.x" expr="1.0" />
+                <var name="pose.y" expr="1.0" />
+                <var name="pose.yaw" expr="3.14159265359" />
+            </send>
+        </on_entry>
+        <transition event="perform_action.requestAction" target="cell_1_1_-pi/2" cond="_event.action_request.data == 0">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_1_1_pi/2" cond="_event.action_request.data == 1">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_0_1_pi" cond="_event.action_request.data == 2">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+    </state>
+    <state id="cell_1_1_-pi/2"> <!-- orientation S -->
+        <on_entry>
+            <send event="robot_pose.publish">
+                <var name="pose.x" expr="1.0" />
+                <var name="pose.y" expr="1.0" />
+                <var name="pose.yaw" expr="-1.57079632679" />
+            </send>
+        </on_entry>
+        <transition event="perform_action.requestAction" target="cell_1_1_0" cond="_event.action_request.data == 0">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_1_1_pi" cond="_event.action_request.data == 1">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+        <transition event="perform_action.requestAction" target="cell_1_0_-pi/2" cond="_event.action_request.data == 2">
+            <send event="perform_action.sendResult">
+                <var name="action_result" expr="SUCCEEDED" />
+            </send>
+        </transition>
+    </state>
+    
+</scxml>
