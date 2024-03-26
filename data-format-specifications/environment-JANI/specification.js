@@ -184,7 +184,7 @@ var Model = schema({
 
 var RobEnvModel = schema({      // Robotic Environment Model
     "name": Identifier,
-    "boundaries": Array.of(Point),
+    "boundaries": Array.of(Point),  //Assumption: these points are ordered, to be able to draw proper lines of the boundaries between them
     "obstacles": Array.of(Obstacle),
     "robots": Array.of(Robot)
 });
@@ -192,6 +192,12 @@ var RobEnvModel = schema({      // Robotic Environment Model
 var Point = schema({
     "x-coord": Expression,
     "y-coord": Expression
+});
+
+var Pose =  schema({
+  "x-coord": Expression,
+  "y-coord": Expression,
+  "theta": Expression   //orientation in the environment
 });
 
 var Cube = schema({
@@ -211,14 +217,6 @@ var Shape = schema({
     Point
  });
 
- var SensorType = schema([
-    "bumper",   // will be converted into boolean variable in plain JANI with initial value set to false indicating if the bumper is triggered 
-    "lidar",    // all types starting from here will be converted into a boolean and a real variable in plain JANI indicating if the sensor is switched on and how far the next detected obstacle is, accessible via sensor[n].on and sensor[n].value
-    "radar",
-    "camera",
-    "special"
-]);
-
  var Sensor = schema({
     "name": Identifier,
     "type": SensorType 
@@ -230,19 +228,26 @@ var Obstacle = schema({ //discretization of obstacles in rectangles
         true,
         false
     ],
-    "position": Point, // (0,0) in lower left corner
+    "pose": Pose, // (0,0,0) in lower left corner, facing in x-direction
     "shape": Shape,
-    "?speed": Expression, // in case of a moving obstacle: speed in m/s
-    "?direction": Expression, // in case of a moving obstacle: rotation measured from x-axis 
-    "shape": Shape,
+    "?linear-velocity": Expression,
+    "?angular-velocity": Expression,
+    "?direction": Expression, // in case of a moving obstacle: direction of movement measured from x-axis 
+});
+
+var RobotPerception = schema({
+  "boundaries": Array.of(Point) ,   // Maybe it is better to consider lines here and also above TODO
+  "obstacles": Array.of(Obstacle),   
+  "pose": Pose    //The pose the robot thinks it has. Can differ from actual pose in case of sensor issues.
 });
 
 var Robot = schema({   
     "name": Identifier,
-    "position": Point, 
-    "direction": Expression, // angle of rotation measured from x-axis 
+    "pose": Pose,
     "shape": Shape,
-    "?sensors": Array.of(Sensor)
+    "perception": RobotPerception,
+    "linear-velocity": Expression,
+    "angular-velocity": Expression,
 });
 
 var Intersection = schema({ // CONVINCE feature extension to check if objects bumped into each other = intersect in guards to react to it in assignments of action destinations
@@ -251,8 +256,5 @@ var Intersection = schema({ // CONVINCE feature extension to check if objects bu
     "right": Array.of(
             Obstacle.name,
             "obstacles",
-            "boundaries",
-            "all"),
-    "speed": Expression   // driving speed with which object is moving and intersections should be checked
-    // ... specific or all obstacles or all boundaries or all obstacles + boundaries
+            "boundaries")
 });
