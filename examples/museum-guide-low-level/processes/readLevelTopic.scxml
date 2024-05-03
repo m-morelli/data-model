@@ -12,7 +12,7 @@
 
 	<state id="running">
 		<transition event="readLevelReturn" target="running">
-			<assign location="level" expr="_event.data.result"\>
+			<assign location="level" expr="_event.data.result"/>
 		</transition>
 		<transition event="readLevelCall" target="running">
 			<send event="readLevelReturn" target_expr="_event.origin">

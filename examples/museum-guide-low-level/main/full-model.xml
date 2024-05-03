@@ -15,8 +15,8 @@
       <process id="Alarm" moc="fsm" path="../processes/AlarmBatteryLow.scxml" />
       <process id="BatteryDrainer" moc="fsm" path="../processes/BatteryDrainer.scxml" />
       <!-- Components (abstract models for s.w., h.w., environment) -->
-      <process id="BatteryDriverCmp" moc="fsm" path="../processes/BatteryDriverCmp.scxml" />
-      <process id="AlarmCmp" moc="fsm" path="../processes/AlarmCmp.scxml" />
+      <process id="BatteryDriverCmp" moc="fsm" path="../processes/batteryDriverCmp.scxml" />
+      <process id="AlarmCmp" moc="fsm" path="../processes/alarmCmp.scxml" />
       <!-- Protocols (generated from high-level description) -->
       <process id="drainAsyncService" moc="fsm" path="../processes/drainAsyncService.scxml" />
       <process id="readLevelTopic" moc="fsm" path="../processes/readLevelTopic.scxml" />
