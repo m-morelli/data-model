@@ -8,36 +8,25 @@
   </datamodel>
 
   <state id="idle">
-    <transition event="tickCall" target="startAlarm" />
-    <transition event="haltCall" target="halt" />
-    <onexit>
+    <transition event="tickCall" target="sendAlarm">
       <assign location="origin" expr="_event.origin" />
-    </onexit>
+    </transition>
+    <transition event="haltCall" target="idle">
+      <send event="haltReturn" targetexpr="_event.origin" />
+    </transition>
   </state>
 
-  <state id="halt">
+	<state id="sendAlarm">
     <onentry>
-      <send event="haltReturn" targetexpr="origin" />
-    </onentry>
-    <transition target="idle" />
-  </state>
-
-	<state id="startAlarm">
-    <onentry>
-      <send event="AlarmCmp.sendAlarmCall" target="AlarmCmp" />
+      <send event="sendAlarmCall" target="AlarmCmp" />
     </onentry>
     <!-- External events received before 'sendAlarmReturn' are discarded -->
     <!-- but in this case we know that no event will be received -->
     <!-- because the tick of the BT is synchronous -->
-    <transition event="AlarmCmp.sendAlarmReturn" target="alarmSuccess" />
-  </state>
-
-  <state id="alarmSuccess">
-    <onentry>
+    <transition event="sendAlarmReturn" target="idle">
       <send event="tickReturn" targetexpr="origin">
         <param name="result" expr="SUCCESS" />
       </send>
-    </onentry>
-    <transition target="idle" />
+    </target>
   </state>
 </scxml>
