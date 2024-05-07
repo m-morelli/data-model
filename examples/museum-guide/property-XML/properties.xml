@@ -1,6 +1,6 @@
 <properties>
-  <datamodel>
-    <data id="level" type="i32">
+  <ports>
+    <data id="level" type="int32">
       <caller refid="BatteryLevel" type="skill" />
       <called refid="BatteryDriverCmp" type="component" />
       <!-- if event="return" value is either "returnValue" or "returnEvent"-->
@@ -17,7 +17,7 @@
       <!-- if value is "callValue.x" the id value is associated to the value of a specific function parameter "x" -->
       <connection function="sendAlarm" event="call" value="callEvent" />
     </data>
-  </datamodel>
+  </ports>
 
   <property propid="alarm-follows-battery-low">
     <always>
