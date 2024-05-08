@@ -2,6 +2,7 @@
   initial="idle"
   version="1.0"
   name="AlarmCmp"
+<<<<<<< HEAD
   xmlns="http://www.w3.org/2005/07/scxml">
   <datamodel>
     <!-- <data name="var" type="var_type"/> -->
@@ -16,15 +17,14 @@
 			<assign location="origin" expr="_event.origin" />
     </transition>
   </state>
+=======
+  initial="alarm">
+>>>>>>> 5bc9617 (Revised Museum Guide example with implementation of protocols)
 
   <state id="alarm">
-    <onentry>
-      <send event="sendAlarmReturn" targetexpr="origin">
-        <!-- Return parameters go here, as key-value -->
-        <!-- <param expr="1" name="return_param"/> -->
-      </send>
-    </onentry>
-    <!-- Special "return" event transitions to idle state and returns to invoking function -->
-    <transition target="idle"/>
+  	<!-- Event is raised by invoking interface function of same name -->
+    <transition event="sendAlarmCall" target="alarm">
+      <send event="sendAlarmReturn" targetexpr="_event.origin">
+    </transition>
   </state>
 </scxml>

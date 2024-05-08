@@ -1,10 +1,13 @@
 <scxml 
-  initial="idle" 
-  version="1.0" 
+  version="1.0"
+  xmlns="http://www.w3.org/2005/07/scxml"
+  datamodel="ecmascript"
   name="AlarmBatteryLow"
-  xmlns="http://www.w3.org/2005/07/scxml">
+  initial="idle">
+
   <datamodel>
-    <data name="origin" type="URI" />
+    <!-- TYPE origin:URI -->
+    <data name="origin"/>
   </datamodel>
 
   <state id="idle">
@@ -25,8 +28,9 @@
     <!-- because the tick of the BT is synchronous -->
     <transition event="sendAlarmReturn" target="idle">
       <send event="tickReturn" targetexpr="origin">
+        <!-- TYPE result:TickResponse -->
         <param name="result" expr="SUCCESS" />
       </send>
-    </target>
+    </transition>
   </state>
 </scxml>

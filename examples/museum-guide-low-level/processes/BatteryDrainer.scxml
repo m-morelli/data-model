@@ -1,11 +1,13 @@
 <scxml
-    initial="idle"
     version="1.0"
+    xmlns="http://www.w3.org/2005/07/scxml"
+    datamodel="ecmascript"
     name="BatteryDrainer"
-    datamodel="cplusplus:BatteryDrainerDataModel:BatteryDrainerDataModel.h"
-    xmlns="http://www.w3.org/2005/07/scxml">
+    initial="idle">
+   
     <datamodel>
-        <data name="origin" type="URI" />
+        <!-- TYPE origin:URI -->
+        <data id="origin" />
     </datamodel>
 
     <state id="idle">
@@ -29,22 +31,13 @@
         </onentry>
         <transition event="drainComplete" target="idle">
             <send event="tickReturn" targetexpr="origin" >
+                <!-- TYPE result:TickResponse -->
                 <param name="result" expr="SUCCESS"/>
             </send>
-<<<<<<< HEAD
-        </onentry>
-        <transition target="idle" />
-    </state>
-
-    <state id="drainRunning">
-        <onentry>
-            <send event="tickReturn" targetexpr="origin" >
-=======
         </transition>
         <transition event="drainRunning" target="drainRunning">
             <send event="tickReturn" targetexpr="origin">
                 <!-- TYPE result:TickResponse -->
->>>>>>> 5bc9617 (Revised Museum Guide example with implementation of protocols)
                 <param name="result" expr="RUNNING"/>
             </send>
         </transition>
