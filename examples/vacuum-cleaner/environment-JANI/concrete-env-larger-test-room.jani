@@ -16,36 +16,36 @@
         "name": "test-room",
         "boundaries": [
             {
-                "x-coord": 0,
-                "y-coord": 0
+                "x": 0,
+                "y": 0
             },
             {
-                "x-coord": 3,
-                "y-coord": 0
+                "x": 3,
+                "y": 0
             },
             {
-                "x-coord": 3,
-                "y-coord": 5
+                "x": 3,
+                "y": 5
             },
             {
-                "x-coord": 0,
-                "y-coord": 5
+                "x": 0,
+                "y": 5
             },
             {
-                "x-coord": 0,
-                "y-coord": 4.5
+                "x": 0,
+                "y": 4.5
             },
             {
-                "x-coord": -0.5,
-                "y-coord": 4.5
+                "x": -0.5,
+                "y": 4.5
             },
             {
-                "x-coord": -0.5,
-                "y-coord": 3.5
+                "x": -0.5,
+                "y": 3.5
             },
             {
-                "x-coord": 0,
-                "y-coord": 3.5
+                "x": 0,
+                "y": 3.5
             }
         ],
         "obstacles": [
@@ -53,22 +53,23 @@
                 "name": "ball",
                 "movable": true,
                 "pose": {
-                    "x-coord": 2,
-                    "y-coord": 1,
+                    "x": 2,
+                    "y": 1,
                     "theta": 0
                 },
                 "shape": {
-                    "radius": 0.3
+                    "radius": 0.3,
+                    "height": 0.1
                 },
                 "linear-velocity": 0.25,    // 25 cm/s
-                "direction": 2     // 2 rad from x-axis
+                "angular-velocity": 0.25
             },
             {
                 "name": "cube",
                 "movable": false,
                 "pose": {  
-                    "x-coord": 2,
-                    "y-coord": 3,
+                    "x": 2,
+                    "y": 3,
                     "theta": 0
                 },
                 "shape": {
@@ -82,8 +83,8 @@
             {
                 "name": "r2d2",
                 "pose": {
-                    "x-coord": 0.5,
-                    "y-coord": 0.5,
+                    "x": 0.5,
+                    "y": 0.5,
                     "theta": 3
                 },
                 "shape": {
@@ -94,8 +95,8 @@
                     "boundaries": {},   //Assuming a bumper is modeled here, which is currently not triggered, no boundaries or obstacles are perceived
                     "obstacles": {},
                     "pose": {
-                        "x-coord": 0.5,
-                        "y-coord": 0.5,
+                        "x": 0.5,
+                        "y": 0.5,
                         "theta": 3
                     }
                 },

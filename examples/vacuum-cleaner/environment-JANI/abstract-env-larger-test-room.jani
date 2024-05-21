@@ -15,36 +15,36 @@
     ], 
     "boundaries": [
         {
-            "x-coord": 0,
-            "y-coord": 0
+            "x": 0,
+            "y": 0
         },
         {
-            "x-coord": 3,
-            "y-coord": 0
+            "x": 3,
+            "y": 0
         },
         {
-            "x-coord": 3,
-            "y-coord": 5
+            "x": 3,
+            "y": 5
         },
         {
-            "x-coord": 0,
-            "y-coord": 5
+            "x": 0,
+            "y": 5
         },
         {
-            "x-coord": 0,
-            "y-coord": 4.5
+            "x": 0,
+            "y": 4.5
         },
         {
-            "x-coord": -0.5,
-            "y-coord": 4.5
+            "x": -0.5,
+            "y": 4.5
         },
         {
-            "x-coord": -0.5,
-            "y-coord": 3.5
+            "x": -0.5,
+            "y": 3.5
         },
         {
-            "x-coord": 0,
-            "y-coord": 3.5
+            "x": 0,
+            "y": 3.5
         }
     ],
     "obstacles": [
