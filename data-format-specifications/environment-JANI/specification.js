@@ -4,7 +4,7 @@
 // This specification for CONVINCE includes JANI feature extensions to describe geometric settings in 2.5D environments and the behavior of the autonomous robot acting in that environment.
 // Feature extensions for robotic systems: geometric objects, environment specifications incl. boundaries, object positions, etc. 
 // JANI features not used in CONVINCE are mentioned in comments around the lines where they are defined in the original specification. 
-// In general, timed models are not used in CONVINCE, the array, datatype, option, nondeterministic selection, state-exit reward, and function feature extensions, except for trigonometric functions, is not included currently.
+// In general, timed models are not used in CONVINCE, the array, datatype, option, nondeterministic selection, state-exit reward, and function feature extensions, except for trigonometric functions, are not included currently.
 
 
 var Identifier = /[^#]*/; // ATTENTION: Difference to original JANI: no "." allowed in identifiers to allow to access JSON objects directly in the same JSON file (used for property specifications)
@@ -44,12 +44,12 @@ var Expression = schema([
         "else": schema.self
     },
     {
-        "op": [ "∨", "∧" ], 
+        "op": [ "∨", "∧", "and", "or", "&& ", "||"], 
         "left": schema.self,
         "right": schema.self
       },
       {
-        "op": "¬",
+        "op": ["¬", "!"],
         "exp": schema.self
       },
       {
@@ -79,7 +79,7 @@ var Expression = schema([
         "right": schema.self
       },
       {
-        "op": [ "floor", "ceil" ],
+        "op": [ "floor", "ceil", "abs" ],
         "exp": schema.self
       }, 
       { 
@@ -94,7 +94,49 @@ var Expression = schema([
           "cos",  // Trigonometric cosine
         ],
         "exp": schema.self
-      }  
+      },
+      { 
+        "op": [
+          "to_cm",  // In case model checkers do not support floats in transient assignments, convert to smaller unit
+          "to_m",
+          "to_deg",
+          "to_rad"
+        ],
+        "exp": schema.self
+      },
+      { 
+        "op": [
+          "norm2d",
+        ],
+        "x": schema.self,
+        "y": schema.self
+      },
+      { 
+        "op": [
+          "dot2d",
+          "cross2d"
+        ],
+        "x1": schema.self,
+        "x2": schema.self,
+        "y1": schema.self,
+        "y2": schema.self
+      },
+      {
+        "op": "intersect",    //  Usually assigned to variable `intersect_backup`, calculates the fraction of the trajectory from the current position to the actual destination where the robot hits a barrier and stops at the point where it bumped.
+        "robot": RobEnvModel.robots.Robot.name,
+        "barrier": ["all", RobEnvModel.obstacles.Obstacle.name, Point] //  In case of Point, at least two have to be given to define a boundary
+      },
+      {
+        "op": "not_intersect",  //  distance of a robot's position to a point in a 2D space
+        "left": RobEnvModel.robots.Robot.name,
+        "right": [RobEnvModel.obstacles.Obstacle.name, Point] //  In case of Point, at least two have to be given to define a boundary
+      },  
+      {
+        "op": "distance_to_point",  //  distance of a robot's position to a point in a 2D space
+        "robot": RobEnvModel.robots.Robot.name,
+        "x": expression,
+        "y": expression
+      }       
 ]);
 
 // Automata composition
@@ -119,7 +161,13 @@ var ModelType = schema([
 var VariableDeclaration = schema({
     "name": Identifier,
     "type": Type,
-    // CONVINCE uses only non-transient variables
+    "?transient": [ true, false ], // behaves as follows:
+    // (a) when in a state, its value is that of the expression specified in
+    //     "transient-values" for the locations corresponding to that state, or its
+    //     initial value if no expression is specified in any of the locations
+    //     (if multiple expressions are specified, that is a modelling error);
+    // (b) when taking a transition, its value is set to its initial value, then all
+    //     assignments of the edges corresponding to the transition are executed.
     "?initial-value": Expression,
   });
   
@@ -156,7 +204,10 @@ var Model = schema({
     "locations": Array.of({ 
         "name": Identifier,
         // CONVINCE currently does not include timed models 
-        // CONVINCE uses only non-transient variables
+        "?transient-values": Array.of({ 
+          "ref": LValue,
+          "value": Expression,
+        })
     }),
     "initial-locations": Array.of(Identifier),
     "edges": Array.of({
@@ -172,7 +223,8 @@ var Model = schema({
             },
             "?assignments": Array.of({
                 "ref": Identifier,
-                "value": [Expression, "intersection-x", "intersection-x"]   // x or y coordinate of the first intersection hit on trajectory
+                "value": Expression,
+                "?index": Number.step(1), // index to create sequences of atomic assignment sets and order sequence of assignment executions, default 0
             }),
         }),
     }),
@@ -184,19 +236,20 @@ var Model = schema({
 
 var RobEnvModel = schema({      // Robotic Environment Model
     "name": Identifier,
+    "sim_step": Expression,   // duration of one simulation step (tick of the model) in seconds
     "boundaries": Array.of(Point),  //Assumption: these points are ordered, to be able to draw proper lines of the boundaries between them
-    "obstacles": Array.of(Obstacle),
+    "?obstacles": Array.of(Obstacle),
     "robots": Array.of(Robot)
 });
 
 var Point = schema({
-    "x-coord": Expression,
-    "y-coord": Expression
+    "x": Expression,
+    "y": Expression
 });
 
 var Pose =  schema({
-  "x-coord": Expression,
-  "y-coord": Expression,
+  "x": Expression,
+  "y": Expression,
   "theta": Expression   //orientation in the environment
 });
 
@@ -231,8 +284,7 @@ var Obstacle = schema({ //discretization of obstacles in rectangles
     "pose": Pose, // (0,0,0) in lower left corner, facing in x-direction
     "shape": Shape,
     "?linear-velocity": Expression,
-    "?angular-velocity": Expression,
-    "?direction": Expression, // in case of a moving obstacle: direction of movement measured from x-axis 
+    "?angular-velocity": Expression
 });
 
 var RobotPerception = schema({
@@ -248,13 +300,4 @@ var Robot = schema({
     "perception": RobotPerception,
     "linear-velocity": Expression,
     "angular-velocity": Expression,
-});
-
-var Intersection = schema({ // CONVINCE feature extension to check if objects bumped into each other = intersect in guards to react to it in assignments of action destinations
-    "op": ["intersect", "not-intersect"],
-    "left": Robot.name, //geometric intersection of a robot with ...
-    "right": Array.of(
-            Obstacle.name,
-            "obstacles",
-            "boundaries")
 });
