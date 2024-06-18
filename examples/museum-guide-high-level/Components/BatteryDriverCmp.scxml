@@ -1,0 +1,44 @@
+<scxml
+	version="1.0"
+  	xmlns="..."
+  	datamodel="ecmascript"
+	name="BatteryDriverCmp"
+  	initial="init">
+
+	<datamodel>
+		<!-- TYPE level:int32 -->
+		<data id="level" expr="0" />
+	</datamodel>
+
+    <!-- BatteryDriverCmp is a server for drain -->
+    <ros_async_service_server id="/BatteryDriverCmp/drain" />
+	<!-- BatteryDriverCmp publishes the battery state -->
+	<ros_topic_publisher id="/BatteryDriverCmp/battery_status" />
+
+	<state id="init">
+		<onentry>
+			<assign location="level" expr="100" />
+		</onentry>
+		<transition target="idle" />
+	</state>
+	
+	<state id="idle">
+		<onentry>
+			<ros_topic_publish id="/BatteryDriverCmp/battery_status">
+				<param name="percentage" expr="level">
+			</ros_topic_publish>
+		</onentry>
+		<ros_async_service_handle_request id="/BatteryDriverCmp/drain" target="drain"/>
+	</state>
+
+	<state id="drain">
+		<onentry>
+			<if condition="level &gt; 0" >
+				<assign location="level" expr="level - 1" />
+			</if>
+		</onentry>
+		<transition target="idle">
+			<ros_async_service_send_response id="/BatteryDriverCmp/drain"/>
+		</transition>
+	<state>
+</scxml>

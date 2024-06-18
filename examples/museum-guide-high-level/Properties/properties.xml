@@ -1,0 +1,29 @@
+<properties>
+  <ports>
+    <!-- Ports are either Boolean or numeric variables associated to messages exchanged by the elements
+    of the control architecture; only Boolean and numeric variables are allowed since these are the only
+    ones that can be used to build MTL expressions. -->
+    <ros_topic_publisher id="/BatteryDriverCmp/battery_status" type="sensor_msgs/BatteryState"/>
+      <port id="level" expr="_msg.percentage">
+    </ros_topic>
+    <!-- event="request" means that is the call to the service that is associated to the boolean "alarm" -->
+    <!-- event="response" would associate an event to the response -->
+    <ros_sync_service_client id="/AlarmCmp/sendAlarm" type="void" event="request"/>
+      <port id="alarm">
+    </port>
+  </ports>  
+
+  <property id="alarm-follows-battery-low">
+    <always>
+      <implies>
+        <leq>
+          <var refid="level"/>
+          <const>30</const>
+        </leq>
+        <eventually within="5">
+          <prop refid="alarm">
+        </eventually>
+      </implies>
+    </always>
+  </property>
+</properties>
