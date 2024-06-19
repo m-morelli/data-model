@@ -1,0 +1,28 @@
+<specification xmlns="..." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="...">
+
+  <types path="./types.xml" />
+  <protocols path="./protocols.xml" />
+    
+  <model>
+
+    <taskPlan id="Policy" moc="bt" path="./Policy.xml"/> 
+
+    <skillList>
+      <!-- Skills (BT leaves) -->
+      <skill id="BatteryLevel" moc="fsm" path="../Skills/BatteryLevel.scxml" />
+      <skill id="Alarm" moc="fsm" path="../Skills/AlarmBatteryLow.scxml" />
+      <skill id="BatteryDrainer" moc="fsm" path="../Skills/BatteryDrainer.scxml" />
+    </skillList>
+
+    <componentList>
+      <!-- Components (abstract models for s.w., h.w., environment) -->
+      <component id="BatteryDriverCmp" moc="fsm" path="../Components/BatteryDriverCmp.scxml" />
+      <component id="AlarmCmp" moc="fsm" path="../Components/AlarmCmp.scxml" />
+    </componentList>
+ 
+  </model>
+
+  <properties path="../Properties/properties.xml"/>
+
+</specification>
