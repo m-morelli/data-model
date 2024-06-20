@@ -1,0 +1,24 @@
+<scxml
+	version="1.0"
+	xmlns="http://www.w3.org/2005/07/scxml"
+	datamodel="ecmascript"
+	name="BatteryDriverCmp_battery_status_topic"
+	initial="running">
+
+	<datamodel>
+		<!-- TYPE message:sensor_msgs/BatteryState -->
+		<data id="message"/>
+	</datamodel>
+
+	<state id="running">
+		<transition event="BatteryDriverCmp_battery_status_publish" target="running">
+			<assign location="message" expr="_event.data"/>
+		</transition>
+		<transition event="BatteryDriverCmp_battery_status_wake" target="running">
+			<send event="BatteryDriverCmp_battery_status_callback" targetexpr="_event.origin">
+				<!-- TYPE message:sensor_msgs/BatteryState -->
+				<param name="message" location="message" />
+			</send>
+		</transition>
+	</state>
+</scxml>

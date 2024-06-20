@@ -1,0 +1,28 @@
+<properties>
+  <ports>
+    <port id="level" type="float32">
+      <source refid="BatteryDriverCmp" />
+      <target refid="BatteryDriverCmp_battery_status_topic" />
+      <message event="BatteryDriverCmp_battery_status_publish" param_name="percentage" />
+    </port>
+    <port id="alarm" type="boolean">
+      <source refid="AlarmBatteryLow" />
+      <target refid="AlarmCmp" />
+      <message event="AlarmCmp_sendAlarm_call" />
+    </port>
+  </ports>
+
+  <property id="alarm-follows-battery-low">
+    <always>
+      <implies>
+        <leq>
+          <var refid="level"/>
+          <const>30</const>
+        </leq>
+        <eventually within="5">
+          <prop refid="alarm">
+        </eventually>
+      </implies>
+    </always>
+  </property>
+</properties>
