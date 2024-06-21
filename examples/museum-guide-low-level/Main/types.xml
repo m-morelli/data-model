@@ -53,6 +53,7 @@ NOTE: alias for string
 
 -->
 
+
 <dataTypeList>
 
   <structure id="sensor_msgs/BatteryState">

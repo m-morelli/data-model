@@ -1,0 +1,27 @@
+<specification xmlns="..." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="...">
+
+  <types path="./types.xml" />
+  
+  <model>
+
+    <processList>
+      <!-- Tick generator -->
+      <process id="TickGen" moc="fsm" path="../Processes/TickGen.scxml" />
+      <!-- Policy given by main Behavior Tree -->
+      <process id="Policy" moc="bt" path="../Processes/Policy.xml" />
+      <!-- Skills (BT leaves) -->
+      <process id="BatteryLevel" moc="fsm" path="../Processes/BatteryLevel.scxml" />
+      <process id="AlarmBatteryLow" moc="fsm" path="../Processes/AlarmBatteryLow.scxml" />
+      <process id="BatteryDrainer" moc="fsm" path="../Processes/BatteryDrainer.scxml" />
+      <!-- Components (abstract models for s.w., h.w., environment) -->
+      <process id="BatteryDriverCmp" moc="fsm" path="../Processes/BatteryDriverCmp.scxml" />
+      <process id="AlarmCmp" moc="fsm" path="../Processes/AlarmCmp.scxml" />
+      <!-- Protocols (generated from high-level description) -->
+      <process id="ReadLevelTopic" moc="fsm" path="../Processes/ReadLevelTopic.scxml" />
+    </processList>
+ 
+  </model>
+
+  <properties path="../Properties/properties.xml"/>
+</specification>

@@ -28,7 +28,6 @@
                 <param name="result" expr="RUNNING"/>
             </ros_sync_service_send_response>
         </onentry>
-        <!-- Remain in this state -->
         <transition target="running"/>
     </state>
 
@@ -61,7 +60,7 @@
     <state id="waitHalt">
         <!-- Wait for the response from the component, then go to idle state -->
         <ros_async_service_handle_response id="/BatteryDriverCmp/drain" target="idle">
-            <ros_sync_service_send_response id="BatteryDrainer/halt">
+            <ros_sync_service_send_response id="BatteryDrainer/halt"/>
         </ros_async_service_handle_response> 
     </state>
 </scxml>

@@ -1,0 +1,21 @@
+<scxml
+  version="1.0"
+  xmlns="http://www.w3.org/2005/07/scxml"
+  datamodel="ecmascript"
+  name="TickGen"
+  initial="running">
+
+  <state id="running">
+    <onentry>
+      <send event="tick_call" target="Policy"/>
+    </onentry>
+    <transition event="tick_response" target="running" cond="_event.data.result == RUNNING"/>
+    <transition event="tick_response" target="success" cond="_event.data.result == SUCCESS"/>
+    <transition event="tick_response" target="failure" cond="_event.data.result == FAILURE"/>
+  </state>
+
+  <state id="success"/>
+
+  <state id="failure"/>
+</scxml>
+

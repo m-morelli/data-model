@@ -1,0 +1,79 @@
+<scxml
+    version="1.0"
+    xmlns="http://www.w3.org/2005/07/scxml"
+    datamodel="ecmascript"
+    name="BatteryDrainer"
+    initial="idle">
+   
+    <datamodel>
+        <!-- TYPE origin:URI -->
+        <data id="BatteryDrainer_tick_origin" />
+        <!-- TYPE origin:URI -->
+        <data id="BatteryDrainer_halt_origin" />
+        <!-- TYPE origin:URI -->
+        <!-- <data id="BatteryDriverCmp/drain_origin" /> -->
+    </datamodel>
+
+    <state id="idle">
+        <!-- If ticked, send a query to the BatteryDriverCmp -->
+        <transition event="BatteryDrainer_tick_call" target="drainQuery">
+            <assign location="BatteryDrainer_tick_origin" expr="_event.origin" />
+        </transition>
+        <!-- If halted, do nothing-->
+        <transition event="BatteryDrainer_halt_call" target="idle">
+            <assign location="BatteryDrainer_halt_origin" expr="_event.origin" />
+            <send event="BatteryDrainer_halt_return" targetexpr="BatteryDrainer_halt_origin" />
+        </transition>
+    </state>
+
+    <state id="drainQuery">
+        <onentry>
+            <send event="BatteryDriverCmp_drain_call" target="BatteryDriverCmp_drain_service" />
+            
+            <send event="BatteryDrainer_tick_return" targetexpr="BatteryDrainer_tick_origin">
+                <!-- TYPE result:TickResponse -->
+                <param name="result" expr="RUNNING"/>
+            </send>
+        </onentry>
+        <transition target="running"/>
+    </state>
+
+    <state id="running">
+        <!-- If the drain request returns, go to answer state-->
+        <transition event="BatteryDriverCmp_drain_return" target="answer"/>
+        <!-- If ticked, just answer RUNNING and stay in this state --> 
+        <transition event="BatteryDrainer_tick_call" target="running">
+            <assign location="BatteryDrainer_tick_origin" expr="_event.origin" />
+            <send event="BatteryDrainer_tick_return" targetexpr="BatteryDrainer_tick_origin">
+                <!-- TYPE result:TickResponse -->
+                <param name="result" expr="RUNNING"/>
+            </send>
+        </transition>
+        <!-- If halted, go to waitHalt state -->
+        <transition event="BatteryDrainer_halt_call" target="waitHalt">
+            <assign location="BatteryDrainer_halt_origin" expr="_event.origin" />
+        </transition>
+    </state>
+
+    <state id="answer">
+        <!-- If halted, return to the idle state -->
+        <transition event="BatteryDrainer_halt_call" target="idle">
+            <assign location="BatteryDrainer_halt_origin" expr="_event.origin" />
+            <send event="BatteryDrainer_halt_return" targetexpr="BatteryDrainer_halt_origin"/>
+        </transition>
+        <!-- If ticked, send back an answer to the BT and go to idle state -->
+        <transition event="BatteryDrainer_tick_call" target="idle">
+            <assign location="BatteryDrainer_tick_origin" expr="_event.origin" />
+            <send event="BatteryDrainer_tick_return" targetexpr="BatteryDrainer_tick_origin">
+                <!-- TYPE result:TickResponse -->
+                <param name="result" expr="SUCCESS"/>
+            </send>
+        </transition>
+    </state>
+
+    <state id="waitHalt">
+        <transition event="BatteryDriverCmp_drain_return" target="idle">
+            <send event="BatteryDrainer_halt_return" targetexpr="BatteryDrainer_halt_origin"/>
+        </transition>
+    </state>
+</scxml>

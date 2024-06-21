@@ -10,8 +10,9 @@
 
     <skillList>
       <!-- Skills (BT leaves) -->
+      <!-- Should moc="fsm" be changed to "scxml"? -->
       <skill id="BatteryLevel" moc="fsm" path="../Skills/BatteryLevel.scxml" />
-      <skill id="Alarm" moc="fsm" path="../Skills/AlarmBatteryLow.scxml" />
+      <skill id="AlarmBatteryLow" moc="fsm" path="../Skills/AlarmBatteryLow.scxml" />
       <skill id="BatteryDrainer" moc="fsm" path="../Skills/BatteryDrainer.scxml" />
     </skillList>
 
