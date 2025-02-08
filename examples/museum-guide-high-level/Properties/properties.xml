@@ -1,29 +1,42 @@
+<?xml version="1.1" encoding="UTF-8" ?>
 <properties>
   <ports>
-    <!-- Ports are either Boolean or numeric variables associated to messages exchanged by the elements
-    of the control architecture; only Boolean and numeric variables are allowed since these are the only
-    ones that can be used to build MTL expressions. -->
-    <ros_topic_publisher id="/BatteryDriverCmp/battery_status" type="sensor_msgs/BatteryState"/>
-      <port id="level" expr="_msg.percentage">
+    <!-- NOTE: Each ROS communication protocol gives rise to a type of port -->
+    <!-- NOTE: Each element inside a port defines a new state or event variable -->
+    <ros_topic topic="/BatteryComponent/battery_level" type="std_msgs/Int32">
+      <!-- Battery level -->
+      <!-- NOTE: State variables need a default value to be initialized when the system starts. Each successive communication updates their value. -->
+      <state_var id="battery_level" type="int32" field="data" expr="100"/>
+      <!-- Battery level published (event) -->
+      <!-- NOTE: Event variables are Boolean variables that are only true in the instant the communication happens, false otherwise. -->
+      <event_var id="battery_level_published"/>
     </ros_topic>
-    <!-- event="request" means that is the call to the service that is associated to the boolean "alarm" -->
-    <!-- event="response" would associate an event to the response -->
-    <ros_sync_service_client id="/AlarmCmp/sendAlarm" type="void" event="request"/>
-      <port id="alarm">
-    </port>
-  </ports>  
 
-  <property id="alarm-follows-battery-low">
-    <always>
-      <implies>
-        <leq>
-          <var refid="level"/>
-          <const>30</const>
-        </leq>
-        <eventually within="5">
-          <prop refid="alarm">
-        </eventually>
-      </implies>
-    </always>
-  </property>
+    <!-- NOTE: Service ports must specify if they are for the request or respond event -->
+    <ros_service service_name="/NotifyUserComponent/StartAlarm" type="notify_user_interfaces_dummy/StartAlarm" event="request">
+      <!-- Alarm (event) -->
+      <event_var id="alarm"/>
+    </ros_service>
+
+    <!-- TODO: Support ROS action ports -->
+  </ports>
+
+  <!-- NOTE: Property specification patterns as in [ps-patterns.wikidot.com] -->
+  <!-- TODO: Make a list of all the patterns we need and their respective xml formats -->
+  <guarantees>
+    <property id="battery_alarm_response_1" pattern="precedence" event="alarm" after="battery_level <= 30"/>
+    <!-- NOTE: Optionally properties can be expressed explicitely in a given logic -->
+    <!-- <property id="battery_alarm_response_1" logic="pmtl" expr="{ alarm: true } -> P { battery_level <= 30 }"/> -->
+    <property id="battery_alarm_response_2" pattern="response" event="battery_level <= 30" response="alarm" within="6200" time_unit="ms" />
+    <property id="no_alarm_if_battery_high" pattern="absence" event="alarm" before="battery_level == 30"/>
+    <property id="battery_recurrence" pattern="recurrence" variant="globally" event="battery_level_published" within="3" time_unit="s"/>
+    <!-- NOTE: Optionally properties can be expressed explicitely in a given logic -->
+    <!-- NOTE: In this case, though, times have to be specified according to some format---here we use the "short" time units -->
+    <!-- <property id="battery_recurrence" logic="pmtl" expr="(P[5s:] true) -> P[:3s] { battery_level_published: true }"/> -->
+  </guarantees>
+
+  <assumes>
+    <!-- NOTE: Same format as guarantees -->
+    <!-- <property ... /> -->
+  </assumes>
 </properties>
