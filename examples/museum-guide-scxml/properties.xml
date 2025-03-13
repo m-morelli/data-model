@@ -1,0 +1,36 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<properties>
+  <ports>
+    <!-- NOTE: It could make sense to support also "scxml_event_received" but that is not planned at the moment -->
+    <scxml_event_send event="topic_BatteryComponent__battery_level_msg" origin="BatteryComponent" target="BatteryLevelSkill">
+      <!-- Battery level -->
+      <!-- NOTE: state variables have associated type, param and initialization value -->
+      <!-- NOTE: in prionciple initialization value could be made optional, but we don't plan to support this at the moment -->
+      <!-- NOTE: We are not 100% consistent with tags/attributes already, so we might as well just use the more ergonomic attribute "param" instead of "param_name" -->
+      <state_var id="battery_level" param="ros_fields__data" type="int32" expr="100"/>
+      <!-- Battery level published (event) -->
+      <!-- NOTE: event variables have no associated type, param or expr -->
+      <event_var id="battery_level_published"/>
+    </scxml_event_send>
+
+    <scxml_event_send event="srv_NotifyUserComponent__StartAlarm_req_client_AlarmSkill" origin="AlarmSkill" target="srv_handler_NotifyUserComponent__StartAlarm">
+      <!-- Alarm (event) -->
+      <event_var id="alarm"/>
+    </scxml_event_send>
+  </ports>
+
+  <guarantees>
+    <!-- NOTE: Rye (Reelay) format [https://doganulus.github.io/reelay/rye/] -->
+    <!-- NOTE: List of operators: &&, ||, !, ->, S[a:b], H[a:b], O[a:b] -->
+    <!-- NOTE: Rye allows for simple predicates only (defined within curly brackets). We might want to accept (some subset of) ECMAscript, as in the datamodel of SCXML machines. -->
+    <property id="battery_alarm_response_1" logic="pmtl" expr="{ alarm } -> P { battery_level <= 30 }"/>
+    <property id="battery_alarm_response_2" expr="!( { !alarm } S[62:] { battery_level <= 30 } )"/>
+    <property id="no_alarm_if_battery_high" expr="H ({ battery_level == 30 } -> H { !alarm })"/>
+    <property id="battery_recurrence" expr="(P[50:] true) -> P[:30] { battery_level_published }"/>
+  </guarantees>
+
+  <assumes>
+    <!-- NOTE: Same format as guarantees -->
+    <!-- <property ... /> -->
+  </assumes>
+</properties>
