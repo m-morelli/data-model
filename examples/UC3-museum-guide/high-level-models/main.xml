@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<convince_mc_tc>
+    <mc_parameters>
+        <max_time value="100" unit="s" />
+        <!-- <max_array_size value="10" /> -->
+        <bt_tick_rate value="10.0" />
+    </mc_parameters>
+
+    <behavior_tree>
+        <input type="bt.cpp-xml" src="./bt_policies/Policy.xml" />
+        <input type="bt-plugin-ros-scxml" src="./bt_plugins/ROS2Condition.scxml" />
+        <input type="bt-plugin-ros-scxml" src="./bt_plugins/ROS2Action.scxml" />
+    </behavior_tree>
+
+    <node_models>
+        <input type="ros-scxml" src="./components/BatteryComponent.scxml" />
+        <input type="ros-scxml" src="./components/NotifyUserComponent.scxml" />
+        <input type="ros-scxml" src="./components/BlackboardComponent.scxml" />
+        <input type="ros-scxml" src="./components/SchedulerComponent.scxml" />
+        <input type="ros-scxml" src="./components/PeopleDetectorFilterComponent.scxml" />
+        <input type="ros-scxml" src="./components/NavigationComponent.scxml" />
+        <input type="ros-scxml" src="./skills/BatteryLevelSkill.scxml" />
+        <input type="ros-scxml" src="./skills/AlarmSkill.scxml" />
+        <input type="ros-scxml" src="./skills/IsPoiDone1Skill.scxml" />
+        <input type="ros-scxml" src="./skills/IsPoiDone2Skill.scxml" />
+        <input type="ros-scxml" src="./skills/SetPoi1Skill.scxml" />
+        <input type="ros-scxml" src="./skills/SetPoi2Skill.scxml" />
+        <input type="ros-scxml" src="./skills/ResetSkill.scxml" />
+        <input type="ros-scxml" src="./skills/SetCurrentPoiDoneSkill.scxml" />
+        <input type="ros-scxml" src="./skills/VisitorsFollowingRobotSkill.scxml" />
+        <input type="ros-scxml" src="./skills/WaitSkill.scxml" />
+        <input type="ros-scxml" src="./skills/GoToPoiActionSkill.scxml" />
+    </node_models>
+
+    <properties>
+        <!-- <input type="xml" src="./Properties/properties.xml" /> -->
+        <input type="jani" src="./properties/properties.jani" />
+    </properties>
+</convince_mc_tc>
