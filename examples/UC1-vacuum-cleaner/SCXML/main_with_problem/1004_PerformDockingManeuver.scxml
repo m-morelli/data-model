@@ -1,0 +1,15 @@
+<scxml name="1004_PerformDockingManeuver" version="1.0" model_src="" initial="initial" xmlns="http://www.w3.org/2005/07/scxml">
+    <state id="initial">
+        <transition event="bt_1004_tick" target="initial">
+            <send event="topic_cmd_vel_msg" target="RobotModel">
+                <param name="ros_fields__data" expr="2"/>
+            </send>
+            <send event="bt_1004_response" target="1001_ReactiveSequence">
+                <param name="status" expr="1"/>
+            </send>
+        </transition>
+        <transition event="bt_1004_halt" target="initial">
+            <send event="bt_1004_halt_response" target="1001_ReactiveSequence"/>
+        </transition>
+    </state>
+</scxml>

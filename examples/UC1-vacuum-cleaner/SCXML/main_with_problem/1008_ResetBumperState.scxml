@@ -1,0 +1,13 @@
+<scxml name="1008_ResetBumperState" version="1.0" model_src="" initial="initial" xmlns="http://www.w3.org/2005/07/scxml">
+    <state id="initial">
+        <transition event="bt_1008_tick" target="initial">
+            <send event="srv_reset_bump_req_client_1008_ResetBumperState" target="srv_handler_reset_bump"/>
+            <send event="bt_1008_response" target="1007_Sequence">
+                <param name="status" expr="1"/>
+            </send>
+        </transition>
+        <transition event="bt_1008_halt" target="initial">
+            <send event="bt_1008_halt_response" target="1007_Sequence"/>
+        </transition>
+    </state>
+</scxml>

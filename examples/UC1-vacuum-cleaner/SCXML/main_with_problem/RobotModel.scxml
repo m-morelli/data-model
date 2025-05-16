@@ -1,0 +1,76 @@
+<scxml name="RobotModel" version="1.0" model_src="" initial="running" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE dist_to_dock:int16 -->
+        <data id="dist_to_dock" expr="20"/>
+        <!-- TYPE has_bumped:bool -->
+        <data id="has_bumped" expr="false"/>
+        <!-- TYPE last_cmd:int16 -->
+        <data id="last_cmd" expr="0"/>
+        <!-- TYPE docked_time:int16 -->
+        <data id="docked_time" expr="0"/>
+        <!-- TYPE charge_delay:int16 -->
+        <data id="charge_delay" expr="10"/>
+        <!-- TYPE is_charging:bool -->
+        <data id="is_charging" expr="false"/>
+    </datamodel>
+    <state id="running">
+        <transition event="topic_cmd_vel_msg" target="running">
+            <assign location="last_cmd" expr="_event.data.ros_fields__data"/>
+        </transition>
+        <transition event="srv_reset_bump_request" target="running">
+            <assign location="has_bumped" expr="false"/>
+            <send event="srv_reset_bump_response" target="srv_handler_reset_bump"/>
+        </transition>
+        <transition event="ros_time_rate.status_update" cond="dist_to_dock == 0 &amp;&amp; last_cmd == 0" target="handle_docked"/>
+        <transition event="ros_time_rate.status_update" target="handle_undocked"/>
+    </state>
+    <state id="handle_docked">
+        <onentry>
+            <assign location="docked_time" expr="docked_time + 1"/>
+        </onentry>
+        <transition>
+            <target id="update_state" prob="0.85">
+                <assign location="is_charging" expr="docked_time &gt; charge_delay"/>
+            </target>
+            <target id="update_state" prob="0.15000000000000002">
+                <assign location="is_charging" expr="false"/>
+            </target>
+        </transition>
+    </state>
+    <state id="handle_undocked">
+        <onentry>
+            <assign location="is_charging" expr="false"/>
+            <assign location="docked_time" expr="0"/>
+            <if cond="has_bumped">
+                <assign location="last_cmd" expr="Math.min(0, last_cmd)"/>
+            </if>
+        </onentry>
+        <transition>
+            <target id="update_state" prob="0.8">
+                <assign location="dist_to_dock" expr="dist_to_dock - last_cmd"/>
+            </target>
+            <target id="update_state" prob="0.15"/>
+            <target id="update_state" prob="0.04999999999999993">
+                <assign location="has_bumped" expr="true"/>
+            </target>
+        </transition>
+    </state>
+    <state id="update_state">
+        <transition target="running">
+            <assign location="last_cmd" expr="0"/>
+            <if cond="dist_to_dock &lt; 0">
+                <assign location="dist_to_dock" expr="1"/>
+                <assign location="has_bumped" expr="true"/>
+            </if>
+            <if cond="has_bumped">
+                <send event="topic_bumper_msg" target="1003_IsBumpDetected"/>
+            </if>
+            <send event="topic_dist_to_dock_msg" target="NONE">
+                <param name="ros_fields__data" expr="dist_to_dock"/>
+            </send>
+            <send event="topic_battery_charging_msg" target="1006_IsCharging">
+                <param name="ros_fields__data" expr="is_charging"/>
+            </send>
+        </transition>
+    </state>
+</scxml>

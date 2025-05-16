@@ -1,0 +1,21 @@
+<scxml name="1010_AlwaysFailure" version="1.0" model_src="" initial="init" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE children_count:int8 -->
+        <data id="children_count" expr="0"/>
+    </datamodel>
+    <state id="init">
+        <transition cond="children_count != 0" target="error"/>
+        <transition target="idle"/>
+    </state>
+    <state id="idle">
+        <transition event="bt_1010_tick" target="idle">
+            <send event="bt_1010_response" target="1007_Sequence">
+                <param name="status" expr="2"/>
+            </send>
+        </transition>
+        <transition event="bt_1010_halt" target="idle">
+            <send event="bt_1010_halt_response" target="1007_Sequence"/>
+        </transition>
+    </state>
+    <state id="error"/>
+</scxml>

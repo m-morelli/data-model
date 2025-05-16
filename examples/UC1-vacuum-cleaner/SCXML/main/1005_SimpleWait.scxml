@@ -1,0 +1,42 @@
+<scxml name="1005_SimpleWait" version="1.0" model_src="" initial="initial" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE waiting:bool -->
+        <data id="waiting" expr="false"/>
+        <!-- TYPE n_waited:int16 -->
+        <data id="n_waited" expr="0"/>
+        <!-- TYPE wait_duration_s:int16 -->
+        <data id="wait_duration_s" expr="0"/>
+    </datamodel>
+    <state id="initial">
+        <transition event="bt_1005_tick" target="initial">
+            <if cond="waiting == false">
+                <assign location="waiting" expr="true"/>
+                <assign location="n_waited" expr="0"/>
+                <assign location="wait_duration_s" expr="1"/>
+                <send event="bt_1005_response" target="1001_ReactiveSequence">
+                    <param name="status" expr="3"/>
+                </send>
+                <else/>
+                <if cond="n_waited &gt;= wait_duration_s * 10">
+                    <send event="bt_1005_response" target="1001_ReactiveSequence">
+                        <param name="status" expr="1"/>
+                    </send>
+                    <else/>
+                    <send event="bt_1005_response" target="1001_ReactiveSequence">
+                        <param name="status" expr="3"/>
+                    </send>
+                </if>
+            </if>
+        </transition>
+        <transition event="bt_1005_halt" target="initial">
+            <assign location="waiting" expr="false"/>
+            <assign location="n_waited" expr="0"/>
+            <send event="bt_1005_halt_response" target="1001_ReactiveSequence"/>
+        </transition>
+        <transition event="ros_time_rate.wait_timer" target="initial">
+            <if cond="waiting == true">
+                <assign location="n_waited" expr="n_waited + 1"/>
+            </if>
+        </transition>
+    </state>
+</scxml>
