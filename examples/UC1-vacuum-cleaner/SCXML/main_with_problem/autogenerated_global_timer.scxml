@@ -6,8 +6,8 @@
     <state id="idle">
         <transition cond="current_time &lt; 20000" target="idle">
             <assign location="current_time" expr="current_time + 100"/>
-            <send event="topic_clock_msg" target="NONE">
-                <param name="ros_fields__sec" expr="Math.floor(current_time / 1000)"/>
+            <send event="topic_clock_msg" target="NONE" delay="1">
+                <!-- <param name="ros_fields__sec" expr="Math.floor(current_time / 1000)"/> -->
                 <param name="ros_fields__nanosec" expr="current_time % 1000 * 1000000"/>
             </send>
             <if cond="current_time % 100 == 0">

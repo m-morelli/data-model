@@ -6,8 +6,7 @@
         <transition event="bt_1000_response" target="error"/>
     </state>
     <state id="wait_tick_res">
-        <transition event="bt_1000_response" cond="_event.data.status == 3" target="idle"/>
-        <transition event="bt_1000_response" target="done"/>
+        <transition event="bt_1000_response" target="idle"/>
     </state>
     <state id="done"/>
     <state id="error"/>

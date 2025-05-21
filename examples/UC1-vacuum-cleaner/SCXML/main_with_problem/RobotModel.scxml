@@ -12,6 +12,8 @@
         <data id="charge_delay" expr="10"/>
         <!-- TYPE is_charging:bool -->
         <data id="is_charging" expr="false"/>
+        <!-- TYPE rand:float64 -->
+        <data id="rand" expr="0"/>
     </datamodel>
     <state id="running">
         <transition event="topic_cmd_vel_msg" target="running">
@@ -26,33 +28,31 @@
     </state>
     <state id="handle_docked">
         <onentry>
+            <assign location="rand" expr="Math.random()"/>
             <assign location="docked_time" expr="docked_time + 1"/>
         </onentry>
-        <transition>
-            <target id="update_state" prob="0.85">
-                <assign location="is_charging" expr="docked_time &gt; charge_delay"/>
-            </target>
-            <target id="update_state" prob="0.15000000000000002">
-                <assign location="is_charging" expr="false"/>
-            </target>
+        <transition target="update_state" cond="rand &lt; 0.85">
+            <assign location="is_charging" expr="docked_time &gt; charge_delay"/>
+        </transition>
+        <transition target="update_state">
+            <assign location="is_charging" expr="false"/>
         </transition>
     </state>
     <state id="handle_undocked">
         <onentry>
+            <assign location="rand" expr="Math.random()"/>
             <assign location="is_charging" expr="false"/>
             <assign location="docked_time" expr="0"/>
-            <if cond="has_bumped">
-                <assign location="last_cmd" expr="Math.min(0, last_cmd)"/>
+            <if cond="has_bumped &amp;&amp; last_cmd &gt; 0">
+                <assign location="last_cmd" expr="0"/>
             </if>
         </onentry>
-        <transition>
-            <target id="update_state" prob="0.8">
-                <assign location="dist_to_dock" expr="dist_to_dock - last_cmd"/>
-            </target>
-            <target id="update_state" prob="0.15"/>
-            <target id="update_state" prob="0.04999999999999993">
-                <assign location="has_bumped" expr="true"/>
-            </target>
+        <transition target="update_state" cond="rand &lt; 0.8">
+            <assign location="dist_to_dock" expr="dist_to_dock - last_cmd"/>
+        </transition>
+        <transition target="update_state" cond="rand - 0.8 &lt; 0.15"/>
+        <transition target="update_state">
+            <assign location="has_bumped" expr="true"/>
         </transition>
     </state>
     <state id="update_state">

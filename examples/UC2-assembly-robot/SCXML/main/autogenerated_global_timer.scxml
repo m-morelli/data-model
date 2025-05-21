@@ -4,6 +4,9 @@
         <data id="current_time" expr="0"/>
     </datamodel>
     <state id="idle">
+        <onentry>
+            <send event="time" target="NONE" delay="2"/>
+        </onentry>
         <transition cond="current_time &lt; 100" target="idle">
             <assign location="current_time" expr="current_time + 2"/>
             <send event="topic_clock_msg" target="MoveBlockSkill">

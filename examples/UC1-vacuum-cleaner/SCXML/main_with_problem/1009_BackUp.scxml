@@ -1,19 +1,25 @@
 <scxml name="1009_BackUp" version="1.0" model_src="" initial="initial" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE rand:float64 -->
+        <data id="rand" expr="0"/>
+    </datamodel>
+
     <state id="initial">
-        <transition event="bt_1009_tick">
-            <target id="initial" prob="0.2">
-                <send event="bt_1009_response" target="1007_Sequence">
-                    <param name="status" expr="2"/>
-                </send>
-            </target>
-            <target id="initial" prob="0.8">
-                <send event="topic_cmd_vel_msg" target="RobotModel">
-                    <param name="ros_fields__data" expr="-1"/>
-                </send>
-                <send event="bt_1009_response" target="1007_Sequence">
-                    <param name="status" expr="1"/>
-                </send>
-            </target>
+        <onentry>
+            <assign location="rand" expr="Math.random()"/>
+        </onentry>
+        <transition event="bt_1009_tick" target="initial" cond="rand &lt; 0.2">
+            <send event="bt_1009_response" target="1007_Sequence">
+                <param name="status" expr="2"/>
+            </send>
+        </transition>
+        <transition event="bt_1009_tick" target="initial">
+            <send event="topic_cmd_vel_msg" target="RobotModel">
+                <param name="ros_fields__data" expr="-1"/>
+            </send>
+            <send event="bt_1009_response" target="1007_Sequence">
+                <param name="status" expr="1"/>
+            </send>
         </transition>
         <transition event="bt_1009_halt" target="initial">
             <send event="bt_1009_halt_response" target="1007_Sequence"/>
