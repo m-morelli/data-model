@@ -17,24 +17,21 @@
       <!-- Alarm (event) -->
       <event_var id="alarm"/>
     </scxml_event_send>
+  
+    <scxml_event_send event="bt_1000_response" origin="1000_Sequence" target="bt_root_fsm_Policy">
+      <state_var id="tick_response" param="status" type="int32" expr="0"/>
+    </scxml_event_send>
   </ports>
 
   <guarantees>
     <!-- NOTE: Rye (Reelay) format [https://doganulus.github.io/reelay/rye/] -->
     <!-- NOTE: List of operators: &&, ||, !, ->, S[a:b], H[a:b], O[a:b] -->
     <!-- NOTE: Rye allows for simple predicates only (defined within curly brackets). We might want to accept (some subset of) ECMAscript, as in the datamodel of SCXML machines. -->
+    <property id="tree_success" expr="P { tick_response == 1 }"/>
     <property id="battery_alarm_response_1" logic="pmtl" expr="H ({ alarm } -> P { battery_level <= 30 })"/>
     <property id="battery_alarm_response_2" expr="! P ( { !alarm } S[62:] { battery_level <= 30 } )"/>
     <property id="no_alarm_if_battery_high" expr="H ({ battery_level >= 30 } -> H { !alarm })"/>
     <property id="battery_recurrence" expr="H ((P[50:] true) -> P[:30] { battery_level_published })"/>
-    <!-- <property id="historically_true" expr="H true"/> -->
-    <!-- <property id="historically_false" expr="H false"/> -->
-    <!-- <property id="previously_true" expr="P { alarm }"/> -->
-    <!-- <property id="previously_false" expr="P false"/> -->
-    <!-- <property id="true_since_true" expr="true S true"/> -->
-    <!-- <property id="false_since_true" expr="false S true"/> -->
-    <!-- <property id="true_since_false" expr="true S false"/> -->
-    <!-- <property id="false_since_false" expr="false S false"/> -->
   </guarantees>
 
   <assumes>
