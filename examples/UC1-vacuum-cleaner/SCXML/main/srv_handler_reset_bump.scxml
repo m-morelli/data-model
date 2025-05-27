@@ -1,0 +1,12 @@
+<scxml name="srv_handler_reset_bump" version="1.0" model_src="" initial="waiting" xmlns="http://www.w3.org/2005/07/scxml">
+    <state id="waiting">
+        <transition event="srv_reset_bump_req_client_1008_ResetBumperState" target="processing_client_1008_ResetBumperState">
+            <send event="srv_reset_bump_request" target="RobotModel"/>
+        </transition>
+    </state>
+    <state id="processing_client_1008_ResetBumperState">
+        <transition event="srv_reset_bump_response" target="waiting">
+            <send event="srv_reset_bump_response_client_1008_ResetBumperState" target="NONE"/>
+        </transition>
+    </state>
+</scxml>

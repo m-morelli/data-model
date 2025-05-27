@@ -1,0 +1,39 @@
+<scxml name="RecoverBlockSkill" version="1.0" model_src="" initial="idle" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE block_id:int32 -->
+        <data id="block_id" expr="0"/>
+        <!-- TYPE goal_id:int32 -->
+        <data id="goal_id" expr="0"/>
+    </datamodel>
+    <state id="idle">
+        <onentry>
+            <send event="topic_uc2__info__properties__recover_block_running_msg" target="NONE">
+                <param name="ros_fields__data" expr="0"/>
+            </send>
+        </onentry>
+        <transition event="action_uc2__skills__recover_block_goal_handle" target="executing">
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <assign location="block_id" expr="_event.data.ros_fields__block_id"/>
+            <send event="action_uc2__skills__recover_block_goal_accepted" target="action_handler_uc2__skills__recover_block">
+                <param name="goal_id" expr="goal_id"/>
+            </send>
+        </transition>
+    </state>
+    <state id="executing">
+        <onentry>
+            <send event="topic_uc2__info__properties__recover_block_running_msg" target="NONE">
+                <param name="ros_fields__data" expr="1"/>
+            </send>
+            <send event="srv_uc2__world__reset_block_status_req_client_RecoverBlockSkill" target="srv_handler_uc2__world__reset_block_status"/>
+        </onentry>
+        <transition event="srv_uc2__world__reset_block_status_response_client_RecoverBlockSkill" target="idle">
+            <send event="action_uc2__skills__recover_block_result" target="action_handler_uc2__skills__recover_block">
+                <param name="goal_id" expr="goal_id"/>
+                <param name="code" expr="4"/>
+            </send>
+            <send event="topic_uc2__info__properties__recover_block_running_msg" target="NONE">
+                <param name="ros_fields__data" expr="0"/>
+            </send>
+        </transition>
+    </state>
+</scxml>

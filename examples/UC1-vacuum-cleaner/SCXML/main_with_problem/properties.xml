@@ -1,0 +1,20 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<properties>
+  <ports>
+    <scxml_event_send event="bt_1000_response" origin="1000_Fallback" target="bt_root_fsm_policy">
+      <state_var id="tick" param="status" type="int32" expr="0"/>
+    </scxml_event_send>
+    <scxml_event_send event="topic_dist_to_dock_msg" origin="RobotModel" target="NONE">
+      <event_var id="dist_to_dock_update"/>
+      <state_var id="dist_to_dock" param="ros_fields__data" type="int16" expr="100"/>
+    </scxml_event_send>
+    <scxml_event_send event="topic_battery_charging_msg" origin="RobotModel" target="1006_IsCharging">
+      <state_var id="is_charging" param="ros_fields__data" type="bool" expr="false"/>
+    </scxml_event_send>
+  </ports>
+
+  <guarantees>
+    <property id="tree_success" expr="P { tick == 1 }"/>
+    <property id="charging_starts" expr="P ({ dist_to_dock == 0 } and (P[0:0]{ dist_to_dock_update }) and { is_charging })"/>
+  </guarantees>
+</properties>

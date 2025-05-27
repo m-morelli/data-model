@@ -1,0 +1,4 @@
+<scxml name="NONE" version="1.0" model_src="" initial="init" xmlns="http://www.w3.org/2005/07/scxml">
+	<state id="init">
+	</state>
+</scxml>

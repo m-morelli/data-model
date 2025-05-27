@@ -1,0 +1,32 @@
+<scxml name="1004_PerformDockingManeuver" version="1.0" model_src="" initial="initial" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE dock_dist:int16 -->
+        <data id="dock_dist" expr="-1"/>
+    </datamodel>
+    <state id="initial">
+        <transition event="topic_dist_to_dock_msg" target="initial">
+            <assign location="dock_dist" expr="_event.data.ros_fields__data"/>
+        </transition>
+        <transition event="bt_1004_tick" target="initial">
+            <if cond="dock_dist &lt; 0">
+                <send event="bt_1004_response" target="1001_ReactiveSequence">
+                    <param name="status" expr="2"/>
+                </send>
+                <elseif cond="dock_dist &gt; 0"/>
+                <send event="topic_cmd_vel_msg" target="RobotModel">
+                    <param name="ros_fields__data" expr="2"/>
+                </send>
+                <send event="bt_1004_response" target="1001_ReactiveSequence">
+                    <param name="status" expr="3"/>
+                </send>
+                <else/>
+                <send event="bt_1004_response" target="1001_ReactiveSequence">
+                    <param name="status" expr="1"/>
+                </send>
+            </if>
+        </transition>
+        <transition event="bt_1004_halt" target="initial">
+            <send event="bt_1004_halt_response" target="1001_ReactiveSequence"/>
+        </transition>
+    </state>
+</scxml>
