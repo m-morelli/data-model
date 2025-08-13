@@ -1,0 +1,20 @@
+{
+  "anomaly": {
+    "known": "yes/no",
+    "human detection": "yes/no",
+    "id": "",
+    "description": ""
+  },
+  "scene": {
+    "initial_state": {
+      "number of objects": "",
+      "objects": ["..."],
+      "relationships": [{ "subject": "obj1", "relation": "rel", "object": "obj2" }]
+    },
+    "final_state": {
+      "number of objects": "",
+      "objects": ["..."],
+      "relationships": [{ "subject": "obj1", "relation": "rel", "object": "obj2" }]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "anomaly": {
+    "isAnomaly": "yes",
+    "known": "yes",
+    "human detection": "yes",
+    "id": "1.b",
+    "description": "BLOCK has been moved or removed."
+  },
+  "scene": {
+    "initial_state": {
+      "number of objects": "3",
+      "objects": ["red BLOCK 1", "black BLOCK", "red BLOCK 2"],
+      "relationships": [{ "subject": "red BLOCK 1", "relation": "on", "object": "table" }, { "subject": "black BLOCK", "relation": "on", "object": "table" }, { "subject": "red BLOCK 2", "relation": "on", "object": "table" }]
+    },
+    "final_state": {
+      "number of objects": "2",
+      "objects": ["red BLOCK 1", "black BLOCK"],
+      "relationships": [{ "subject": "red BLOCK 1", "relation": "on", "object": "table" }, { "subject": "black BLOCK", "relation": "on", "object": "table" }, { "subject": "red BLOCK 2"]
+    }
+  }
+}

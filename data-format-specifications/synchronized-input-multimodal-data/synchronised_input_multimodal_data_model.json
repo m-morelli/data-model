@@ -1,0 +1,38 @@
+{
+    "image_chunk_i": {
+        "sample0": "",
+        "sample1": "",
+        ...
+        "samplei": ""
+    },
+    "scan_chunk_i": {
+        "sample0": "",
+        "sample1": "",
+        ...
+        "samplei": ""
+    },
+    "proprio_chunk_i": {
+        "sample0": {
+            "timestamp": ,
+            "Pose position": [],
+            "Pose orientation": [],
+            "Twist linear": [],
+            "Twist angular": []
+        },
+        "sample1": {
+            "timestamp": ,
+            "Pose position": [],
+            "Pose orientation": [],
+            "Twist linear": [],
+            "Twist angular": []
+        },
+        ...
+        "samplei": {
+            "timestamp": ,
+            "Pose position": [],
+            "Pose orientation": [],
+            "Twist linear": [],
+            "Twist angular": []
+        }
+    }
+}
