@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ascxml
     initial="idle"
+    version="1.0"
     name="RecoverBlock"
     model_src=""
     xmlns="http://www.w3.org/2005/07/scxml">
@@ -8,16 +9,26 @@
     <bt_declare_port_in key="block_id" type="int32" />
 
     <!-- RecoverBlock is a client for the RecoverBlockSkill -->
-    <ros_action_client name="RecoverBlock_action" action_name="/uc2/skills/recover_block" type="uc2_interfaces/RecoverBlock" />
+    <ros_action_client name="RecoverBlock_action" action_name="/uc2/skills/recover_block" type="convince_uc2_interfaces/RecoverBlock" />
 
     <datamodel>
+        <data id="block_id"      expr="0"     type="int32" />
         <data id="skillResponse" expr="false" type="bool" />
         <!-- This skill does not need to provide any measurable result, only success/failure -->
     </datamodel>
 
     <state id="idle">
         <!-- If ticked, start the RecoverBlockSkill -->
-        <bt_tick target="startSkill" />
+        <bt_tick target="startSkill" >
+          <!-- 20/06/2025. Read blackboard variables now, to prevent :
+            "AssertionError: Error: SCXML state startSkill: reading blackboard variables from
+             onentry. This isn't yet supported." -->
+            <assign location="block_id">
+                <expr>
+                    <bt_get_input key="block_id" />
+                </expr>
+            </assign>
+        </bt_tick>
         <!-- If halted, do nothing-->
         <bt_halt target="idle">
             <bt_return_halted />
@@ -32,11 +43,7 @@
         <!-- Send an asynchronous request and answer RUNNING to the BT -->
         <onentry>
             <ros_action_send_goal name="RecoverBlock_action">
-                <field name="block_id">
-                  <expr>
-                    <bt_get_input key="block_id" />
-                  </expr>
-                </field>
+                <field name="block_id" expr="block_id" />
             </ros_action_send_goal>
             <bt_return_status status="RUNNING" />
         </onentry>

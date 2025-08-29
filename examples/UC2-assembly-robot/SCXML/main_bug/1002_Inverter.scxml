@@ -13,28 +13,28 @@
     </state>
     <state id="halting_child">
         <onentry>
-            <send event="bt_1003_halt" target="1003_IsBlockFell"/>
+            <send event="bt_1003_halt" target="1003_Sequence"/>
         </onentry>
         <transition event="bt_1003_halt_response" target="wait_for_tick">
-            <send event="bt_1002_halt_response" target="1001_Fallback"/>
+            <send event="bt_1002_halt_response" target="1001_RetryUntilSuccessful"/>
         </transition>
     </state>
     <state id="tick_child">
         <onentry>
-            <send event="bt_1003_tick" target="1003_IsBlockFell"/>
+            <send event="bt_1003_tick" target="1003_Sequence"/>
         </onentry>
         <transition event="bt_1003_response" cond="_event.data.status == 1" target="wait_for_tick">
-            <send event="bt_1002_response" target="1001_Fallback">
+            <send event="bt_1002_response" target="1001_RetryUntilSuccessful">
                 <param name="status" expr="2"/>
             </send>
         </transition>
         <transition event="bt_1003_response" cond="_event.data.status == 2" target="wait_for_tick">
-            <send event="bt_1002_response" target="1001_Fallback">
+            <send event="bt_1002_response" target="1001_RetryUntilSuccessful">
                 <param name="status" expr="1"/>
             </send>
         </transition>
         <transition event="bt_1003_response" cond="_event.data.status == 3" target="wait_for_tick">
-            <send event="bt_1002_response" target="1001_Fallback">
+            <send event="bt_1002_response" target="1001_RetryUntilSuccessful">
                 <param name="status" expr="3"/>
             </send>
         </transition>

@@ -1,0 +1,30 @@
+<scxml name="srv_handler_uc2__world__get_gripper_status" version="1.0" model_src="" initial="waiting" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE ros_fields__block_in_gripper:bool -->
+        <data id="ros_fields__block_in_gripper" expr="false"/>
+    </datamodel>
+    <state id="waiting">
+        <transition event="srv_uc2__world__get_gripper_status_req_client_MoveToSkill" target="processing_client_MoveToSkill">
+            <send event="srv_uc2__world__get_gripper_status_request" target="Environment"/>
+        </transition>
+        <transition event="srv_uc2__world__get_gripper_status_req_client_1014_CheckGripperIsEmpty" target="processing_client_1014_CheckGripperIsEmpty">
+            <send event="srv_uc2__world__get_gripper_status_request" target="Environment"/>
+        </transition>
+    </state>
+    <state id="processing_client_MoveToSkill">
+        <transition event="srv_uc2__world__get_gripper_status_response" target="waiting">
+            <assign location="ros_fields__block_in_gripper" expr="_event.data.ros_fields__block_in_gripper"/>
+            <send event="srv_uc2__world__get_gripper_status_response_client_MoveToSkill" target="MoveToSkill">
+                <param name="ros_fields__block_in_gripper" expr="ros_fields__block_in_gripper"/>
+            </send>
+        </transition>
+    </state>
+    <state id="processing_client_1014_CheckGripperIsEmpty">
+        <transition event="srv_uc2__world__get_gripper_status_response" target="waiting">
+            <assign location="ros_fields__block_in_gripper" expr="_event.data.ros_fields__block_in_gripper"/>
+            <send event="srv_uc2__world__get_gripper_status_response_client_1014_CheckGripperIsEmpty" target="1014_CheckGripperIsEmpty">
+                <param name="ros_fields__block_in_gripper" expr="ros_fields__block_in_gripper"/>
+            </send>
+        </transition>
+    </state>
+</scxml>

@@ -1,0 +1,9 @@
+# action pattern
+# attributes of goal
+#int32 robot
+int32 path_type
+int32 tgt_id
+---
+# attributes of result
+---
+# attributes of feedback

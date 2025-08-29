@@ -9,7 +9,15 @@
         </onentry>
         <transition cond="current_time &lt; 100" target="idle">
             <assign location="current_time" expr="current_time + 2"/>
-            <send event="topic_clock_msg" target="MoveBlockSkill">
+            <send event="topic_clock_msg" target="OpenGripperSkill">
+                <param name="ros_fields__sec" expr="current_time"/>
+                <param name="ros_fields__nanosec" expr="0"/>
+            </send>
+            <send event="topic_clock_msg" target="CloseGripperSkill">
+                <param name="ros_fields__sec" expr="current_time"/>
+                <param name="ros_fields__nanosec" expr="0"/>
+            </send>
+            <send event="topic_clock_msg" target="MoveToSkill">
                 <param name="ros_fields__sec" expr="current_time"/>
                 <param name="ros_fields__nanosec" expr="0"/>
             </send>

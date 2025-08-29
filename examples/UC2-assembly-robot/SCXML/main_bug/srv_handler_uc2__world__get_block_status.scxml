@@ -4,14 +4,25 @@
         <data id="ros_fields__block_down" expr="0"/>
     </datamodel>
     <state id="waiting">
-        <transition event="srv_uc2__world__get_block_status_req_client_1003_IsBlockFell" target="processing_client_1003_IsBlockFell">
-            <send event="srv_uc2__world__get_block_status_request" target="MoveBlockSkill"/>
+        <transition event="srv_uc2__world__get_block_status_req_client_1009_CheckBlockHasFallen" target="processing_client_1009_CheckBlockHasFallen">
+            <send event="srv_uc2__world__get_block_status_request" target="Environment"/>
+        </transition>
+        <transition event="srv_uc2__world__get_block_status_req_client_1031_CheckBlockHasFallen" target="processing_client_1031_CheckBlockHasFallen">
+            <send event="srv_uc2__world__get_block_status_request" target="Environment"/>
         </transition>
     </state>
-    <state id="processing_client_1003_IsBlockFell">
+    <state id="processing_client_1009_CheckBlockHasFallen">
         <transition event="srv_uc2__world__get_block_status_response" target="waiting">
             <assign location="ros_fields__block_down" expr="_event.data.ros_fields__block_down"/>
-            <send event="srv_uc2__world__get_block_status_response_client_1003_IsBlockFell" target="1003_IsBlockFell">
+            <send event="srv_uc2__world__get_block_status_response_client_1009_CheckBlockHasFallen" target="1009_CheckBlockHasFallen">
+                <param name="ros_fields__block_down" expr="ros_fields__block_down"/>
+            </send>
+        </transition>
+    </state>
+    <state id="processing_client_1031_CheckBlockHasFallen">
+        <transition event="srv_uc2__world__get_block_status_response" target="waiting">
+            <assign location="ros_fields__block_down" expr="_event.data.ros_fields__block_down"/>
+            <send event="srv_uc2__world__get_block_status_response_client_1031_CheckBlockHasFallen" target="1031_CheckBlockHasFallen">
                 <param name="ros_fields__block_down" expr="ros_fields__block_down"/>
             </send>
         </transition>

@@ -24,14 +24,16 @@ find_package(std_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
-  "msg/BlockStatus.msg"
   "srv/GetBlockStatus.srv"
-  "action/MoveBlock.action"
-  "action/MoveBlockImplem.action"
+  "srv/SetBlockStatus.srv"
+  "srv/GetGripperStatus.srv"
+  "srv/SetGripperStatus.srv"
+  "action/MoveTo.action"
+  "action/CloseGripper.action"
+  "action/OpenGripper.action"
+  "action/ComputeBestGraspPose.action"
+  "action/ComputeBestPlacePose.action"
   "action/RecoverBlock.action"
-  "action/RecoverBlockImplem.action"
-  "action/InspectBlock.action"
-  "action/InspectBlockImplem.action"
   DEPENDENCIES std_msgs
  )
 

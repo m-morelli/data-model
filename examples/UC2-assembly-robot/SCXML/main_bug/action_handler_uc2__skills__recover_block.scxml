@@ -8,24 +8,24 @@
         <data id="code" expr="0"/>
     </datamodel>
     <state id="waiting">
-        <transition event="action_uc2__skills__recover_block_goal_req_client_1004_RecoverBlock" target="goal_requested">
+        <transition event="action_uc2__skills__recover_block_goal_req_client_1010_RecoverBlock" target="goal_requested">
             <assign location="ros_fields__block_id" expr="_event.data.ros_fields__block_id"/>
             <send event="action_uc2__skills__recover_block_goal_handle" target="RecoverBlockSkill">
                 <param name="goal_id" expr="0"/>
                 <param name="ros_fields__block_id" expr="ros_fields__block_id"/>
             </send>
         </transition>
-        <!-- <transition event="action_uc2__skills__recover_block_feedback" target="waiting"> -->
-            <!-- <assign location="goal_id" expr="_event.data.goal_id"/> -->
-            <!-- <if cond="goal_id == 0"> -->
-                <!-- <send event="action_uc2__skills__recover_block_feedback_handle_client_1004_RecoverBlock" target="NONE"/> -->
-            <!-- </if> -->
-        <!-- </transition> -->
+        <!--<transition event="action_uc2__skills__recover_block_feedback" target="waiting">
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <if cond="goal_id == 0">
+                <send event="action_uc2__skills__recover_block_feedback_handle_client_1010_RecoverBlock" target="NONE"/>
+            </if>
+        </transition>-->
         <transition event="action_uc2__skills__recover_block_result" target="waiting">
             <assign location="code" expr="_event.data.code"/>
             <assign location="goal_id" expr="_event.data.goal_id"/>
             <if cond="goal_id == 0">
-                <send event="action_uc2__skills__recover_block_result_handle_client_1004_RecoverBlock" target="1004_RecoverBlock">
+                <send event="action_uc2__skills__recover_block_result_handle_client_1010_RecoverBlock" target="1010_RecoverBlock">
                     <param name="code" expr="code"/>
                 </send>
             </if>
@@ -35,14 +35,14 @@
         <transition event="action_uc2__skills__recover_block_goal_accepted" target="waiting">
             <assign location="goal_id" expr="_event.data.goal_id"/>
             <if cond="goal_id == 0">
-                <send event="action_uc2__skills__recover_block_goal_accept_client_1004_RecoverBlock" target="1004_RecoverBlock"/>
+                <send event="action_uc2__skills__recover_block_goal_accept_client_1010_RecoverBlock" target="1010_RecoverBlock"/>
             </if>
         </transition>
-        <!-- <transition event="action_uc2__skills__recover_block_goal_rejected" target="waiting"> -->
-            <!-- <assign location="goal_id" expr="_event.data.goal_id"/> -->
-            <!-- <if cond="goal_id == 0"> -->
-                <!-- <send event="action_uc2__skills__recover_block_goal_reject_client_1004_RecoverBlock" target="1004_RecoverBlock"/> -->
-            <!-- </if> -->
-        <!-- </transition> -->
+        <!--<transition event="action_uc2__skills__recover_block_goal_rejected" target="waiting">
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <if cond="goal_id == 0">
+                <send event="action_uc2__skills__recover_block_goal_reject_client_1010_RecoverBlock" target="1010_RecoverBlock"/>
+            </if>
+        </transition>-->
     </state>
 </scxml>

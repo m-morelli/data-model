@@ -1,0 +1,77 @@
+<scxml name="1005_MoveTo" version="1.0" model_src="" initial="idle" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE skillResponse:bool -->
+        <data id="skillResponse" expr="false"/>
+        <!-- TYPE tgt_id:int32 -->
+        <data id="tgt_id" expr="0"/>
+    </datamodel>
+    <state id="idle">
+        <transition event="bt_1005_tick" target="startSkill">
+            <assign location="tgt_id" expr="2"/>
+        </transition>
+        <transition event="bt_1005_halt" target="idle">
+            <send event="bt_1005_halt_response" target="1003_Sequence"/>
+        </transition>
+        <transition event="action_uc2__skills__move_to_goal_accept_client_1005_MoveTo" target="idle"/>
+        <transition event="action_uc2__skills__move_to_goal_reject_client_1005_MoveTo" target="idle"/>
+        <transition event="action_uc2__skills__move_to_result_handle_client_1005_MoveTo" cond="_event.data.code == 4" target="idle"/>
+        <transition event="action_uc2__skills__move_to_result_handle_client_1005_MoveTo" cond="_event.data.code == 6" target="idle"/>
+    </state>
+    <state id="startSkill">
+        <onentry>
+            <send event="action_uc2__skills__move_to_goal_req_client_1005_MoveTo" target="action_handler_uc2__skills__move_to">
+                <param name="ros_fields__path_type" expr="2"/>
+                <param name="ros_fields__tgt_id" expr="tgt_id"/>
+            </send>
+            <send event="topic_uc2__info__log__move_to_tgt_id_msg" target="NONE">
+                <param name="ros_fields__data" expr="tgt_id"/>
+            </send>
+        </onentry>
+        <transition target="waitAccept"/>
+    </state>
+    <state id="waitAccept">
+        <onentry>
+            <send event="bt_1005_response" target="1003_Sequence">
+                <param name="status" expr="3"/>
+            </send>
+        </onentry>
+        <transition event="bt_1005_tick" target="waitAccept"/>
+        <transition event="bt_1005_halt" target="idle">
+            <send event="bt_1005_halt_response" target="1003_Sequence"/>
+        </transition>
+        <transition event="action_uc2__skills__move_to_goal_accept_client_1005_MoveTo" target="running"/>
+        <transition event="action_uc2__skills__move_to_goal_reject_client_1005_MoveTo" target="idle"/>
+    </state>
+    <state id="running">
+        <transition event="action_uc2__skills__move_to_result_handle_client_1005_MoveTo" cond="_event.data.code == 4" target="answer">
+            <assign location="skillResponse" expr="true"/>
+        </transition>
+        <transition event="action_uc2__skills__move_to_result_handle_client_1005_MoveTo" cond="_event.data.code == 6" target="answer">
+            <assign location="skillResponse" expr="false"/>
+        </transition>
+        <transition event="bt_1005_tick" target="running">
+            <send event="bt_1005_response" target="1003_Sequence">
+                <param name="status" expr="3"/>
+            </send>
+        </transition>
+        <transition event="bt_1005_halt" target="idle">
+            <send event="bt_1005_halt_response" target="1003_Sequence"/>
+        </transition>
+    </state>
+    <state id="answer">
+        <transition event="bt_1005_halt" target="idle">
+            <send event="bt_1005_halt_response" target="1003_Sequence"/>
+        </transition>
+        <transition event="bt_1005_tick" target="idle">
+            <if cond="skillResponse == true">
+                <send event="bt_1005_response" target="1003_Sequence">
+                    <param name="status" expr="1"/>
+                </send>
+                <else/>
+                <send event="bt_1005_response" target="1003_Sequence">
+                    <param name="status" expr="2"/>
+                </send>
+            </if>
+        </transition>
+    </state>
+</scxml>

@@ -23,16 +23,16 @@
         <onentry>
             <if cond="current_child_idx &lt; children_count">
                 <if cond="current_child_idx == 0">
-                    <send event="bt_1001_halt" target="1001_Fallback"/>
+                    <send event="bt_1001_halt" target="1001_RetryUntilSuccessful"/>
                     <elseif cond="current_child_idx == 1"/>
-                    <send event="bt_1005_halt" target="1005_MoveBlock"/>
+                    <send event="bt_1029_halt" target="1029_Fallback"/>
                 </if>
             </if>
         </onentry>
         <transition event="bt_1001_halt_response" cond="current_child_idx == 0" target="reset_children">
             <assign location="current_child_idx" expr="current_child_idx + 1"/>
         </transition>
-        <transition event="bt_1005_halt_response" cond="current_child_idx == 1" target="reset_children">
+        <transition event="bt_1029_halt_response" cond="current_child_idx == 1" target="reset_children">
             <assign location="current_child_idx" expr="current_child_idx + 1"/>
         </transition>
         <transition cond="current_child_idx &gt;= children_count" target="wait_for_tick">
@@ -56,23 +56,23 @@
         <onentry>
             <if cond="current_child_idx &lt; children_count">
                 <if cond="current_child_idx == 0">
-                    <send event="bt_1001_tick" target="1001_Fallback"/>
+                    <send event="bt_1001_tick" target="1001_RetryUntilSuccessful"/>
                     <elseif cond="current_child_idx == 1"/>
-                    <send event="bt_1005_tick" target="1005_MoveBlock"/>
+                    <send event="bt_1029_tick" target="1029_Fallback"/>
                 </if>
             </if>
         </onentry>
         <transition event="bt_1001_response" cond="_event.data.status == 1 &amp;&amp; current_child_idx == 0" target="tick_children">
             <assign location="current_child_idx" expr="current_child_idx + 1"/>
         </transition>
-        <transition event="bt_1005_response" cond="_event.data.status == 1 &amp;&amp; current_child_idx == 1" target="tick_children">
+        <transition event="bt_1029_response" cond="_event.data.status == 1 &amp;&amp; current_child_idx == 1" target="tick_children">
             <assign location="current_child_idx" expr="current_child_idx + 1"/>
         </transition>
         <transition event="bt_1001_response" cond="_event.data.status == 2 &amp;&amp; current_child_idx == 0" target="reset_children">
             <assign location="current_child_idx" expr="0"/>
             <assign location="seq_failure" expr="true"/>
         </transition>
-        <transition event="bt_1005_response" cond="_event.data.status == 2 &amp;&amp; current_child_idx == 1" target="reset_children">
+        <transition event="bt_1029_response" cond="_event.data.status == 2 &amp;&amp; current_child_idx == 1" target="reset_children">
             <assign location="current_child_idx" expr="0"/>
             <assign location="seq_failure" expr="true"/>
         </transition>
@@ -81,7 +81,7 @@
                 <param name="status" expr="3"/>
             </send>
         </transition>
-        <transition event="bt_1005_response" cond="_event.data.status == 3 &amp;&amp; current_child_idx == 1" target="wait_for_tick">
+        <transition event="bt_1029_response" cond="_event.data.status == 3 &amp;&amp; current_child_idx == 1" target="wait_for_tick">
             <send event="bt_1000_response" target="bt_root_fsm_Policy0_bug">
                 <param name="status" expr="3"/>
             </send>

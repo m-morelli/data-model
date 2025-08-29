@@ -1,0 +1,98 @@
+<scxml name="1024_ComputeBestPlacePose" version="1.0" model_src="" initial="idle" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE block_id:int32 -->
+        <data id="block_id" expr="0"/>
+        <!-- TYPE pre_place_pose:int32 -->
+        <data id="pre_place_pose" expr="0"/>
+        <!-- TYPE place_pose:int32 -->
+        <data id="place_pose" expr="0"/>
+        <!-- TYPE post_place_pose:int32 -->
+        <data id="post_place_pose" expr="0"/>
+        <!-- TYPE skillResponse:bool -->
+        <data id="skillResponse" expr="false"/>
+    </datamodel>
+    <state id="idle">
+        <transition event="bt_1024_tick" target="idle_bt_tick_1">
+            <send event="bt_blackboard_req" target="bt_blackboard_fsm"/>
+        </transition>
+        <transition event="bt_1024_halt" target="idle">
+            <send event="bt_1024_halt_response" target="1022_Sequence"/>
+        </transition>
+        <transition event="action_uc2__skills__compute_best_place_pose_goal_accept_client_1024_ComputeBestPlacePose" target="idle"/>
+        <transition event="action_uc2__skills__compute_best_place_pose_goal_reject_client_1024_ComputeBestPlacePose" target="idle"/>
+        <transition event="action_uc2__skills__compute_best_place_pose_result_handle_client_1024_ComputeBestPlacePose" cond="_event.data.code == 4" target="idle"/>
+        <transition event="action_uc2__skills__compute_best_place_pose_result_handle_client_1024_ComputeBestPlacePose" cond="_event.data.code == 6" target="idle"/>
+    </state>
+    <state id="idle_bt_tick_1">
+        <transition event="bt_blackboard_get" target="startSkill">
+            <assign location="block_id" expr="_event.data.b"/>
+        </transition>
+    </state>
+    <state id="startSkill">
+        <onentry>
+            <send event="action_uc2__skills__compute_best_place_pose_goal_req_client_1024_ComputeBestPlacePose" target="action_handler_uc2__skills__compute_best_place_pose">
+                <param name="ros_fields__block_id" expr="block_id"/>
+                <param name="ros_fields__approach_distance" expr="0"/>
+                <param name="ros_fields__retreat_distance" expr="0"/>
+            </send>
+        </onentry>
+        <transition target="waitAccept"/>
+    </state>
+    <state id="waitAccept">
+        <onentry>
+            <send event="bt_1024_response" target="1022_Sequence">
+                <param name="status" expr="3"/>
+            </send>
+        </onentry>
+        <transition event="bt_1024_tick" target="waitAccept"/>
+        <transition event="bt_1024_halt" target="idle">
+            <send event="bt_1024_halt_response" target="1022_Sequence"/>
+        </transition>
+        <transition event="action_uc2__skills__compute_best_place_pose_goal_accept_client_1024_ComputeBestPlacePose" target="running"/>
+        <transition event="action_uc2__skills__compute_best_place_pose_goal_reject_client_1024_ComputeBestPlacePose" target="idle"/>
+    </state>
+    <state id="running">
+        <transition event="action_uc2__skills__compute_best_place_pose_result_handle_client_1024_ComputeBestPlacePose" cond="_event.data.code == 4" target="answer">
+            <assign location="pre_place_pose" expr="_event.data.ros_fields__pre_place_pose"/>
+            <assign location="place_pose" expr="_event.data.ros_fields__place_pose"/>
+            <assign location="post_place_pose" expr="_event.data.ros_fields__post_place_pose"/>
+            <assign location="skillResponse" expr="true"/>
+        </transition>
+        <transition event="action_uc2__skills__compute_best_place_pose_result_handle_client_1024_ComputeBestPlacePose" cond="_event.data.code == 6" target="answer">
+            <assign location="skillResponse" expr="false"/>
+        </transition>
+        <transition event="bt_1024_tick" target="running">
+            <send event="bt_1024_response" target="1022_Sequence">
+                <param name="status" expr="3"/>
+            </send>
+        </transition>
+        <transition event="bt_1024_halt" target="idle">
+            <send event="bt_1024_halt_response" target="1022_Sequence"/>
+        </transition>
+    </state>
+    <state id="answer">
+        <transition event="bt_1024_halt" target="idle">
+            <send event="bt_1024_halt_response" target="1022_Sequence"/>
+        </transition>
+        <transition event="bt_1024_tick" target="idle">
+            <if cond="skillResponse == true">
+                <send event="bt_blackboard_set_prep" target="bt_blackboard_fsm">
+                    <param name="value" expr="pre_place_pose"/>
+                </send>
+                <send event="bt_blackboard_set_thep" target="bt_blackboard_fsm">
+                    <param name="value" expr="place_pose"/>
+                </send>
+                <send event="bt_blackboard_set_pstp" target="bt_blackboard_fsm">
+                    <param name="value" expr="post_place_pose"/>
+                </send>
+                <send event="bt_1024_response" target="1022_Sequence">
+                    <param name="status" expr="1"/>
+                </send>
+                <else/>
+                <send event="bt_1024_response" target="1022_Sequence">
+                    <param name="status" expr="2"/>
+                </send>
+            </if>
+        </transition>
+    </state>
+</scxml>

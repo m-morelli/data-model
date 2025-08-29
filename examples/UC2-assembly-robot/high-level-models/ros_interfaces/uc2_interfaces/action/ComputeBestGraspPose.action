@@ -1,0 +1,11 @@
+# action pattern
+# attributes of goal
+int32 block_id
+int32 approach_distance
+---
+# attributes of result
+int32 pre_grasp_pose
+int32 grasp_pose
+int32 post_grasp_pose
+---
+# attributes of feedback

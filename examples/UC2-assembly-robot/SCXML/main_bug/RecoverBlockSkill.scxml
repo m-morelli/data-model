@@ -24,9 +24,14 @@
             <send event="topic_uc2__info__properties__recover_block_running_msg" target="NONE">
                 <param name="ros_fields__data" expr="1"/>
             </send>
-            <send event="srv_uc2__world__reset_block_status_req_client_RecoverBlockSkill" target="srv_handler_uc2__world__reset_block_status"/>
+            <send event="srv_uc2__world__set_block_status_req_client_RecoverBlockSkill" target="srv_handler_uc2__world__set_block_status">
+                <param name="ros_fields__block_down" expr="0"/>
+            </send>
+            <send event="srv_uc2__world__set_gripper_status_req_client_RecoverBlockSkill" target="srv_handler_uc2__world__set_gripper_status">
+                <param name="ros_fields__block_in_gripper" expr="true"/>
+            </send>
         </onentry>
-        <transition event="srv_uc2__world__reset_block_status_response_client_RecoverBlockSkill" target="idle">
+        <transition event="srv_uc2__world__set_block_status_response_client_RecoverBlockSkill" target="idle">
             <send event="action_uc2__skills__recover_block_result" target="action_handler_uc2__skills__recover_block">
                 <param name="goal_id" expr="goal_id"/>
                 <param name="code" expr="4"/>

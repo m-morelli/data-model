@@ -1,0 +1,12 @@
+# action pattern
+# attributes of goal
+int32 block_id
+int32 approach_distance
+int32 retreat_distance
+---
+# attributes of result
+int32 pre_place_pose
+int32 place_pose
+int32 post_place_pose
+---
+# attributes of feedback

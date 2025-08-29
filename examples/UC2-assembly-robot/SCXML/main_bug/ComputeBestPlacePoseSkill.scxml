@@ -1,0 +1,45 @@
+<scxml name="ComputeBestPlacePoseSkill" version="1.0" model_src="" initial="idle" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE block_id:int32 -->
+        <data id="block_id" expr="0"/>
+        <!-- TYPE place_approach_dist:int32 -->
+        <data id="place_approach_dist" expr="0"/>
+        <!-- TYPE place_retreat_dist:int32 -->
+        <data id="place_retreat_dist" expr="0"/>
+        <!-- TYPE pre_place_pose:int32 -->
+        <data id="pre_place_pose" expr="0"/>
+        <!-- TYPE place_pose:int32 -->
+        <data id="place_pose" expr="0"/>
+        <!-- TYPE post_place_pose:int32 -->
+        <data id="post_place_pose" expr="0"/>
+        <!-- TYPE goal_id:int32 -->
+        <data id="goal_id" expr="0"/>
+    </datamodel>
+    <state id="idle">
+        <transition event="action_uc2__skills__compute_best_place_pose_goal_handle" target="do_compute_best_place_pose">
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <assign location="block_id" expr="_event.data.ros_fields__block_id"/>
+            <assign location="place_approach_dist" expr="_event.data.ros_fields__approach_distance"/>
+            <assign location="place_retreat_dist" expr="_event.data.ros_fields__retreat_distance"/>
+            <send event="action_uc2__skills__compute_best_place_pose_goal_accepted" target="action_handler_uc2__skills__compute_best_place_pose">
+                <param name="goal_id" expr="goal_id"/>
+            </send>
+        </transition>
+    </state>
+    <state id="do_compute_best_place_pose">
+        <onentry>
+            <assign location="pre_place_pose" expr="block_id + 5"/>
+            <assign location="place_pose" expr="block_id + 6"/>
+            <assign location="post_place_pose" expr="block_id + 7"/>
+        </onentry>
+        <transition target="idle">
+            <send event="action_uc2__skills__compute_best_place_pose_result" target="action_handler_uc2__skills__compute_best_place_pose">
+                <param name="ros_fields__pre_place_pose" expr="pre_place_pose"/>
+                <param name="ros_fields__place_pose" expr="place_pose"/>
+                <param name="ros_fields__post_place_pose" expr="post_place_pose"/>
+                <param name="goal_id" expr="goal_id"/>
+                <param name="code" expr="4"/>
+            </send>
+        </transition>
+    </state>
+</scxml>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<ascxml
+    initial="init"
+    version="1.0"
+    name="SelectBlock"
+    model_src=""
+    xmlns="http://www.w3.org/2005/07/scxml">-->
+
+<ascxml
+    initial="wait_for_tick"
+    version="1.0"
+    name="SelectBlock"
+    model_src=""
+    xmlns="http://www.w3.org/2005/07/scxml">
+
+    <!-- Ports -->
+    <bt_declare_port_out key="b"      type="int32" />
+
+    <datamodel>
+        <!--<data id="blocks" expr="[]" type="int32[]" />-->
+        <data id="blocks" expr="[10, 20]" type="int32[]" />
+        <data id="b_idx"  expr="0"  type="int32" />
+    </datamodel>
+
+<!--
+    <state id="init">
+        <onentry>
+            <assign location="blocks.length" expr="2" />
+            <assign location="blocks[0]" expr="3" />
+            <assign location="blocks[1]" expr="6" />
+        </onentry>
+        <transition target="wait_for_tick" />
+    </state>
+-->
+
+    <state id="wait_for_tick">
+        <bt_tick target="running" />
+        <bt_halt target="wait_for_tick">
+            <bt_return_halted />
+        </bt_halt>
+    </state>
+
+    <state id="running">
+        <transition target="wait_for_tick">
+            <if cond="b_idx &lt; blocks.length">
+                <bt_set_output key="b" expr="blocks[b_idx]" />
+                <assign location="b_idx" expr="b_idx + 1" />
+                <bt_return_status status="SUCCESS" />
+            <else />
+                <bt_return_status status="FAILURE" />
+            </if>
+        </transition>
+    </state>
+
+</ascxml>

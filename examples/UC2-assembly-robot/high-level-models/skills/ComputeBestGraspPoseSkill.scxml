@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ascxml
+    initial="idle"
+    version="1.0"
+    name="ComputeBestGraspPoseSkill"
+    model_src=""
+    xmlns="http://www.w3.org/2005/07/scxml">
+
+    <!-- server part of ComputeBestGraspPoseSkill -->
+    <ros_action_server name="ComputeBestGraspPose_action_srv" action_name="/uc2/skills/compute_best_grasp_pose" type="convince_uc2_interfaces/ComputeBestGraspPose" />
+
+    <datamodel>
+        <!-- Variables for action management -->
+        <data id="block_id"            type="int32" expr="0" />
+        <data id="grasp_approach_dist" type="int32" expr="0" />
+        <data id="pre_grasp_pose"      type="int32" expr="0" />
+        <data id="grasp_pose"          type="int32" expr="0" />
+        <data id="post_grasp_pose"     type="int32" expr="0" />
+        <data id="goal_id"             type="int32" expr="0" />
+    </datamodel>
+
+    <state id="idle">
+        <!-- If action server is called ... -->
+        <ros_action_handle_goal name="ComputeBestGraspPose_action_srv" target="do_compute_best_grasp_pose">
+            <assign location="goal_id"             expr="_action.goal_id" />
+            <assign location="block_id"            expr="_goal.block_id" />
+            <assign location="grasp_approach_dist" expr="_goal.approach_distance" />
+            <!-- accept goal -->
+            <ros_action_accept_goal name="ComputeBestGraspPose_action_srv" goal_id="goal_id" />
+        </ros_action_handle_goal>
+    </state>
+ 
+    <!-- skill's business logics -->
+    <state id="do_compute_best_grasp_pose">
+        <onentry>
+            <assign location="pre_grasp_pose"  expr="block_id + 1" />
+            <assign location="grasp_pose"      expr="block_id + 2" />
+            <assign location="post_grasp_pose" expr="block_id + 3" />
+        </onentry>
+        <transition target="idle">
+            <ros_action_succeed name="ComputeBestGraspPose_action_srv" goal_id="goal_id" >
+                <field name="pre_grasp_pose"  expr="pre_grasp_pose" />
+                <field name="grasp_pose"      expr="grasp_pose" />
+                <field name="post_grasp_pose" expr="post_grasp_pose" />
+            </ros_action_succeed>
+        </transition>
+    </state>
+</ascxml>

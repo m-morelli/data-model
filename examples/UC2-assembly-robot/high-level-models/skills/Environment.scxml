@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ascxml
+    initial="idle"
+    version="1.0"
+    name="Environment"
+    model_src=""
+    xmlns="http://www.w3.org/2005/07/scxml">
+
+    <!-- service server regarding fallen_block information -->
+    <ros_service_server name="get_block_status_srv" service_name="/uc2/world/get_block_status" type="convince_uc2_interfaces/GetBlockStatus" />
+    <ros_service_server name="set_block_status_srv" service_name="/uc2/world/set_block_status" type="convince_uc2_interfaces/SetBlockStatus" />
+
+    <ros_service_server name="get_gripper_status_srv" service_name="/uc2/world/get_gripper_status" type="convince_uc2_interfaces/GetGripperStatus" />
+    <ros_service_server name="set_gripper_status_srv" service_name="/uc2/world/set_gripper_status" type="convince_uc2_interfaces/SetGripperStatus" />
+
+    <datamodel>
+        <!-- world info -->
+        <data id="fallen_block"     type="int32" expr="0" />
+        <data id="block_in_gripper" type="bool"  expr="false" />
+    </datamodel>
+
+    <state id="idle">
+
+        <!-- If service server get_block_status_srv is called ... -->
+        <ros_service_handle_request name="get_block_status_srv" target="idle">
+            <ros_service_send_response name="get_block_status_srv">
+                <field name="block_down" expr="fallen_block" />
+            </ros_service_send_response>
+        </ros_service_handle_request>
+
+        <!-- If service server set_block_status_srv is called ... -->
+        <ros_service_handle_request name="set_block_status_srv" target="idle">
+            <assign location="fallen_block" expr="_req.block_down" />
+            <ros_service_send_response name="set_block_status_srv">
+            </ros_service_send_response>
+        </ros_service_handle_request>
+
+        <!-- If service server get_gripper_status_srv is called ... -->
+        <ros_service_handle_request name="get_gripper_status_srv" target="idle">
+            <ros_service_send_response name="get_gripper_status_srv">
+                <field name="block_in_gripper" expr="block_in_gripper" />
+            </ros_service_send_response>
+        </ros_service_handle_request>
+
+        <!-- If service server set_gripper_status_srv is called ... -->
+        <ros_service_handle_request name="set_gripper_status_srv" target="idle">
+            <assign location="block_in_gripper" expr="_req.block_in_gripper" />
+            <ros_service_send_response name="set_gripper_status_srv">
+            </ros_service_send_response>
+        </ros_service_handle_request>
+
+    </state>
+</ascxml>

@@ -1,0 +1,44 @@
+<scxml name="action_handler_uc2__skills__open_gripper" version="1.0" model_src="" initial="waiting" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE goal_id:int32 -->
+        <data id="goal_id" expr="0"/>
+        <!-- TYPE code:int32 -->
+        <data id="code" expr="0"/>
+    </datamodel>
+    <state id="waiting">
+        <transition event="action_uc2__skills__open_gripper_goal_req_client_1027_OpenGripper" target="goal_requested">
+            <send event="action_uc2__skills__open_gripper_goal_handle" target="OpenGripperSkill">
+                <param name="goal_id" expr="0"/>
+            </send>
+        </transition>
+        <!--<transition event="action_uc2__skills__open_gripper_feedback" target="waiting">
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <if cond="goal_id == 0">
+                <send event="action_uc2__skills__open_gripper_feedback_handle_client_1027_OpenGripper" target="NONE"/>
+            </if>
+        </transition>-->
+        <transition event="action_uc2__skills__open_gripper_result" target="waiting">
+            <assign location="code" expr="_event.data.code"/>
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <if cond="goal_id == 0">
+                <send event="action_uc2__skills__open_gripper_result_handle_client_1027_OpenGripper" target="1027_OpenGripper">
+                    <param name="code" expr="code"/>
+                </send>
+            </if>
+        </transition>
+    </state>
+    <state id="goal_requested">
+        <transition event="action_uc2__skills__open_gripper_goal_accepted" target="waiting">
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <if cond="goal_id == 0">
+                <send event="action_uc2__skills__open_gripper_goal_accept_client_1027_OpenGripper" target="1027_OpenGripper"/>
+            </if>
+        </transition>
+        <!--<transition event="action_uc2__skills__open_gripper_goal_rejected" target="waiting">
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <if cond="goal_id == 0">
+                <send event="action_uc2__skills__open_gripper_goal_reject_client_1027_OpenGripper" target="1027_OpenGripper"/>
+            </if>
+        </transition>-->
+    </state>
+</scxml>

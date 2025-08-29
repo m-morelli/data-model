@@ -1,0 +1,68 @@
+<scxml name="action_handler_uc2__skills__compute_best_place_pose" version="1.0" model_src="" initial="waiting" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE ros_fields__block_id:int32 -->
+        <data id="ros_fields__block_id" expr="0"/>
+        <!-- TYPE ros_fields__approach_distance:int32 -->
+        <data id="ros_fields__approach_distance" expr="0"/>
+        <!-- TYPE ros_fields__retreat_distance:int32 -->
+        <data id="ros_fields__retreat_distance" expr="0"/>
+        <!-- TYPE ros_fields__pre_place_pose:int32 -->
+        <data id="ros_fields__pre_place_pose" expr="0"/>
+        <!-- TYPE ros_fields__place_pose:int32 -->
+        <data id="ros_fields__place_pose" expr="0"/>
+        <!-- TYPE ros_fields__post_place_pose:int32 -->
+        <data id="ros_fields__post_place_pose" expr="0"/>
+        <!-- TYPE goal_id:int32 -->
+        <data id="goal_id" expr="0"/>
+        <!-- TYPE code:int32 -->
+        <data id="code" expr="0"/>
+    </datamodel>
+    <state id="waiting">
+        <transition event="action_uc2__skills__compute_best_place_pose_goal_req_client_1024_ComputeBestPlacePose" target="goal_requested">
+            <assign location="ros_fields__block_id" expr="_event.data.ros_fields__block_id"/>
+            <assign location="ros_fields__approach_distance" expr="_event.data.ros_fields__approach_distance"/>
+            <assign location="ros_fields__retreat_distance" expr="_event.data.ros_fields__retreat_distance"/>
+            <send event="action_uc2__skills__compute_best_place_pose_goal_handle" target="ComputeBestPlacePoseSkill">
+                <param name="goal_id" expr="0"/>
+                <param name="ros_fields__block_id" expr="ros_fields__block_id"/>
+                <param name="ros_fields__approach_distance" expr="ros_fields__approach_distance"/>
+                <param name="ros_fields__retreat_distance" expr="ros_fields__retreat_distance"/>
+            </send>
+        </transition>
+        <!--<transition event="action_uc2__skills__compute_best_place_pose_feedback" target="waiting">
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <if cond="goal_id == 0">
+                <send event="action_uc2__skills__compute_best_place_pose_feedback_handle_client_1024_ComputeBestPlacePose" target="NONE"/>
+            </if>
+        </transition>-->
+        <transition event="action_uc2__skills__compute_best_place_pose_result" target="waiting">
+            <assign location="code" expr="_event.data.code"/>
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <assign location="ros_fields__pre_place_pose" expr="_event.data.ros_fields__pre_place_pose"/>
+            <assign location="ros_fields__place_pose" expr="_event.data.ros_fields__place_pose"/>
+            <assign location="ros_fields__post_place_pose" expr="_event.data.ros_fields__post_place_pose"/>
+            <if cond="goal_id == 0">
+                <send event="action_uc2__skills__compute_best_place_pose_result_handle_client_1024_ComputeBestPlacePose" target="1024_ComputeBestPlacePose">
+                    <param name="code" expr="code"/>
+                    <param name="ros_fields__pre_place_pose" expr="ros_fields__pre_place_pose"/>
+                    <param name="ros_fields__place_pose" expr="ros_fields__place_pose"/>
+                    <param name="ros_fields__post_place_pose" expr="ros_fields__post_place_pose"/>
+                </send>
+            </if>
+        </transition>
+    </state>
+    <state id="goal_requested">
+        <transition event="action_uc2__skills__compute_best_place_pose_goal_accepted" target="waiting">
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <if cond="goal_id == 0">
+                <send event="action_uc2__skills__compute_best_place_pose_goal_accept_client_1024_ComputeBestPlacePose" target="1024_ComputeBestPlacePose"/>
+            </if>
+        </transition>
+        <!--<transition event="action_uc2__skills__compute_best_place_pose_goal_rejected" target="waiting">
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <if cond="goal_id == 0">
+                <send event="action_uc2__skills__compute_best_place_pose_goal_reject_client_1024_ComputeBestPlacePose" target="1024_ComputeBestPlacePose"/>
+            </if>
+        </transition>-->
+    </state>
+</scxml>

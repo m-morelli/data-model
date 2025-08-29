@@ -1,0 +1,52 @@
+<scxml name="srv_handler_uc2__world__set_block_status" version="1.0" model_src="" initial="waiting" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE ros_fields__block_down:int32 -->
+        <data id="ros_fields__block_down" expr="0"/>
+    </datamodel>
+    <state id="waiting">
+        <transition event="srv_uc2__world__set_block_status_req_client_MoveToSkill" target="processing_client_MoveToSkill">
+            <assign location="ros_fields__block_down" expr="_event.data.ros_fields__block_down"/>
+            <send event="srv_uc2__world__set_block_status_request" target="Environment">
+                <param name="ros_fields__block_down" expr="ros_fields__block_down"/>
+            </send>
+        </transition>
+        <transition event="srv_uc2__world__set_block_status_req_client_CloseGripperSkill" target="processing_client_CloseGripperSkill">
+            <assign location="ros_fields__block_down" expr="_event.data.ros_fields__block_down"/>
+            <send event="srv_uc2__world__set_block_status_request" target="Environment">
+                <param name="ros_fields__block_down" expr="ros_fields__block_down"/>
+            </send>
+        </transition>
+        <transition event="srv_uc2__world__set_block_status_req_client_OpenGripperSkill" target="processing_client_OpenGripperSkill">
+            <assign location="ros_fields__block_down" expr="_event.data.ros_fields__block_down"/>
+            <send event="srv_uc2__world__set_block_status_request" target="Environment">
+                <param name="ros_fields__block_down" expr="ros_fields__block_down"/>
+            </send>
+        </transition>
+        <transition event="srv_uc2__world__set_block_status_req_client_RecoverBlockSkill" target="processing_client_RecoverBlockSkill">
+            <assign location="ros_fields__block_down" expr="_event.data.ros_fields__block_down"/>
+            <send event="srv_uc2__world__set_block_status_request" target="Environment">
+                <param name="ros_fields__block_down" expr="ros_fields__block_down"/>
+            </send>
+        </transition>
+    </state>
+    <state id="processing_client_MoveToSkill">
+        <transition event="srv_uc2__world__set_block_status_response" target="waiting">
+            <send event="srv_uc2__world__set_block_status_response_client_MoveToSkill" target="NONE"/>
+        </transition>
+    </state>
+    <state id="processing_client_CloseGripperSkill">
+        <transition event="srv_uc2__world__set_block_status_response" target="waiting">
+            <send event="srv_uc2__world__set_block_status_response_client_CloseGripperSkill" target="NONE"/>
+        </transition>
+    </state>
+    <state id="processing_client_OpenGripperSkill">
+        <transition event="srv_uc2__world__set_block_status_response" target="waiting">
+            <send event="srv_uc2__world__set_block_status_response_client_OpenGripperSkill" target="NONE"/>
+        </transition>
+    </state>
+    <state id="processing_client_RecoverBlockSkill">
+        <transition event="srv_uc2__world__set_block_status_response" target="waiting">
+            <send event="srv_uc2__world__set_block_status_response_client_RecoverBlockSkill" target="RecoverBlockSkill"/>
+        </transition>
+    </state>
+</scxml>

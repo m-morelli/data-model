@@ -1,0 +1,32 @@
+<scxml name="1014_CheckGripperIsEmpty" version="1.0" model_src="" initial="idle" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE block_in_gripper:bool -->
+        <data id="block_in_gripper" expr="false"/>
+    </datamodel>
+    <state id="idle">
+        <transition event="bt_1014_tick" target="send_req"/>
+        <transition event="bt_1014_halt" target="idle">
+            <send event="bt_1014_halt_response" target="1013_Inverter"/>
+        </transition>
+    </state>
+    <state id="send_req">
+        <onentry>
+            <send event="srv_uc2__world__get_gripper_status_req_client_1014_CheckGripperIsEmpty" target="srv_handler_uc2__world__get_gripper_status"/>
+        </onentry>
+        <transition target="wait_answer"/>
+    </state>
+    <state id="wait_answer">
+        <transition event="srv_uc2__world__get_gripper_status_response_client_1014_CheckGripperIsEmpty" target="idle">
+            <assign location="block_in_gripper" expr="_event.data.ros_fields__block_in_gripper"/>
+            <if cond="block_in_gripper == false">
+                <send event="bt_1014_response" target="1013_Inverter">
+                    <param name="status" expr="1"/>
+                </send>
+                <else/>
+                <send event="bt_1014_response" target="1013_Inverter">
+                    <param name="status" expr="2"/>
+                </send>
+            </if>
+        </transition>
+    </state>
+</scxml>

@@ -1,0 +1,64 @@
+<scxml name="action_handler_uc2__skills__compute_best_grasp_pose" version="1.0" model_src="" initial="waiting" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE ros_fields__block_id:int32 -->
+        <data id="ros_fields__block_id" expr="0"/>
+        <!-- TYPE ros_fields__approach_distance:int32 -->
+        <data id="ros_fields__approach_distance" expr="0"/>
+        <!-- TYPE ros_fields__pre_grasp_pose:int32 -->
+        <data id="ros_fields__pre_grasp_pose" expr="0"/>
+        <!-- TYPE ros_fields__grasp_pose:int32 -->
+        <data id="ros_fields__grasp_pose" expr="0"/>
+        <!-- TYPE ros_fields__post_grasp_pose:int32 -->
+        <data id="ros_fields__post_grasp_pose" expr="0"/>
+        <!-- TYPE goal_id:int32 -->
+        <data id="goal_id" expr="0"/>
+        <!-- TYPE code:int32 -->
+        <data id="code" expr="0"/>
+    </datamodel>
+    <state id="waiting">
+        <transition event="action_uc2__skills__compute_best_grasp_pose_goal_req_client_1016_ComputeBestGraspPose" target="goal_requested">
+            <assign location="ros_fields__block_id" expr="_event.data.ros_fields__block_id"/>
+            <assign location="ros_fields__approach_distance" expr="_event.data.ros_fields__approach_distance"/>
+            <send event="action_uc2__skills__compute_best_grasp_pose_goal_handle" target="ComputeBestGraspPoseSkill">
+                <param name="goal_id" expr="0"/>
+                <param name="ros_fields__block_id" expr="ros_fields__block_id"/>
+                <param name="ros_fields__approach_distance" expr="ros_fields__approach_distance"/>
+            </send>
+        </transition>
+        <!--<transition event="action_uc2__skills__compute_best_grasp_pose_feedback" target="waiting">
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <if cond="goal_id == 0">
+                <send event="action_uc2__skills__compute_best_grasp_pose_feedback_handle_client_1016_ComputeBestGraspPose" target="NONE"/>
+            </if>
+        </transition>-->
+        <transition event="action_uc2__skills__compute_best_grasp_pose_result" target="waiting">
+            <assign location="code" expr="_event.data.code"/>
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <assign location="ros_fields__pre_grasp_pose" expr="_event.data.ros_fields__pre_grasp_pose"/>
+            <assign location="ros_fields__grasp_pose" expr="_event.data.ros_fields__grasp_pose"/>
+            <assign location="ros_fields__post_grasp_pose" expr="_event.data.ros_fields__post_grasp_pose"/>
+            <if cond="goal_id == 0">
+                <send event="action_uc2__skills__compute_best_grasp_pose_result_handle_client_1016_ComputeBestGraspPose" target="1016_ComputeBestGraspPose">
+                    <param name="code" expr="code"/>
+                    <param name="ros_fields__pre_grasp_pose" expr="ros_fields__pre_grasp_pose"/>
+                    <param name="ros_fields__grasp_pose" expr="ros_fields__grasp_pose"/>
+                    <param name="ros_fields__post_grasp_pose" expr="ros_fields__post_grasp_pose"/>
+                </send>
+            </if>
+        </transition>
+    </state>
+    <state id="goal_requested">
+        <transition event="action_uc2__skills__compute_best_grasp_pose_goal_accepted" target="waiting">
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <if cond="goal_id == 0">
+                <send event="action_uc2__skills__compute_best_grasp_pose_goal_accept_client_1016_ComputeBestGraspPose" target="1016_ComputeBestGraspPose"/>
+            </if>
+        </transition>
+        <!--<transition event="action_uc2__skills__compute_best_grasp_pose_goal_rejected" target="waiting">
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <if cond="goal_id == 0">
+                <send event="action_uc2__skills__compute_best_grasp_pose_goal_reject_client_1016_ComputeBestGraspPose" target="1016_ComputeBestGraspPose"/>
+            </if>
+        </transition>-->
+    </state>
+</scxml>

@@ -1,0 +1,42 @@
+<scxml name="ComputeBestGraspPoseSkill" version="1.0" model_src="" initial="idle" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE block_id:int32 -->
+        <data id="block_id" expr="0"/>
+        <!-- TYPE grasp_approach_dist:int32 -->
+        <data id="grasp_approach_dist" expr="0"/>
+        <!-- TYPE pre_grasp_pose:int32 -->
+        <data id="pre_grasp_pose" expr="0"/>
+        <!-- TYPE grasp_pose:int32 -->
+        <data id="grasp_pose" expr="0"/>
+        <!-- TYPE post_grasp_pose:int32 -->
+        <data id="post_grasp_pose" expr="0"/>
+        <!-- TYPE goal_id:int32 -->
+        <data id="goal_id" expr="0"/>
+    </datamodel>
+    <state id="idle">
+        <transition event="action_uc2__skills__compute_best_grasp_pose_goal_handle" target="do_compute_best_grasp_pose">
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <assign location="block_id" expr="_event.data.ros_fields__block_id"/>
+            <assign location="grasp_approach_dist" expr="_event.data.ros_fields__approach_distance"/>
+            <send event="action_uc2__skills__compute_best_grasp_pose_goal_accepted" target="action_handler_uc2__skills__compute_best_grasp_pose">
+                <param name="goal_id" expr="goal_id"/>
+            </send>
+        </transition>
+    </state>
+    <state id="do_compute_best_grasp_pose">
+        <onentry>
+            <assign location="pre_grasp_pose" expr="block_id + 1"/>
+            <assign location="grasp_pose" expr="block_id + 2"/>
+            <assign location="post_grasp_pose" expr="block_id + 3"/>
+        </onentry>
+        <transition target="idle">
+            <send event="action_uc2__skills__compute_best_grasp_pose_result" target="action_handler_uc2__skills__compute_best_grasp_pose">
+                <param name="ros_fields__pre_grasp_pose" expr="pre_grasp_pose"/>
+                <param name="ros_fields__grasp_pose" expr="grasp_pose"/>
+                <param name="ros_fields__post_grasp_pose" expr="post_grasp_pose"/>
+                <param name="goal_id" expr="goal_id"/>
+                <param name="code" expr="4"/>
+            </send>
+        </transition>
+    </state>
+</scxml>

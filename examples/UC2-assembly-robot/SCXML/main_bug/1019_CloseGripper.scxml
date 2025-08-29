@@ -1,0 +1,67 @@
+<scxml name="1019_CloseGripper" version="1.0" model_src="" initial="idle" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE skillResponse:bool -->
+        <data id="skillResponse" expr="false"/>
+    </datamodel>
+    <state id="idle">
+        <transition event="bt_1019_tick" target="startSkill"/>
+        <transition event="bt_1019_halt" target="idle">
+            <send event="bt_1019_halt_response" target="1015_Sequence"/>
+        </transition>
+        <transition event="action_uc2__skills__close_gripper_goal_accept_client_1019_CloseGripper" target="idle"/>
+        <transition event="action_uc2__skills__close_gripper_goal_reject_client_1019_CloseGripper" target="idle"/>
+        <transition event="action_uc2__skills__close_gripper_result_handle_client_1019_CloseGripper" cond="_event.data.code == 4" target="idle"/>
+        <transition event="action_uc2__skills__close_gripper_result_handle_client_1019_CloseGripper" cond="_event.data.code == 6" target="idle"/>
+    </state>
+    <state id="startSkill">
+        <onentry>
+            <send event="action_uc2__skills__close_gripper_goal_req_client_1019_CloseGripper" target="action_handler_uc2__skills__close_gripper"/>
+        </onentry>
+        <transition target="waitAccept"/>
+    </state>
+    <state id="waitAccept">
+        <onentry>
+            <send event="bt_1019_response" target="1015_Sequence">
+                <param name="status" expr="3"/>
+            </send>
+        </onentry>
+        <transition event="bt_1019_tick" target="waitAccept"/>
+        <transition event="bt_1019_halt" target="idle">
+            <send event="bt_1019_halt_response" target="1015_Sequence"/>
+        </transition>
+        <transition event="action_uc2__skills__close_gripper_goal_accept_client_1019_CloseGripper" target="running"/>
+        <transition event="action_uc2__skills__close_gripper_goal_reject_client_1019_CloseGripper" target="idle"/>
+    </state>
+    <state id="running">
+        <transition event="action_uc2__skills__close_gripper_result_handle_client_1019_CloseGripper" cond="_event.data.code == 4" target="answer">
+            <assign location="skillResponse" expr="true"/>
+        </transition>
+        <transition event="action_uc2__skills__close_gripper_result_handle_client_1019_CloseGripper" cond="_event.data.code == 6" target="answer">
+            <assign location="skillResponse" expr="false"/>
+        </transition>
+        <transition event="bt_1019_tick" target="running">
+            <send event="bt_1019_response" target="1015_Sequence">
+                <param name="status" expr="3"/>
+            </send>
+        </transition>
+        <transition event="bt_1019_halt" target="idle">
+            <send event="bt_1019_halt_response" target="1015_Sequence"/>
+        </transition>
+    </state>
+    <state id="answer">
+        <transition event="bt_1019_halt" target="idle">
+            <send event="bt_1019_halt_response" target="1015_Sequence"/>
+        </transition>
+        <transition event="bt_1019_tick" target="idle">
+            <if cond="skillResponse == true">
+                <send event="bt_1019_response" target="1015_Sequence">
+                    <param name="status" expr="1"/>
+                </send>
+                <else/>
+                <send event="bt_1019_response" target="1015_Sequence">
+                    <param name="status" expr="2"/>
+                </send>
+            </if>
+        </transition>
+    </state>
+</scxml>

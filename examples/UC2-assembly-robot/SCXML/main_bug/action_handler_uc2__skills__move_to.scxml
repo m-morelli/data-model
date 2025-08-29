@@ -1,0 +1,204 @@
+<scxml name="action_handler_uc2__skills__move_to" version="1.0" model_src="" initial="waiting" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE ros_fields__path_type:int32 -->
+        <data id="ros_fields__path_type" expr="0"/>
+        <!-- TYPE ros_fields__tgt_id:int32 -->
+        <data id="ros_fields__tgt_id" expr="0"/>
+        <!-- TYPE goal_id:int32 -->
+        <data id="goal_id" expr="0"/>
+        <!-- TYPE code:int32 -->
+        <data id="code" expr="0"/>
+    </datamodel>
+    <state id="waiting">
+        <transition event="action_uc2__skills__move_to_goal_req_client_1005_MoveTo" target="goal_requested">
+            <assign location="ros_fields__path_type" expr="_event.data.ros_fields__path_type"/>
+            <assign location="ros_fields__tgt_id" expr="_event.data.ros_fields__tgt_id"/>
+            <send event="action_uc2__skills__move_to_goal_handle" target="MoveToSkill">
+                <param name="goal_id" expr="0"/>
+                <param name="ros_fields__path_type" expr="ros_fields__path_type"/>
+                <param name="ros_fields__tgt_id" expr="ros_fields__tgt_id"/>
+            </send>
+        </transition>
+        <transition event="action_uc2__skills__move_to_goal_req_client_1017_MoveTo" target="goal_requested">
+            <assign location="ros_fields__path_type" expr="_event.data.ros_fields__path_type"/>
+            <assign location="ros_fields__tgt_id" expr="_event.data.ros_fields__tgt_id"/>
+            <send event="action_uc2__skills__move_to_goal_handle" target="MoveToSkill">
+                <param name="goal_id" expr="1"/>
+                <param name="ros_fields__path_type" expr="ros_fields__path_type"/>
+                <param name="ros_fields__tgt_id" expr="ros_fields__tgt_id"/>
+            </send>
+        </transition>
+        <transition event="action_uc2__skills__move_to_goal_req_client_1018_MoveTo" target="goal_requested">
+            <assign location="ros_fields__path_type" expr="_event.data.ros_fields__path_type"/>
+            <assign location="ros_fields__tgt_id" expr="_event.data.ros_fields__tgt_id"/>
+            <send event="action_uc2__skills__move_to_goal_handle" target="MoveToSkill">
+                <param name="goal_id" expr="2"/>
+                <param name="ros_fields__path_type" expr="ros_fields__path_type"/>
+                <param name="ros_fields__tgt_id" expr="ros_fields__tgt_id"/>
+            </send>
+        </transition>
+        <transition event="action_uc2__skills__move_to_goal_req_client_1020_MoveTo" target="goal_requested">
+            <assign location="ros_fields__path_type" expr="_event.data.ros_fields__path_type"/>
+            <assign location="ros_fields__tgt_id" expr="_event.data.ros_fields__tgt_id"/>
+            <send event="action_uc2__skills__move_to_goal_handle" target="MoveToSkill">
+                <param name="goal_id" expr="3"/>
+                <param name="ros_fields__path_type" expr="ros_fields__path_type"/>
+                <param name="ros_fields__tgt_id" expr="ros_fields__tgt_id"/>
+            </send>
+        </transition>
+        <transition event="action_uc2__skills__move_to_goal_req_client_1021_MoveTo" target="goal_requested">
+            <assign location="ros_fields__path_type" expr="_event.data.ros_fields__path_type"/>
+            <assign location="ros_fields__tgt_id" expr="_event.data.ros_fields__tgt_id"/>
+            <send event="action_uc2__skills__move_to_goal_handle" target="MoveToSkill">
+                <param name="goal_id" expr="4"/>
+                <param name="ros_fields__path_type" expr="ros_fields__path_type"/>
+                <param name="ros_fields__tgt_id" expr="ros_fields__tgt_id"/>
+            </send>
+        </transition>
+        <transition event="action_uc2__skills__move_to_goal_req_client_1023_MoveTo" target="goal_requested">
+            <assign location="ros_fields__path_type" expr="_event.data.ros_fields__path_type"/>
+            <assign location="ros_fields__tgt_id" expr="_event.data.ros_fields__tgt_id"/>
+            <send event="action_uc2__skills__move_to_goal_handle" target="MoveToSkill">
+                <param name="goal_id" expr="5"/>
+                <param name="ros_fields__path_type" expr="ros_fields__path_type"/>
+                <param name="ros_fields__tgt_id" expr="ros_fields__tgt_id"/>
+            </send>
+        </transition>
+        <transition event="action_uc2__skills__move_to_goal_req_client_1025_MoveTo" target="goal_requested">
+            <assign location="ros_fields__path_type" expr="_event.data.ros_fields__path_type"/>
+            <assign location="ros_fields__tgt_id" expr="_event.data.ros_fields__tgt_id"/>
+            <send event="action_uc2__skills__move_to_goal_handle" target="MoveToSkill">
+                <param name="goal_id" expr="6"/>
+                <param name="ros_fields__path_type" expr="ros_fields__path_type"/>
+                <param name="ros_fields__tgt_id" expr="ros_fields__tgt_id"/>
+            </send>
+        </transition>
+        <transition event="action_uc2__skills__move_to_goal_req_client_1026_MoveTo" target="goal_requested">
+            <assign location="ros_fields__path_type" expr="_event.data.ros_fields__path_type"/>
+            <assign location="ros_fields__tgt_id" expr="_event.data.ros_fields__tgt_id"/>
+            <send event="action_uc2__skills__move_to_goal_handle" target="MoveToSkill">
+                <param name="goal_id" expr="7"/>
+                <param name="ros_fields__path_type" expr="ros_fields__path_type"/>
+                <param name="ros_fields__tgt_id" expr="ros_fields__tgt_id"/>
+            </send>
+        </transition>
+        <transition event="action_uc2__skills__move_to_goal_req_client_1028_MoveTo" target="goal_requested">
+            <assign location="ros_fields__path_type" expr="_event.data.ros_fields__path_type"/>
+            <assign location="ros_fields__tgt_id" expr="_event.data.ros_fields__tgt_id"/>
+            <send event="action_uc2__skills__move_to_goal_handle" target="MoveToSkill">
+                <param name="goal_id" expr="8"/>
+                <param name="ros_fields__path_type" expr="ros_fields__path_type"/>
+                <param name="ros_fields__tgt_id" expr="ros_fields__tgt_id"/>
+            </send>
+        </transition>
+        <!--<transition event="action_uc2__skills__move_to_feedback" target="waiting">
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <if cond="goal_id == 0">
+                <send event="action_uc2__skills__move_to_feedback_handle_client_1005_MoveTo" target="NONE"/>
+                <elseif cond="goal_id == 1"/>
+                <send event="action_uc2__skills__move_to_feedback_handle_client_1017_MoveTo" target="NONE"/>
+                <elseif cond="goal_id == 2"/>
+                <send event="action_uc2__skills__move_to_feedback_handle_client_1018_MoveTo" target="NONE"/>
+                <elseif cond="goal_id == 3"/>
+                <send event="action_uc2__skills__move_to_feedback_handle_client_1020_MoveTo" target="NONE"/>
+                <elseif cond="goal_id == 4"/>
+                <send event="action_uc2__skills__move_to_feedback_handle_client_1021_MoveTo" target="NONE"/>
+                <elseif cond="goal_id == 5"/>
+                <send event="action_uc2__skills__move_to_feedback_handle_client_1023_MoveTo" target="NONE"/>
+                <elseif cond="goal_id == 6"/>
+                <send event="action_uc2__skills__move_to_feedback_handle_client_1025_MoveTo" target="NONE"/>
+                <elseif cond="goal_id == 7"/>
+                <send event="action_uc2__skills__move_to_feedback_handle_client_1026_MoveTo" target="NONE"/>
+                <elseif cond="goal_id == 8"/>
+                <send event="action_uc2__skills__move_to_feedback_handle_client_1028_MoveTo" target="NONE"/>
+            </if>
+        </transition>-->
+        <transition event="action_uc2__skills__move_to_result" target="waiting">
+            <assign location="code" expr="_event.data.code"/>
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <if cond="goal_id == 0">
+                <send event="action_uc2__skills__move_to_result_handle_client_1005_MoveTo" target="1005_MoveTo">
+                    <param name="code" expr="code"/>
+                </send>
+                <elseif cond="goal_id == 1"/>
+                <send event="action_uc2__skills__move_to_result_handle_client_1017_MoveTo" target="1017_MoveTo">
+                    <param name="code" expr="code"/>
+                </send>
+                <elseif cond="goal_id == 2"/>
+                <send event="action_uc2__skills__move_to_result_handle_client_1018_MoveTo" target="1018_MoveTo">
+                    <param name="code" expr="code"/>
+                </send>
+                <elseif cond="goal_id == 3"/>
+                <send event="action_uc2__skills__move_to_result_handle_client_1020_MoveTo" target="1020_MoveTo">
+                    <param name="code" expr="code"/>
+                </send>
+                <elseif cond="goal_id == 4"/>
+                <send event="action_uc2__skills__move_to_result_handle_client_1021_MoveTo" target="1021_MoveTo">
+                    <param name="code" expr="code"/>
+                </send>
+                <elseif cond="goal_id == 5"/>
+                <send event="action_uc2__skills__move_to_result_handle_client_1023_MoveTo" target="1023_MoveTo">
+                    <param name="code" expr="code"/>
+                </send>
+                <elseif cond="goal_id == 6"/>
+                <send event="action_uc2__skills__move_to_result_handle_client_1025_MoveTo" target="1025_MoveTo">
+                    <param name="code" expr="code"/>
+                </send>
+                <elseif cond="goal_id == 7"/>
+                <send event="action_uc2__skills__move_to_result_handle_client_1026_MoveTo" target="1026_MoveTo">
+                    <param name="code" expr="code"/>
+                </send>
+                <elseif cond="goal_id == 8"/>
+                <send event="action_uc2__skills__move_to_result_handle_client_1028_MoveTo" target="1028_MoveTo">
+                    <param name="code" expr="code"/>
+                </send>
+            </if>
+        </transition>
+    </state>
+    <state id="goal_requested">
+        <transition event="action_uc2__skills__move_to_goal_accepted" target="waiting">
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <if cond="goal_id == 0">
+                <send event="action_uc2__skills__move_to_goal_accept_client_1005_MoveTo" target="1005_MoveTo"/>
+                <elseif cond="goal_id == 1"/>
+                <send event="action_uc2__skills__move_to_goal_accept_client_1017_MoveTo" target="1017_MoveTo"/>
+                <elseif cond="goal_id == 2"/>
+                <send event="action_uc2__skills__move_to_goal_accept_client_1018_MoveTo" target="1018_MoveTo"/>
+                <elseif cond="goal_id == 3"/>
+                <send event="action_uc2__skills__move_to_goal_accept_client_1020_MoveTo" target="1020_MoveTo"/>
+                <elseif cond="goal_id == 4"/>
+                <send event="action_uc2__skills__move_to_goal_accept_client_1021_MoveTo" target="1021_MoveTo"/>
+                <elseif cond="goal_id == 5"/>
+                <send event="action_uc2__skills__move_to_goal_accept_client_1023_MoveTo" target="1023_MoveTo"/>
+                <elseif cond="goal_id == 6"/>
+                <send event="action_uc2__skills__move_to_goal_accept_client_1025_MoveTo" target="1025_MoveTo"/>
+                <elseif cond="goal_id == 7"/>
+                <send event="action_uc2__skills__move_to_goal_accept_client_1026_MoveTo" target="1026_MoveTo"/>
+                <elseif cond="goal_id == 8"/>
+                <send event="action_uc2__skills__move_to_goal_accept_client_1028_MoveTo" target="1028_MoveTo"/>
+            </if>
+        </transition>
+        <!--<transition event="action_uc2__skills__move_to_goal_rejected" target="waiting">
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <if cond="goal_id == 0">
+                <send event="action_uc2__skills__move_to_goal_reject_client_1005_MoveTo" target="1005_MoveTo"/>
+                <elseif cond="goal_id == 1"/>
+                <send event="action_uc2__skills__move_to_goal_reject_client_1017_MoveTo" target="1017_MoveTo"/>
+                <elseif cond="goal_id == 2"/>
+                <send event="action_uc2__skills__move_to_goal_reject_client_1018_MoveTo" target="1018_MoveTo"/>
+                <elseif cond="goal_id == 3"/>
+                <send event="action_uc2__skills__move_to_goal_reject_client_1020_MoveTo" target="1020_MoveTo"/>
+                <elseif cond="goal_id == 4"/>
+                <send event="action_uc2__skills__move_to_goal_reject_client_1021_MoveTo" target="1021_MoveTo"/>
+                <elseif cond="goal_id == 5"/>
+                <send event="action_uc2__skills__move_to_goal_reject_client_1023_MoveTo" target="1023_MoveTo"/>
+                <elseif cond="goal_id == 6"/>
+                <send event="action_uc2__skills__move_to_goal_reject_client_1025_MoveTo" target="1025_MoveTo"/>
+                <elseif cond="goal_id == 7"/>
+                <send event="action_uc2__skills__move_to_goal_reject_client_1026_MoveTo" target="1026_MoveTo"/>
+                <elseif cond="goal_id == 8"/>
+                <send event="action_uc2__skills__move_to_goal_reject_client_1028_MoveTo" target="1028_MoveTo"/>
+            </if>
+        </transition>-->
+    </state>
+</scxml>

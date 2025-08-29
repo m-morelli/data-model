@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ascxml
+    initial="idle"
+    version="1.0"
+    name="CheckGripperIsEmpty"
+    model_src=""
+    xmlns="http://www.w3.org/2005/07/scxml">
+
+    <ros_service_client name="get_gripper_status" service_name="/uc2/world/get_gripper_status" type="convince_uc2_interfaces/GetGripperStatus" />
+
+    <datamodel>
+        <data id="block_in_gripper" type="bool" expr="false" />
+    </datamodel>
+
+    <state id="idle">
+        <bt_tick target="send_req" />
+        <bt_halt target="idle">
+            <bt_return_halted />
+        </bt_halt>
+    </state>
+
+    <state id="send_req">
+        <onentry>
+            <ros_service_send_request name="get_gripper_status">
+            </ros_service_send_request>
+        </onentry>
+        <transition target="wait_answer" />
+    </state>
+
+    <state id="wait_answer">
+        <ros_service_handle_response name="get_gripper_status" target="idle">
+            <assign location="block_in_gripper" expr="_res.block_in_gripper" />
+            <if cond="block_in_gripper == false">
+                <bt_return_status status="SUCCESS" /> <!-- !(block_in_gripper) => gripper empty -->
+                <else />
+                <bt_return_status status="FAILURE" /> <!-- block_in_gripper => !(gripper empty) -->
+            </if>
+        </ros_service_handle_response>
+    </state>
+
+</ascxml>

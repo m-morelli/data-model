@@ -6,18 +6,29 @@
     </parameters>
 
     <behavior_tree>
-        <input type="bt.cpp-xml" src="./bt_policies/Policy0.xml" />
-        <input type="bt-plugin-ascxml" src="./bt_plugins/MoveBlock.scxml" />
-        <input type="bt-plugin-ascxml" src="./bt_plugins/RecoverBlock.scxml" />
-        <input type="bt-plugin-ascxml" src="./bt_plugins/IsBlockFell.scxml" />
+        <input type="bt.cpp-xml" src="./Policy0.xml" />
+        <input type="bt-plugin-ascxml" src="../Plugins/SelectBlock.scxml" />
+        <input type="bt-plugin-ascxml" src="../Plugins/ComputeBestGraspPose.scxml" />
+        <input type="bt-plugin-ascxml" src="../Plugins/ComputeBestPlacePose.scxml" />
+        <input type="bt-plugin-ascxml" src="../Plugins/MoveTo.scxml" />
+        <input type="bt-plugin-ascxml" src="../Plugins/CloseGripper.scxml" />
+        <input type="bt-plugin-ascxml" src="../Plugins/OpenGripper.scxml" />
+        <input type="bt-plugin-ascxml" src="../Plugins/RecoverBlock.scxml" />
+        <input type="bt-plugin-ascxml" src="../Plugins/CheckBlockHasFallen.scxml" />
+        <input type="bt-plugin-ascxml" src="../Plugins/CheckGripperIsEmpty.scxml" />
     </behavior_tree>
 
     <node_models>
-        <input type="node-ascxml" src="./skills/MoveBlockSkill.scxml" />
-        <input type="node-ascxml" src="./skills/RecoverBlockSkill.scxml" />
+        <input type="node-ascxml" src="../Skills/ComputeBestGraspPoseSkill.scxml" />
+        <input type="node-ascxml" src="../Skills/ComputeBestPlacePoseSkill.scxml" />
+        <input type="node-ascxml" src="../Skills/MoveToSkill.scxml" />
+        <input type="node-ascxml" src="../Skills/CloseGripperSkill.scxml" />
+        <input type="node-ascxml" src="../Skills/OpenGripperSkill.scxml" />
+        <input type="node-ascxml" src="../Skills/RecoverBlockSkill.scxml" />
+        <input type="node-ascxml" src="../Skills/Environment.scxml" />
     </node_models>
 
     <properties>
-        <input type="jani" src="./properties/properties.jani" />
+        <input type="jani" src="./properties.jani" />
     </properties>
 </roaml>

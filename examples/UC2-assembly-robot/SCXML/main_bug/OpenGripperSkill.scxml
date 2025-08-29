@@ -1,0 +1,61 @@
+<scxml name="OpenGripperSkill" version="1.0" model_src="" initial="idle" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE time_sec:int32 -->
+        <data id="time_sec" expr="0"/>
+        <!-- TYPE time_nsec:int32 -->
+        <data id="time_nsec" expr="0"/>
+        <!-- TYPE attempt_count:int32 -->
+        <data id="attempt_count" expr="0"/>
+        <!-- TYPE goal_id:int32 -->
+        <data id="goal_id" expr="0"/>
+        <!-- TYPE rand:float64 -->
+        <data id="rand" expr="0"/>
+    </datamodel>
+    <state id="idle">
+        <transition event="topic_clock_msg" target="idle">
+            <assign location="time_sec" expr="_event.data.ros_fields__sec"/>
+            <assign location="time_nsec" expr="_event.data.ros_fields__nanosec"/>
+        </transition>
+        <transition event="action_uc2__skills__open_gripper_goal_handle" target="do_open">
+            <assign location="goal_id" expr="_event.data.goal_id"/>
+            <send event="action_uc2__skills__open_gripper_goal_accepted" target="action_handler_uc2__skills__open_gripper">
+                <param name="goal_id" expr="goal_id"/>
+            </send>
+        </transition>
+    </state>
+    <state id="do_open">
+        <onentry>
+            <assign location="attempt_count" expr="attempt_count + 1"/>
+            <assign location="rand"          expr="Math.random()"/>
+            <send event="srv_uc2__world__set_gripper_status_req_client_OpenGripperSkill" target="srv_handler_uc2__world__set_gripper_status">
+                <param name="ros_fields__block_in_gripper" expr="false"/>
+            </send>
+        </onentry>
+        <transition target="idle" cond="rand &lt; 0.8">
+                <send event="action_uc2__skills__open_gripper_result" target="action_handler_uc2__skills__open_gripper">
+                    <param name="goal_id" expr="goal_id"/>
+                    <param name="code" expr="4"/>
+                </send>
+        </transition>
+        <transition target="idle">
+                <if cond="attempt_count &lt; 1">
+                    <send event="srv_uc2__world__set_block_status_req_client_OpenGripperSkill" target="srv_handler_uc2__world__set_block_status">
+                        <param name="ros_fields__block_down" expr="1"/>
+                    </send>
+                    <send event="topic_uc2__info__properties__move_block_abort_time_msg" target="NONE">
+                        <param name="ros_fields__sec" expr="time_sec"/>
+                        <param name="ros_fields__nanosec" expr="time_nsec"/>
+                    </send>
+                    <send event="action_uc2__skills__open_gripper_result" target="action_handler_uc2__skills__open_gripper">
+                        <param name="goal_id" expr="goal_id"/>
+                        <param name="code" expr="6"/>
+                    </send>
+                    <else/>
+                    <send event="action_uc2__skills__open_gripper_result" target="action_handler_uc2__skills__open_gripper">
+                        <param name="goal_id" expr="goal_id"/>
+                        <param name="code" expr="4"/>
+                    </send>
+                </if>
+        </transition>
+    </state>
+</scxml>

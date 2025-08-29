@@ -1,0 +1,124 @@
+<scxml name="bt_blackboard_fsm" version="1.0" model_src="" initial="idle" xmlns="http://www.w3.org/2005/07/scxml">
+    <datamodel>
+        <!-- TYPE b:int32 -->
+        <data id="b" expr="0"/>
+        <!-- TYPE preg:int32 -->
+        <data id="preg" expr="0"/>
+        <!-- TYPE theg:int32 -->
+        <data id="theg" expr="0"/>
+        <!-- TYPE pstg:int32 -->
+        <data id="pstg" expr="0"/>
+        <!-- TYPE prep:int32 -->
+        <data id="prep" expr="0"/>
+        <!-- TYPE thep:int32 -->
+        <data id="thep" expr="0"/>
+        <!-- TYPE pstp:int32 -->
+        <data id="pstp" expr="0"/>
+    </datamodel>
+    <state id="idle">
+        <transition event="bt_blackboard_set_b" target="idle">
+            <assign location="b" expr="_event.data.value"/>
+        </transition>
+        <transition event="bt_blackboard_set_preg" target="idle">
+            <assign location="preg" expr="_event.data.value"/>
+        </transition>
+        <transition event="bt_blackboard_set_theg" target="idle">
+            <assign location="theg" expr="_event.data.value"/>
+        </transition>
+        <transition event="bt_blackboard_set_pstg" target="idle">
+            <assign location="pstg" expr="_event.data.value"/>
+        </transition>
+        <transition event="bt_blackboard_set_prep" target="idle">
+            <assign location="prep" expr="_event.data.value"/>
+        </transition>
+        <transition event="bt_blackboard_set_thep" target="idle">
+            <assign location="thep" expr="_event.data.value"/>
+        </transition>
+        <transition event="bt_blackboard_set_pstp" target="idle">
+            <assign location="pstp" expr="_event.data.value"/>
+        </transition>
+        <transition event="bt_blackboard_req" target="idle">
+            <send event="bt_blackboard_get" target="1016_ComputeBestGraspPose">
+                <param name="b" expr="b"/>
+                <param name="preg" expr="preg"/>
+                <param name="theg" expr="theg"/>
+                <param name="pstg" expr="pstg"/>
+                <param name="prep" expr="prep"/>
+                <param name="thep" expr="thep"/>
+                <param name="pstp" expr="pstp"/>
+            </send>
+            <send event="bt_blackboard_get" target="1028_MoveTo">
+                <param name="b" expr="b"/>
+                <param name="preg" expr="preg"/>
+                <param name="theg" expr="theg"/>
+                <param name="pstg" expr="pstg"/>
+                <param name="prep" expr="prep"/>
+                <param name="thep" expr="thep"/>
+                <param name="pstp" expr="pstp"/>
+            </send>
+            <send event="bt_blackboard_get" target="1026_MoveTo">
+                <param name="b" expr="b"/>
+                <param name="preg" expr="preg"/>
+                <param name="theg" expr="theg"/>
+                <param name="pstg" expr="pstg"/>
+                <param name="prep" expr="prep"/>
+                <param name="thep" expr="thep"/>
+                <param name="pstp" expr="pstp"/>
+            </send>
+            <send event="bt_blackboard_get" target="1024_ComputeBestPlacePose">
+                <param name="b" expr="b"/>
+                <param name="preg" expr="preg"/>
+                <param name="theg" expr="theg"/>
+                <param name="pstg" expr="pstg"/>
+                <param name="prep" expr="prep"/>
+                <param name="thep" expr="thep"/>
+                <param name="pstp" expr="pstp"/>
+            </send>
+            <send event="bt_blackboard_get" target="1017_MoveTo">
+                <param name="b" expr="b"/>
+                <param name="preg" expr="preg"/>
+                <param name="theg" expr="theg"/>
+                <param name="pstg" expr="pstg"/>
+                <param name="prep" expr="prep"/>
+                <param name="thep" expr="thep"/>
+                <param name="pstp" expr="pstp"/>
+            </send>
+            <send event="bt_blackboard_get" target="1018_MoveTo">
+                <param name="b" expr="b"/>
+                <param name="preg" expr="preg"/>
+                <param name="theg" expr="theg"/>
+                <param name="pstg" expr="pstg"/>
+                <param name="prep" expr="prep"/>
+                <param name="thep" expr="thep"/>
+                <param name="pstp" expr="pstp"/>
+            </send>
+            <send event="bt_blackboard_get" target="1010_RecoverBlock">
+                <param name="b" expr="b"/>
+                <param name="preg" expr="preg"/>
+                <param name="theg" expr="theg"/>
+                <param name="pstg" expr="pstg"/>
+                <param name="prep" expr="prep"/>
+                <param name="thep" expr="thep"/>
+                <param name="pstp" expr="pstp"/>
+            </send>
+            <send event="bt_blackboard_get" target="1025_MoveTo">
+                <param name="b" expr="b"/>
+                <param name="preg" expr="preg"/>
+                <param name="theg" expr="theg"/>
+                <param name="pstg" expr="pstg"/>
+                <param name="prep" expr="prep"/>
+                <param name="thep" expr="thep"/>
+                <param name="pstp" expr="pstp"/>
+            </send>
+            <send event="bt_blackboard_get" target="1020_MoveTo">
+                <param name="b" expr="b"/>
+                <param name="preg" expr="preg"/>
+                <param name="theg" expr="theg"/>
+                <param name="pstg" expr="pstg"/>
+                <param name="prep" expr="prep"/>
+                <param name="thep" expr="thep"/>
+                <param name="pstp" expr="pstp"/>
+            </send>
+        </transition>
+    </state>
+</scxml>

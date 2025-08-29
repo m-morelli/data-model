@@ -1,16 +1,94 @@
 <?xml version="1.0"?>
-<root main_tree_to_execute="Policy0">
+<root main_tree_to_execute="Policy0_bug">
 
-  <BehaviorTree ID="Policy0">
+<!--
+  = list of fixed poses/zones
+    0   : home
+    2   : pick (assuming a bulk of heterogeneous blocks)
+    4   : inspection
+    6   : charge
+
+  = list of block ids (See Plugins/SelectBlock.scxml)
+    10
+    20
+
+  = list of block-specific poses/zones
+    1   : pre_grasp
+    2   : grasp
+    3   : post_grasp
+    4   : assembly
+    5   : pre_place
+    6   : place
+    7   : post_place
+
+  = path type ids for the MoveTo() skill
+    0   : joint
+    1   : cartesian
+    2   : mobile base
+-->
+
+  <BehaviorTree ID="Policy0_bug">
+
     <Sequence>
+
+      <RetryUntilSuccessful num_attempts="-1">
+        <Inverter>
+          <Sequence>
+
+            <!-- Select next block to assemble and move to pick zone -->
+            <Action name="b=SelectBlock()" ID="SelectBlock" b="{b}"/>
+            <Action name="MoveTo(pick)" ID="MoveTo" path_type="2" tgt_id="2"/>
+
+            <!-- Move selected block from pick zone to assembly zone -->
+            <Sequence>
+              <!-- Detect and mitigate anomalies -->
+              <Fallback>
+                <Inverter name="not">
+                  <Condition name="FallenBlock?" ID="CheckBlockHasFallen"/>
+                </Inverter>
+                <Action name="RecoverBlock" ID="RecoverBlock" block_id="{b}"/>
+              </Fallback>
+              <!-- Move block -->
+              <Sequence name="MoveBlock(b, assembly)">
+                <Fallback>
+                  <Inverter name="not">
+                    <Condition name="EmptyGripper?" ID="CheckGripperIsEmpty"/>
+                  </Inverter>
+                  <!-- Pick(b) -->
+                  <Sequence name="PickBlock(b)">
+                    <Action name="[preg,theg,pstg]=ComputeBestGraspPose(b)" ID="ComputeBestGraspPose" block_id="{b}" grasp_approach_dist="0" pre_grasp_pose="{preg}" grasp_pose="{theg}" post_grasp_pose="{pstg}"/>
+                    <Action name="MoveTo(preg)" ID="MoveTo" path_type="0" tgt_id="{preg}"/>
+                    <Action name="MoveTo(theg)" ID="MoveTo" path_type="1" tgt_id="{theg}"/>
+                    <Action name="CloseGripper()" ID="CloseGripper"/>
+                    <Action name="MoveTo(pstg)" ID="MoveTo" path_type="1" tgt_id="{pstg}"/>
+                    <Action name="MoveTo(home)" ID="MoveTo" path_type="0" tgt_id="0"/>
+                  </Sequence>
+                </Fallback>
+                <!-- Place(assembly) -->
+                <Sequence name="PlaceBlock(assembly)">
+                  <Action name="MoveTo(assembly)" ID="MoveTo" path_type="2" tgt_id="4"/>
+                  <Action name="[prep,thep,pstp]=ComputeBestPlacePose(b)" ID="ComputeBestPlacePose" block_id="{b}" place_approach_dist="0" place_retreat_dist="0" pre_place_pose="{prep}" place_pose="{thep}" post_place_pose="{pstp}"/>
+                  <Action name="MoveTo(prep)" ID="MoveTo" path_type="0" tgt_id="{prep}"/>
+                  <Action name="MoveTo(thep)" ID="MoveTo" path_type="1" tgt_id="{thep}"/>
+                  <Action name="OpenGripper()" ID="OpenGripper"/>
+                  <Action name="MoveTo(pstp)" ID="MoveTo" path_type="1" tgt_id="{pstp}"/>
+                </Sequence>
+              </Sequence>
+            </Sequence>
+
+          </Sequence>
+        </Inverter>
+      </RetryUntilSuccessful>
+
       <Fallback>
         <Inverter name="not">
-          <Condition name="BlockFell?" ID="IsBlockFell"/>
+          <Condition name="FallenBlock?" ID="CheckBlockHasFallen"/>
         </Inverter>
-        <Action name="RecoverBlock" ID="RecoverBlock" block_id="0"/>
+        <AlwaysFailure/>
       </Fallback>
-      <Action name="MoveBlock" ID="MoveBlock" block_id="0"/>
+
     </Sequence>
+
   </BehaviorTree>
 
 </root>
