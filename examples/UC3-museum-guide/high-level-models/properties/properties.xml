@@ -18,21 +18,54 @@
       <event_var id="alarm"/>
     </ros_service>
 
-    <!-- TODO: Support ROS action ports -->
   </ports>
 
   <!-- NOTE: Property specification patterns as in [ps-patterns.wikidot.com] -->
-  <!-- TODO: Make a list of all the patterns we need and their respective xml formats -->
   <guarantees>
-    <property id="battery_alarm_response_1" pattern="precedence" event="alarm" after="battery_level <= 30"/>
-    <!-- NOTE: Optionally properties can be expressed explicitly in a given logic -->
-    <!-- <property id="battery_alarm_response_1" logic="pmtl" expr="{ alarm: true } -> P { battery_level <= 30 }"/> -->
-    <property id="battery_alarm_response_2" pattern="response" event="battery_level <= 30" response="alarm" within="6200" time_unit="ms" />
-    <property id="no_alarm_if_battery_high" pattern="absence" event="alarm" before="battery_level == 30"/>
-    <property id="battery_recurrence" pattern="recurrence" variant="globally" event="battery_level_published" within="3" time_unit="s"/>
-    <!-- NOTE: Optionally properties can be expressed explicitly in a given logic -->
-    <!-- NOTE: In this case, though, times have to be specified according to some format - here we use the "short" time units -->
-    <!-- <property id="battery_recurrence" logic="pmtl" expr="(P[5s:] true) -> P[:3s] { battery_level_published: true }"/> -->
+    <property id="battery_alarm_response_1" pattern="precedence">
+      <events>
+        <event>alarm</event>
+        <event>battery_level &lt;= 30</event>
+      </events>
+      <scope type="globally"/>
+    </property>
+
+    <property id="battery_alarm_response_2" pattern="response">
+      <events>
+        <event>battery_level &lt;= 30</event>
+        <event>alarm</event>
+      </events>
+      <scope type="globally"/>
+      <time_interval from="0" to="6200" time_unit="ms"/>
+    </property>
+
+    <property id="no_alarm_if_battery_high" pattern="absence">
+      <event>alarm</event>
+      <scope type="before" event="battery_level &lt;= 30"/>
+    </property>
+
+    <property id="battery_recurrence" pattern="recurrence">
+      <event>battery_level_published</event>
+      <scope type="globally"/>
+      <time_interval interval="3" time_unit="s"/>
+    </property>
+
+    <property id="battery_steady" pattern="constrained precedence chain" causes="N" effects="1">
+      <events>
+        <event>alarm</event>
+        <event>battery_level &lt;= 20</event>
+        <chain>
+          <event>battery_level &lt;= 30</event>
+          <event>battery_level &lt;= 40</event>
+        </chain>
+        <chain>
+          <event>battery_level &gt;= 21</event>
+          <event>battery_level &gt;= 31</event>
+          <event>battery_level &gt;= 41</event>
+        </chain>
+      </events>
+      <scope type="globally"/>
+    </property>
   </guarantees>
 
   <assumes>

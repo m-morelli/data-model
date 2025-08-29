@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="convince_mc_tc">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="mc_parameters">
+					<xs:complexType>
+						<xs:all>
+							<xs:element name="max_time">
+								<xs:complexType>
+									<xs:attribute name="value" type="xs:integer"/>
+									<xs:attribute name="unit" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="bt_tick_rate">
+								<xs:complexType>
+									<xs:attribute name="value" type="xs:float"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="bt_tick_if_not_running" minOccurs="0">
+								<xs:complexType>
+									<xs:attribute name="value" type="xs:boolean"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="max_array_size" minOccurs="0">
+								<xs:complexType>
+									<xs:attribute name="value" type="xs:integer"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:all>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="behavior_tree">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="input" minOccurs="1" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="type" type="xs:string"/>
+									<xs:attribute name="src" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="node_models">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="input" minOccurs="1" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="type" type="xs:string"/>
+									<xs:attribute name="src" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="properties">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="input">
+								<xs:complexType>
+									<xs:attribute name="type" type="xs:string"/>
+									<xs:attribute name="src" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

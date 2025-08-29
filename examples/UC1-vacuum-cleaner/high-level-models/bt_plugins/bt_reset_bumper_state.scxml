@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scxml
+<ascxml
     initial="initial"
-    version="1.0"
     name="ResetBumperState"
     model_src=""
     xmlns="http://www.w3.org/2005/07/scxml">
@@ -18,4 +17,4 @@
         </bt_halt>
     </state>
 
-</scxml>
+</ascxml>

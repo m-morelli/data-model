@@ -1,0 +1,6 @@
+Change tag convince_mc_tc into roaml or something like it
+Check the issue of xmlns
+Change the extension of high level files from scxml to xml
+Check xsd for BT: standard reference?
+Only one xsd for components and skills? Also plugins?
+What are the ROSprotocols in the examples?

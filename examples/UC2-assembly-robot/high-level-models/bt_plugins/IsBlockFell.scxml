@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scxml
+<ascxml
     initial="idle"
-    version="1.0"
     name="IsBlockFell"
     model_src=""
     xmlns="http://www.w3.org/2005/07/scxml">
@@ -38,4 +37,4 @@
         </ros_service_handle_response>
     </state>
 
-</scxml>
+</ascxml>

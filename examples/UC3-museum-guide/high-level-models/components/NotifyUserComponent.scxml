@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scxml
-  version="1.0"
+<ascxml
   xmlns="..."
   datamodel="ecmascript"
   name="NotifyUserComponent"
@@ -53,4 +52,4 @@
     </ros_service_handle_request>
   </state>
 
-</scxml>
+</ascxml>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scxml
+<ascxml
   initial="idle"
-  version="1.0"
   name="BatteryLevelSkill"
   datamodel="ecmascript"
   xmlns="http://www.w3.org/2005/07/scxml">
@@ -41,4 +40,4 @@
         <transition target="idle" />
     </state>
 
-</scxml>
+</ascxml>

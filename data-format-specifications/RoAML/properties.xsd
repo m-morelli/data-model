@@ -1,0 +1,227 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
+        vc:minVersion="1.1">
+
+<!-- Possible patterns -->
+<xs:simpleType name="pattern" final="restriction">
+    <xs:restriction base="xs:string">
+    <xs:enumeration value="absence" />
+    <xs:enumeration value="universality" />
+    <xs:enumeration value="existence" />
+    <xs:enumeration value="bounded existence" />
+    <xs:enumeration value="recurrence" />
+    <xs:enumeration value="minimum duration" />
+    <xs:enumeration value="maximum duration" />
+    <xs:enumeration value="precedence" />
+    <xs:enumeration value="precedence chain" />
+    <xs:enumeration value="constrained precedence chain" />
+    <xs:enumeration value="response" />
+    <xs:enumeration value="constrained response" />
+    <xs:enumeration value="response chain" />
+    <xs:enumeration value="constrained response chain" />
+    <xs:enumeration value="response invariance" />
+    <xs:enumeration value="until" />
+    </xs:restriction>
+</xs:simpleType>
+
+<!-- Type unit possible values -->
+<xs:simpleType name="time_unit" final="restriction">
+    <xs:restriction base="xs:string">
+    <xs:enumeration value="s" />
+    <xs:enumeration value="ms" />
+    <xs:enumeration value="ns" />
+    </xs:restriction>
+</xs:simpleType>
+
+<!-- Possible scopes -->
+<xs:simpleType name="scope" final="restriction">
+    <xs:restriction base="xs:string">
+    <xs:enumeration value="globally" />
+    <xs:enumeration value="before" />
+    <xs:enumeration value="after" />
+    <xs:enumeration value="between and" />
+    <xs:enumeration value="after until" />
+    </xs:restriction>
+</xs:simpleType>
+
+<!-- Pattern specification -->
+<!-- NOTE: Property specification patterns as in [ps-patterns.wikidot.com] -->
+<xs:complexType name="assume_guarantee">
+    <xs:sequence>
+    <xs:element name="property" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+        <xs:sequence>
+
+            <xs:choice>
+            <xs:element name="events">
+                <xs:complexType>
+                    <xs:sequence>
+                    <xs:element name="event" type="xs:string" minOccurs="1" maxOccurs="3"/>
+                    <xs:element name="chain" minOccurs="0" maxOccurs="2">
+                        <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="event" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="event" type="xs:string"/>
+            </xs:choice>
+
+            <xs:element name="scope" minOccurs="0" maxOccurs="1">
+            <xs:complexType>
+                <xs:attribute name="type" type="scope" use="required"/>
+                <xs:attribute name="event" type="xs:string" use="optional"/>
+                <xs:attribute name="second_event" type="xs:string" use="optional"/>
+                <!-- Correct number of events for each scope -->
+                <xs:assert test="if (@type = 'globally') then ((not(@event)) and (not(@second_event))) else true()" />
+                <xs:assert test="if (@type = ('before', 'after')) then ((@event) and (not(@second_event))) else true()" />
+                <xs:assert test="if (@type = ('between and', 'after until')) then ((@event) and (@second_event)) else true()" />
+            </xs:complexType>
+            </xs:element>
+
+            <xs:element name="time_interval" minOccurs="0">
+            <xs:complexType>
+                <xs:attribute name="from" type="xs:integer" use="optional"/>
+                <xs:attribute name="to" type="xs:integer" use="optional"/>
+                <xs:attribute name="interval" type="xs:integer" use="optional"/>
+                <xs:attribute name="time_unit" type="time_unit" use="required"/>
+
+                <!-- Mutually exclusive "from/to" and "interval" -->
+                <xs:assert test="((@from and @to) and not(@interval)) or ((not(@from) and not(@to)) and @interval)"/>
+                <!-- from before to -->
+                <xs:assert test="if (@from and @to) then (@from lt @to) else true()" />
+            </xs:complexType>
+            </xs:element>
+
+        </xs:sequence>
+
+        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="pattern" type="pattern" use="required"/>
+        <xs:attribute name="causes" type="xs:string" use="optional"/>
+        <xs:attribute name="effects" type="xs:string" use="optional"/>
+
+        <!-- Chain cause/effect must be specified only for chains -->
+        <xs:assert test="if (@pattern = ('precedence chain', 'constrained precedence chain', 'response chain', 'constrained response chain') ) then ( ((@causes = '1') and (@effects = 'N')) or ((@causes = 'N') and (@effects = '1')) ) else ( (not(@causes)) and (not(@effects)) ) " />
+
+        <!-- Possible event structures for each pattern -->
+        <xs:assert test="if (@pattern = ('absence', 'universality', 'existence', 'bounded existence', 'recurrence', 'minimum duration', 'maximum duration') ) then (event) else (events) "/>
+        <xs:assert test="if (@pattern = ('precedence', 'response', 'response invariance', 'until') ) then (events and (count(events/event) = 2 and count(events/chain) = 0) ) else true() "/>
+        <xs:assert test="if (@pattern = ('constrained response') ) then (events and (count(events/event) = 3 and count(events/chain) = 0) ) else true() "/>
+        <xs:assert test="if (@pattern = ('precedence chain', 'response chain') ) then (events and (count(events/event) = 2 and count(events/chain) = 1) ) else true() "/>
+        <xs:assert test="if (@pattern = ('constrained precedence chain', 'constrained response chain') ) then (events and (count(events/event) = 2 and count(events/chain) = 2) ) else true() "/>
+
+        <!-- Possible time constraints for each pattern -->
+        <xs:assert test="if ( (@pattern = ('absence', 'universality', 'existence', 'precedence', 'precedence chain', 'constrained precedence chain', 'response', 'constrained response', 'response chain', 'constrained response chain', 'response invariance', 'until')) and (time_interval) ) then ((time_interval/@from) and (time_interval/@to)) else true()" />
+        <xs:assert test="if (@pattern = ('bounded existence')) then (not(time_interval)) else true() " />
+        <xs:assert test="if ( (@pattern = ('recurrence')) and (time_interval) ) then (time_interval/@interval) else true() " />
+        <xs:assert test="if (@pattern = ('minimum duration', 'maximum duration')) then ((time_interval) and (time_interval/@interval)) else true() " />
+        </xs:complexType>
+    </xs:element>
+    </xs:sequence>
+</xs:complexType>
+
+<!-- Root element -->
+<xs:element name="properties">
+    <xs:complexType>
+    <xs:sequence>
+
+        <!-- ports -->
+        <xs:element name="ports" minOccurs="1" maxOccurs="1">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+            
+            <!-- ros_topic -->
+            <xs:element name="ros_topic">
+
+                <xs:complexType>
+                
+                <xs:choice maxOccurs="unbounded">
+                    <xs:element name="state_var">
+                    <xs:complexType>
+                        <xs:attribute name="id" type="xs:string" use="required"/>
+                        <xs:attribute name="type" type="xs:string" use="required"/>
+                        <xs:attribute name="field" type="xs:string" use="required"/>
+                        <xs:attribute name="expr" type="xs:string" use="required"/>
+                    </xs:complexType>
+                    </xs:element>
+                    <xs:element name="event_var">
+                    <xs:complexType>
+                        <xs:attribute name="id" type="xs:string" use="required"/>
+                    </xs:complexType>
+                    </xs:element>
+                </xs:choice>
+
+                <xs:attribute name="topic" type="xs:string" use="required"/>
+                <xs:attribute name="type" type="xs:string" use="required"/>
+
+                </xs:complexType>
+            </xs:element>
+            
+            <!-- ros_service -->
+            <xs:element name="ros_service">
+                <xs:complexType>
+                <xs:choice maxOccurs="unbounded">
+                    <xs:element name="state_var">
+                    <xs:complexType>
+                        <xs:attribute name="id" type="xs:string" use="required"/>
+                        <xs:attribute name="type" type="xs:string" use="required"/>
+                        <xs:attribute name="field" type="xs:string" use="required"/>
+                        <xs:attribute name="expr" type="xs:string" use="required"/>
+                    </xs:complexType>
+                    </xs:element>
+                    <xs:element name="event_var">
+                    <xs:complexType>
+                        <xs:attribute name="id" type="xs:string" use="required"/>
+                    </xs:complexType>
+                    </xs:element>
+                </xs:choice>
+
+                <xs:attribute name="service_name" type="xs:string" use="required"/>
+                <xs:attribute name="type" type="xs:string" use="required"/>
+                <xs:attribute name="event" type="xs:string" use="required"/>
+                </xs:complexType>
+            </xs:element>
+
+            <!-- ros_action -->
+            <xs:element name="ros_action">
+                <xs:complexType>
+                <xs:choice maxOccurs="unbounded">
+                    <xs:element name="state_var">
+                    <xs:complexType>
+                        <xs:attribute name="id" type="xs:string" use="required"/>
+                        <xs:attribute name="type" type="xs:string" use="required"/>
+                        <xs:attribute name="field" type="xs:string" use="required"/>
+                        <xs:attribute name="expr" type="xs:string" use="required"/>
+                    </xs:complexType>
+                    </xs:element>
+                    <xs:element name="event_var">
+                    <xs:complexType>
+                        <xs:attribute name="id" type="xs:string" use="required"/>
+                    </xs:complexType>
+                    </xs:element>
+                </xs:choice>
+
+                <xs:attribute name="action_name" type="xs:string" use="required"/>
+                <xs:attribute name="type" type="xs:string" use="required"/>
+                <xs:attribute name="event" type="xs:string" use="required"/>
+                </xs:complexType>
+            </xs:element>
+
+            </xs:choice>
+        </xs:complexType>
+        </xs:element>
+        
+        <!-- guarantees -->
+        <xs:element name="guarantees" type="assume_guarantee" minOccurs="0" maxOccurs="1"/>
+        
+        <!-- assumes -->
+        <xs:element name="assumes" type="assume_guarantee" minOccurs="0" maxOccurs="1"/>
+
+    </xs:sequence>
+    </xs:complexType>
+</xs:element>
+</xs:schema>

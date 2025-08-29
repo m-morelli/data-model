@@ -1,0 +1,494 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="scxml">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="bt_declare_port_in">
+					<xs:complexType>
+						<xs:attribute name="key" type="xs:string"/>
+						<xs:attribute name="type" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="datamodel">
+					<xs:complexType>
+						<xs:sequence>
+							<!--There should be at least one data element in a datamodel-->
+							<xs:element name="data" minOccurs="1" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="id" type="xs:string"/>
+									<xs:attribute name="type" type="xs:string"/>
+									<xs:attribute name="expr" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ros_action_client">
+					<xs:complexType>
+						<xs:attribute name="name" type="xs:string"/>
+						<xs:attribute name="action_name" type="xs:string"/>
+						<xs:attribute name="type" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ros_service_client">
+					<xs:complexType>
+						<!--The name of the service can also be given as an attribute-->
+						<xs:sequence minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="service_name">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="bt_get_input">
+											<xs:complexType>
+												<xs:attribute name="key" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="type" type="xs:string"/>
+						<xs:attribute name="name" type="xs:string"/>
+						<!--This is intended!-->
+						<xs:attribute name="service_name" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ros_topic_publisher">
+					<xs:complexType>
+						<xs:attribute name="type" type="xs:string"/>
+						<xs:attribute name="name" type="xs:string"/>
+						<xs:attribute name="topic" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ros_topic_subscriber">
+					<xs:complexType>
+						<xs:attribute name="type" type="xs:string"/>
+						<xs:attribute name="name" type="xs:string"/>
+						<xs:attribute name="topic" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ros_time_rate">
+					<xs:complexType>
+						<xs:attribute name="rate_hz" type="xs:string"/>
+						<xs:attribute name="name" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element name="state" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="bt_tick">
+								<xs:complexType>
+									<xs:choice minOccurs="0" maxOccurs="unbounded">
+										<xs:element name="ros_service_send_request">
+											<xs:complexType>
+												<xs:attribute name="name" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="target">
+											<xs:complexType>
+												<xs:choice minOccurs="0" maxOccurs="unbounded">
+													<xs:element name="bt_return_status">
+														<xs:complexType>
+															<xs:attribute name="status" type="xs:string"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="ros_topic_publish">
+														<xs:complexType>
+															<xs:choice>
+																<xs:element name="field">
+																	<xs:complexType>
+																		<xs:attribute name="name" type="xs:string"/>
+																		<xs:attribute name="expr" type="xs:string"/>
+																	</xs:complexType>
+																</xs:element>
+															</xs:choice>
+															<xs:attribute name="name" type="xs:string"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:choice>
+												<xs:attribute name="id" type="xs:string"/>
+												<xs:attribute name="prob" type="xs:float"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="if">
+											<xs:complexType>
+												<!--TODO: every element could appear 0 or more times, 
+												except else which should occur at most once-->
+												<xs:choice minOccurs="0" maxOccurs="unbounded">
+													<xs:element name="elseif">
+														<xs:complexType>
+															<xs:attribute name="cond" type="xs:string"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="else" minOccurs="0" maxOccurs="1"/>
+													<xs:element name="bt_return_status">
+														<xs:complexType>
+															<xs:attribute name="status" type="xs:string"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="assign">
+														<xs:complexType>
+															<xs:sequence minOccurs="0" maxOccurs="1">
+																<xs:element name="expr">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:any minOccurs="0"/>
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="location" type="xs:string"/>
+															<xs:attribute name="expr" type="xs:string" default=""/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="ros_topic_publish">
+														<xs:complexType>
+															<xs:sequence minOccurs="1" maxOccurs="unbounded">
+																<xs:element name="field">
+																	<xs:complexType>
+																		<xs:attribute name="name" type="xs:string"/>
+																		<xs:attribute name="expr" type="xs:string"/>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="name" type="xs:string"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="if">
+														<xs:complexType>
+															<!--TODO: every element could appear 0 or more times, 
+															except else which should occur at most once-->
+															<xs:choice minOccurs="0" maxOccurs="unbounded">
+																<xs:element name="elseif">
+																	<xs:complexType>
+																		<xs:attribute name="cond" type="xs:string"/>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="else" minOccurs="0" maxOccurs="1"/>
+																<xs:element name="bt_return_status">
+																	<xs:complexType>
+																		<xs:attribute name="status" type="xs:string"/>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="assign">
+																	<xs:complexType>
+																		<xs:attribute name="location" type="xs:string"/>
+																		<xs:attribute name="expr" type="xs:string"/>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="ros_topic_publish">
+																	<xs:complexType>
+																		<xs:sequence minOccurs="1" maxOccurs="unbounded">
+																			<xs:element name="field">
+																				<xs:complexType>
+																					<xs:attribute name="name" type="xs:string"/>
+																					<xs:attribute name="expr" type="xs:string"/>
+																				</xs:complexType>
+																			</xs:element>
+																		</xs:sequence>
+																		<xs:attribute name="name" type="xs:string"/>
+																	</xs:complexType>
+																</xs:element>
+
+															</xs:choice>
+															<xs:attribute name="cond" type="xs:string"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:choice>
+												<xs:attribute name="cond" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="ros_topic_publish">
+											<xs:complexType>
+												<xs:sequence minOccurs="1" maxOccurs="unbounded">
+													<xs:element name="field">
+														<xs:complexType>
+															<xs:attribute name="name" type="xs:string"/>
+															<xs:attribute name="expr" type="xs:string"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="name" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="bt_return_status">
+											<xs:complexType>
+												<xs:attribute name="status" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+									<xs:attribute name="target" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="bt_halt">
+								<xs:complexType>
+									<xs:choice minOccurs="0" maxOccurs="unbounded">
+										<xs:element name="assign">
+											<xs:complexType>
+												<xs:attribute name="location" type="xs:string"/>
+												<xs:attribute name="expr" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="bt_return_halted"/>
+									</xs:choice>
+									<xs:attribute name="target" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ros_service_handle_response">
+								<xs:complexType>
+									<xs:choice minOccurs="0" maxOccurs="unbounded">
+										<xs:element name="bt_return_status">
+											<xs:complexType>
+												<xs:attribute name="status" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="assign">
+											<xs:complexType>
+												<xs:attribute name="location" type="xs:string"/>
+												<xs:attribute name="expr" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="if">
+											<xs:complexType>
+												<!--TODO: choice is not very good here because of else-->
+												<xs:choice>
+													<xs:element name="bt_return_status">
+														<xs:complexType>
+															<xs:attribute name="status" type="xs:string"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="assign">
+														<xs:complexType>
+															<xs:attribute name="location" type="xs:string"/>
+															<xs:attribute name="expr" type="xs:string"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="else"></xs:element>
+												</xs:choice>
+												<xs:attribute name="cond" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+									<xs:attribute name="name" type="xs:string"/>
+									<xs:attribute name="cond" type="xs:string"/>
+									<xs:attribute name="target" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ros_topic_callback">
+								<xs:complexType>
+									<xs:choice minOccurs="0" maxOccurs="unbounded">
+										<xs:element name="assign">
+											<xs:complexType>
+												<xs:attribute name="location" type="xs:string"/>
+												<xs:attribute name="expr" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+									<xs:attribute name="name" type="xs:string"/>
+									<xs:attribute name="target" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ros_rate_callback">
+								<xs:complexType>
+									<xs:choice minOccurs="0" maxOccurs="unbounded">
+										<xs:element name="ros_service_send_request">
+											<xs:complexType>
+												<xs:attribute name="name" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="target">
+											<xs:complexType>
+												<xs:choice minOccurs="0" maxOccurs="unbounded">
+													<xs:element name="bt_return_status">
+														<xs:complexType>
+															<xs:attribute name="status" type="xs:string"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="ros_topic_publish">
+														<xs:complexType>
+															<xs:choice>
+																<xs:element name="field">
+																	<xs:complexType>
+																		<xs:attribute name="name" type="xs:string"/>
+																		<xs:attribute name="expr" type="xs:string"/>
+																	</xs:complexType>
+																</xs:element>
+															</xs:choice>
+															<xs:attribute name="name" type="xs:string"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:choice>
+												<xs:attribute name="id" type="xs:string"/>
+												<xs:attribute name="prob" type="xs:float"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="if">
+											<xs:complexType>
+												<!--TODO: every element could appear 0 or more times, 
+												except else which should occur at most once-->
+												<xs:choice minOccurs="0" maxOccurs="unbounded">
+													<xs:element name="elseif">
+														<xs:complexType>
+															<xs:attribute name="cond" type="xs:string"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="else" minOccurs="0" maxOccurs="1"/>
+													<xs:element name="bt_return_status">
+														<xs:complexType>
+															<xs:attribute name="status" type="xs:string"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="assign">
+														<xs:complexType>
+															<xs:sequence minOccurs="0" maxOccurs="1">
+																<xs:element name="expr">
+																	<xs:complexType>
+																		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+																			<xs:element name="bt_get_input">
+																				<xs:complexType>
+																					<xs:attribute name="key" type="xs:string"/>
+																				</xs:complexType>
+																			</xs:element>
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="location" type="xs:string"/>
+															<xs:attribute name="expr" type="xs:string" default=""/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="ros_topic_publish">
+														<xs:complexType>
+															<xs:sequence minOccurs="1" maxOccurs="unbounded">
+																<xs:element name="field">
+																	<xs:complexType>
+																		<xs:attribute name="name" type="xs:string"/>
+																		<xs:attribute name="expr" type="xs:string"/>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="name" type="xs:string"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="if">
+														<xs:complexType>
+															<!--TODO: every element could appear 0 or more times, 
+															except else which should occur at most once-->
+															<xs:choice minOccurs="0" maxOccurs="unbounded">
+																<xs:element name="elseif">
+																	<xs:complexType>
+																		<xs:attribute name="cond" type="xs:string"/>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="else" minOccurs="0" maxOccurs="1"/>
+																<xs:element name="bt_return_status">
+																	<xs:complexType>
+																		<xs:attribute name="status" type="xs:string"/>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="assign">
+																	<xs:complexType>
+																		<xs:attribute name="location" type="xs:string"/>
+																		<xs:attribute name="expr" type="xs:string"/>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="ros_topic_publish">
+																	<xs:complexType>
+																		<xs:sequence minOccurs="1" maxOccurs="unbounded">
+																			<xs:element name="field">
+																				<xs:complexType>
+																					<xs:attribute name="name" type="xs:string"/>
+																					<xs:attribute name="expr" type="xs:string"/>
+																				</xs:complexType>
+																			</xs:element>
+																		</xs:sequence>
+																		<xs:attribute name="name" type="xs:string"/>
+																	</xs:complexType>
+																</xs:element>
+
+															</xs:choice>
+															<xs:attribute name="cond" type="xs:string"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:choice>
+												<xs:attribute name="cond" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="ros_topic_publish">
+											<xs:complexType>
+												<xs:sequence minOccurs="1" maxOccurs="unbounded">
+													<xs:element name="field">
+														<xs:complexType>
+															<xs:attribute name="name" type="xs:string"/>
+															<xs:attribute name="expr" type="xs:string"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="name" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="bt_return_status">
+											<xs:complexType>
+												<xs:attribute name="status" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+									<xs:attribute name="name" type="xs:string"/>
+									<xs:attribute name="target" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="onentry">
+								<xs:complexType>
+									<xs:choice minOccurs="0" maxOccurs="unbounded">
+										<xs:element name="ros_action_send_goal">
+											<xs:complexType>
+												<xs:sequence minOccurs="0" maxOccurs="unbounded">
+													<xs:element name="field">
+														<xs:complexType>
+															<xs:sequence minOccurs="0" maxOccurs="unbounded">
+																<xs:element name="expr">
+																	<xs:complexType>
+																		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+																			<xs:element name="bt_get_input">
+																				<xs:complexType>
+																					<xs:attribute name="key" type="xs:string"/>
+																				</xs:complexType>
+																			</xs:element>
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="name" type="xs:string"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="name" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="ros_service_send_request">
+											<xs:complexType>
+												<xs:attribute name="name" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="transition">
+											<xs:complexType>
+												<xs:attribute name="target" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+						<xs:attribute name="id" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:attribute name="initial" type="xs:string"/>
+			<xs:attribute name="version" type="xs:string"/>
+			<xs:attribute name="name" type="xs:string"/>
+			<xs:attribute name="model_src" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>
