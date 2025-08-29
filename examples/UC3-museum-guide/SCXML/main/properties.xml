@@ -28,9 +28,9 @@
     <!-- NOTE: List of operators: &&, ||, !, ->, S[a:b], H[a:b], O[a:b] -->
     <!-- NOTE: Rye allows for simple predicates only (defined within curly brackets). We might want to accept (some subset of) ECMAscript, as in the datamodel of SCXML machines. -->
     <property id="tree_success" expr="P { tick_response == 1 }"/>
-    <property id="battery_alarm_response_1" logic="pmtl" expr="H ({ alarm } -> P { battery_level <= 30 })"/>
-    <property id="battery_alarm_response_2" expr="! P ( { !alarm } S[62:] { battery_level <= 30 } )"/>
-    <property id="no_alarm_if_battery_high" expr="H ({ battery_level >= 30 } -> H { !alarm })"/>
+    <property id="battery_alarm_response_1" logic="pmtl" expr="H ({ alarm } -> P { battery_level &lt;= 30 })"/>
+    <property id="battery_alarm_response_2" expr="! P ( { !alarm } S[62:] { battery_level &lt;= 30 } )"/>
+    <property id="no_alarm_if_battery_high" expr="H ({ battery_level &gt;= 30 } -> H { !alarm })"/>
     <property id="battery_recurrence" expr="H ((P[50:] true) -> P[:30] { battery_level_published })"/>
   </guarantees>
 

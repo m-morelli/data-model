@@ -1,173 +1,73 @@
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<?xml version="1.1" encoding="UTF-8" ?>
 
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<xsd:annotation>
 		<xsd:documentation xml:lang="en">
 			CONVINCE Property Specification Language XML format specification.
 		</xsd:documentation>
 	</xsd:annotation>
 
-	<xsd:element name="datamodel" type="datamodelType"/>
-
 	<xsd:element name="properties" type="propertiesType"/>
 	
-	<xsd:complexType name="datamodelType">
+	<xsd:complexType name="propertiesType">
+		<xsd:all>
+			<xsd:element name="ports" type="portsType"/>
+			<xsd:element name="guarantees" type="propertyListType" minOccurs="0"/>
+			<xsd:element name="assumes" type="propertyListType" minOccurs="0"/>
+		</xsd:all>
+	</xsd:complexType>
+
+	<xsd:complexType name="portsType">
 		<xsd:sequence>
-			<xsd:element name="data" type="dataType" minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="scxml_event_send" type="eventSendType" minOccurs="0" maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
 
-	<xsd:complexType name="propertiesType">
+	<xsd:complexType name="eventSendType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="state_var" type="stateVarType" />
+				<xsd:element name="event_var" type="eventVarType" />
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="event" type="xsd:IDREF" />
+		<xsd:attribute name="origin" type="xsd:IDREF" />
+		<xsd:attribute name="target" type="xsd:IDREF" />
+	</xsd:complexType>
+
+	<xsd:complexType name="varType">
+		<xsd:choice>
+			<xsd:element name="state_var" type="stateVarType" />
+			<xsd:element name="event_var" type="eventVarType" />
+		</xsd:choice>
+	</xsd:complexType>
+
+	<xsd:complexType name="stateVarType">
+		<xsd:attribute name="id" type="xsd:ID" />
+		<xsd:attribute name="param" type="xsd:IDREF" />
+		<xsd:attribute name="type" type="xsd:IDREF" />
+		<xsd:attribute name="expr" type="xsd:string" />
+	</xsd:complexType>
+
+	<xsd:complexType name="eventVarType">
+		<xsd:attribute name="id" type="xsd:ID" />
+	</xsd:complexType>
+
+	<xsd:complexType name="propertyListType">
 		<xsd:sequence>
 			<xsd:element name="property" type="propertyType" minOccurs="0" maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
 
-	<xsd:simpleType name="commEndpoint">
-		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="skill"/>
-			<xsd:enumeration value="component"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-
-	<xsd:simpleType name="eventType">
-		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="call"/>
-			<xsd:enumeration value="return"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-
-	<xsd:simpleType name="valueType">
-		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="callEvent"/>
-			<xsd:enumeration value="callValue"/>
-			<xsd:enumeration value="returnEvent"/>
-			<xsd:enumeration value="returnValue"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-
-	<xsd:complexType name="dataType">
-		<xsd:sequence>
-			<xsd:element name="caller">
-				<xsd:complexType>
-					<xsd:attribute name="refid" type="xsd:IDREF">
-					<xsd:attribute name="type" type="commEndpoint">
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="called">
-				<xsd:complexType>
-					<xsd:attribute name="refid" type="xsd:IDREF">
-					<xsd:attribute name="type" type="commEndpoint">
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="connection">
-				<xsd:complexType>
-					<xsd:attribute name="function" type="xsd:IDREF">
-					<xsd:attribute name="event" type="eventType">
-					<xsd:attribute name="value" type="valueType">
-				</xsd:complexType>
-			</xsd:element>
-		</xsd:sequence>
-		<xsd:attribute name="id" type="xsd:ID"/>
-		<xsd:attribute name="type" type="baseDataType"/>
-	</xsd:complexType>
-
 	<xsd:complexType name="propertyType">
-		<xsd:element name="formula" type="formulaType" />
-		<xsd:attribute name="propid" type="xsd:ID" />
+		<xsd:attribute name="id" type="xsd:ID" />
+		<xsd:attribute name="logic" type="logicType" />
+		<xsd:attribute name="expr" type="xsd:string" />
 	</xsd:complexType>
 
-	<xsd:group id="formula">
-		<xsd:choice>
-			<xsd:element name="true"/>
-			<xsd:element name="false"/>
-			<xsd:element name="prop">
-				<xsd:complexType>
-					<xsd:attribute name="idref" type="xsd:IDREF"/>
-				</xsd:complexType>
-			</xsd:element>
-	    <xsd:element name="not" type="formulaType"/>
-			<xsd:element name="and" type="formulae"/>
-			<xsd:element name="or" type="formulae"/>
-			<xsd:element name="implies" type="formulaePair"/>
-	    <xsd:element name="always" type="boundedFormula"/>
-	    <xsd:element name="eventually" type="boundedFormula"/>
-			<xsd:element name="until" type="boundedFormulaePair"/>
-			<xsd:element name="eq" type="comparison"/>
-			<xsd:element name="leq" type="comparison"/>
-			<xsd:element name="geq" type="comparison"/>
-		</xsd:choice>
-	</xsd:group>
-
-	<xsd:complexType name="formulaType">
-		<xsd:complexContent>
-			<xsd:group ref="formula"/>
-		</xsd:complexContent>
-	</xsd:complexType>
-
-	<xsd:complexType name="formulae">
-		<xsd:sequence>
-			<xsd:group ref="formula" minOccurs="2"/>
-		</xsd:sequence>
-	</xsd:complexType>
-
-	<xsd:complexType name="formulaePair">
-		<xsd:sequence>
-			<xsd:group ref="formula"/>
-			<xsd:group ref="formula"/>
-		</xsd:sequence>
-	</xsd:complexType>
-
-	<xsd:complexType name="boundedFormula">
-		<xsd:sequence>
-			<xsd:group ref="formula"/>
-		</xsd:sequence>
-		<xsd:attributeGroup ref="timeBounds"/>
-	</xsd:complexType>
-
-	<xsd:complexType name="boundedFormulaePair">
-		<xsd:sequence>
-			<xsd:group ref="formula"/>
-			<xsd:group ref="formula"/>
-		</xsd:sequence>
-		<xsd:attributeGroup ref="timeBounds"/>
-	</xsd:complexType>
-
-	<xsd:attributeGroup id="timeBounds">
-	  <xsd:attribute name="from" type="xsd:nonNegativeInteger" use="optional"/>
-	  <xsd:attribute name="within" type="xsd:nonNegativeInteger" use="optional"/>
-	</xsd:attributeGroup>
-	
-	<xsd:complexType name="comparison">
-		<xsd:sequence>
-			<xsd:group ref="exprGroup"/>
-			<xsd:group ref="exprGroup"/>
-		</xsd:sequence>
-	</xsd:complexType>
-
-	<xsd:group id="exprGroup">
-	  <xsd:choice>
-			<xsd:element name="const" type="baseDataType"/>
-			<xsd:element name="var">
-				<xsd:simpleType>
-					<xsd:attribute name="idref" type="xsd:IDREF"/>
-				</xsd:simpleType>
-			</xsd:element>
-	    <xsd:element name="opposite" type="expr"/>
-	    <xsd:element name="sum" type="exprs"/>
-	    <xsd:element name="prod" type="exprs"/>
-	  </xsd:choice>
-	</xsd:complexType>
-
-	<xsd:complexType name="expr">
-		<xsd:complexContent>
-			<xsd:group ref="exprGroup"/>
-		</xsd:complexContent>
-	</xsd:complexType>
-
-	<xsd:complexType name="exprs">
-		<xsd:sequence>
-			<xsd:element name="expr" type="expr" minOccurs="2"/>
-		</xsd:sequence>
-	</xsd:complexType>
-
+	<xsd:simpleType name="logicType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="pmtl"/>
+		</xsd:restriction>
+	</xsd:simpleType>
 </xsd:schema>
